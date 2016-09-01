@@ -1,0 +1,164 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Joinery</title>
+	<meta name="description" content="Parametric joint generation for laser cutting">
+	<meta name="author" content="Clement Zheng (clementzheng.info)">
+	<link rel="shortcut icon" href="favicon.png">	
+
+	<!--CSS-->
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,400italic,500italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/style.css">
+	
+	<!--SCRIPTS-->
+	<script language="javascript" type="text/javascript" src="js/lib/FileSaver.js"></script>
+	<script language="javascript" type="text/javascript" src="js/lib/jquery-1.11.3.min.js"></script>
+	<script language="javascript" type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
+	<script language="javascript" type="text/javascript" src="js/lib/paper-full.js"></script>
+	<script language="javascript" type="text/javascript" src="js/main.js"></script>
+	<script language="javascript" type="text/javascript" src="js/joints.js"></script>
+	<script language="javascript" type="text/javascript" src="js/mousekey.js"></script>
+	<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+	
+	
+</head>
+
+<body onload="init()">
+
+	<div>
+		<canvas id="bgCanvas"></canvas>
+	</div>
+
+	<div>
+		<canvas id="paperCanvas"></canvas>
+	</div>
+	
+	<div id="leftMenu" class="active">
+		<div id="leftMenuFrame">
+			<div id="loadSVGDiv">
+				<label for="loadSVG" class="button2" style="width:120px;">load SVG</label>
+				<input id="loadSVG" style="display:none;" type="file">
+			</div>
+			<div id="exportSVGDiv" class="button2" style="width:120px; margin-top: -1px;" onclick="exportProject()">
+				export SVG
+			</div>
+			<div id="loadProjectDiv">
+				<label for="loadProject" class="button2" style="width:120px; margin-top: 14px">load project</label>
+				<input id="loadProject" style="display:none;" type="file">
+			</div>
+			<div id="saveProjectDiv" class="button2" style="width:120px; margin-top: -1px; margin-bottom: 7px" onclick="saveProject()">
+				save project
+			</div>
+			
+			<div id="units" style="margin-top: 25px">
+				<b>Units:</b>
+				<input id="unitMM" class="checkbox" type="checkbox">
+				<label class="checkboxLabel">mm</label>
+				<input id="unitIn" class="checkbox" type="checkbox">
+				<label class="checkboxLabel">in</label>
+			</div>
+			<div id="dimensions" style="margin-top: 25px">
+				<b>Dimensions:</b>
+				<input id="dimOn" class="checkbox" type="checkbox">
+				<label class="checkboxLabel"></label>
+			</div>
+			<div id="actionMenu">
+				<li class="active" id="arrangeClick">[a] arrange parts</li>
+				<li id="removeClick">[r] remove parts</li>
+				<li id="setClick">[s] set joints</li>
+				<li id="panClick">[p] pan</li>
+			</div>
+		</div>
+		<div id="leftMenuCollapse" class="collapse">&#x2039;</div>
+	</div>
+	
+	<div id="topMessage">	
+	</div>
+
+	<div id="jointImageDiv">
+		
+	</div>
+
+	<div id="rightMenu" class="active">
+		<div id="rightMenuCollapse" class="collapse">&#x203a;</div>
+		<div id="rightMenuFrame">
+			<div id="jointProfileDiv">
+				<div id="addJointProfile">
+					<div style="position: relative; float:left; width: 290px; height: 30px; padding: 10px 0; box-sizing: border-box; line-height: 10px; letter-spacing: 1px; font-weight: 700; text-transform: none">
+						Joint Profiles
+					</div>
+					<div id="jointTypeDiv" style="position: relative; float:left; width: 165px; height: 30px; padding: 0; box-sizing: border-box;">
+						<div class="dropdown" style="width:165px; height:30px; font-size: 12px;">
+							<div class="dropdownSelected">
+							</div>
+							<div class="optionsDiv">
+							</div>
+						</div>
+						<div id="downArrow">
+							&#9660;
+						</div>
+					</div>
+					<div onclick="addJointProfile()" class="button2" style="float: left; margin-left: -1px;">add</div>
+					<div style="float: right;">
+						<label for="loadJointProfile" class="button2">load</label>
+						<input id="loadJointProfile" style="display:none;" type="file">
+					</div>
+				</div>
+
+				<div id="jointProfileListDiv">
+				
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<div id="rightMenu2" class="active">
+		<div id="rightMenuCollapse2" class="collapse">&#x203a;</div>
+		<div id="rightMenuFrame2">
+			<div id="jointListTitle" style="position: relative; float:left; width: 290px; height: 30px; padding: 10px 0; box-sizing: border-box; line-height: 10px; letter-spacing: 1px; font-weight: 700; text-transform: none">
+				Joint List
+			</div>
+			<div id="jointListDiv">
+				
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div id="helpDiv"><a href="help/help.html" target="_BLANK">?</a></div>
+		&copy; Clement Zheng 2016
+	</div>
+	
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

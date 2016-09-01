@@ -1,0 +1,938 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Joinery - Help</title>
+	<meta name="description" content="Parametric joint generation for laser cutting">
+	<meta name="author" content="Clement Zheng (clementzheng.info)">
+	
+	<!--CSS-->
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,400italic,500italic' rel='stylesheet' type='text/css'>
+
+	<style>
+
+		html, body {
+			margin: 0;
+			padding: 0;
+			font-family: "Roboto", sans-serif;
+			font-size: 0.95rem;
+			font-weight: 400;
+			overflow-x: hidden;
+			background: #FAFAFA;
+		}
+
+		h1 {
+			font-size: 1.5rem;
+			font-weight: 900;
+			text-transform: uppercase;
+			letter-spacing: 0.1rem;
+			padding: 0;
+			margin: 0;
+		}
+
+		h2 {
+			font-size: 1.25rem;
+			font-weight: 900;
+			padding: 0;
+			margin: 0;
+		}
+
+		h3 {
+			font-size: 1.0rem;
+			font-weight: 700;
+			padding: 0;
+			margin: 0;
+		}
+
+		a {
+			text-decoration: none;
+			color: black;
+		}
+
+		a:hover {
+			color: #888;
+		}
+
+		ol, ul, li {
+			padding: 0;
+			margin: 0;
+		}
+
+		br {
+			clear: both;
+		}
+
+		img {
+			display: block;
+			width: 100%;
+			margin-top: 20px;
+		}
+
+		.container {
+			position: relative;
+			float: left;
+			width: 100%;
+			max-width: 1400px;
+			margin: 0;
+			padding: 20px 0;
+			box-sizing: border-box;
+		}
+
+		.column {
+			position: relative;
+			float: left;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		@media (min-width: 1000px) {
+			.container {
+				width: 100%;
+			}
+			.column {
+				padding: 0 2%;
+			}
+			.one.column { width: 16.6667%; }
+			.two.column { width: 33.3333%; }
+			.three.column { width: 50%; }
+			.four.column { width: 66.6667%; }
+			.five.column { width: 83.3333%; }
+			.six.column { width: 100%; }
+			.seven.column { width: 100%; }
+			.eight.column { width: 100%; }
+			.nine.column { width: 100%; }
+			.ten.column { width: 100%; }
+			.eleven.column { width: 100%; }
+			.twelve.column { width: 100%; }
+
+			.one.column_left { margin-left: 8.3333%; }
+			.two.column_left { margin-left: 16.6667%; }
+			.three.column_left { margin-left: 25%; }
+			.four.column_left { margin-left: 41.6667%; }
+
+			.two_col { column-count: 2; }
+		}
+
+		@media (min-width: 1400px) {
+			.container {
+				width: 100%;
+			}
+			.column {
+				padding: 0 2%;
+			}
+			.one.column { width: 8.3333%; }
+			.two.column { width: 16.6667%; }
+			.three.column { width: 25%; }
+			.four.column { width: 33.3333%; }
+			.five.column { width: 41.6667%; }
+			.six.column { width: 50%; }
+			.seven.column { width: 58.3333%; }
+			.eight.column { width: 66.6667%; }
+			.nine.column { width: 75%; }
+			.ten.column { width: 83.3333%; }
+			.eleven.column { width: 91.6667%; }
+			.twelve.column { width: 100%; }
+
+			.one.column_left { margin-left: 8.3333%; }
+			.two.column_left { margin-left: 16.6667%; }
+			.three.column_left { margin-left: 25%; }
+			.four.column_left { margin-left: 41.6667%; }
+
+			.two_col { column-count: 2; }
+		}
+
+		.bottom_buffer {
+			margin-bottom: 50px;
+		}
+
+		.top_buffer {
+			margin-top: 50px;
+		}
+
+		#contents {
+			position: fixed;
+			width: 300px;
+			height: 100vh;
+			overflow-x: hidden;
+			padding: 15px;
+			box-sizing: border-box;
+			border-right: 1px solid #AAA;
+		}
+
+		#title {
+			margin-bottom: 80px;
+		}
+
+		#title h1 {
+			position: absolute;
+			top: 20px;
+			left: 15px;
+			font-size: 1.5rem;
+			font-weight: 900;
+			letter-spacing: 0.1rem;
+			color: #000;
+		}
+
+
+		#title p {
+			padding: 0;
+			margin: 0;
+			font-style: italic;
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			line-height: 1.0rem;
+			letter-spacing: 0.05rem;
+		}
+
+		#content_list {
+			text-transform: none;
+			font-size: 0.9rem;
+			letter-spacing: 0.025rem;
+		}
+
+		#content_list ul {
+			padding: 0;
+			margin: 5px 0 0 2rem;
+			list-style: none;
+		}
+
+		#content_list li {
+			margin-bottom: 1rem;
+			padding: 6px 0;
+			list-style: none;
+			font-weight: 700;
+		}
+
+		#content_list li ul li{
+			margin: 0;
+			padding: 3px 0;
+			list-style: none;
+			font-weight: 400;
+		}
+
+		#content_container {
+			position: absolute;
+			width: 100vw;
+			padding: 50px 50px 50px 350px;
+			box-sizing: border-box;
+		}
+
+		#content_container li {
+			margin: 15px 0;
+		}
+
+		.double_column {
+			position: relative;
+			width: 100%;
+			margin-bottom: 2rem;
+			display: inline-block;
+			vertical-align: top;
+		}
+
+		@media (min-width: 1000px) {
+			.double_column {
+				position: relative;
+				width: 40%;
+				padding-right: 2.5%;
+				margin: 0;
+				margin-right: 2.5%;
+				margin-bottom: 2rem;
+				display: inline-block;
+				vertical-align: top;
+			}
+		}
+
+		.double_column img {
+			padding: 0;
+			margin: 0;
+			border: 1px solid #888;
+		}
+
+		.jpGallery img {
+			width: 45%;
+			display: inline-block;
+		}
+
+		.section {
+			padding-bottom: 50px;
+			margin-bottom: 100px;
+		}
+
+		.subsection {
+			padding-bottom: 50px;
+			margin-bottom: 50px;
+		}
+
+
+
+
+	</style>
+	
+	<!--SCRIPTS-->
+	
+	
+</head>
+
+<body>
+
+	<div id="content_container">
+		<a name="about"></a>
+		<div class="container section bottom_buffer">
+			<h1 class="twelve column">About</h1>
+			<div class="four column">
+				<p><a href="../index.html" target="_blank"><u>Access Joinery here</u></a></p>
+				<p></p>
+			</div>
+		</div>
+
+		<a name="gettingstarted"></a>
+		<div class="container subsection bottom_buffer">
+			<h1 class="twelve column">Getting Started</h1>
+			<div class="four column">
+				<p>Joinery is a web-based tool kit designed to help users generate parametric joints for laser cutting. It takes SVG documents as input, and enables users to define joints by selecting a pair of paths in an SVG. Various joint profiles can be created and applied to the joints&mdash;and these can be customized based on material needs and user preferences.</p>
+			</div><br>
+			<div class="four column">
+				<img src="images/images-01.png">
+				<i>&uarr; Interface overview</i>
+			</div>
+		</div>
+
+		<a name="svgprep"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">SVG Preparation</h2>
+			<div class="four column">
+				<p>This tool kit generates joints based on SVG files as input. We will use Adobe Illustrator in the following instructions to explain SVG preparation; but, the same should apply for any other vector drawing tool.
+				</p>
+			</div><br>
+			<div class="nine column">
+				<ol>
+					<li>
+						<p class="double_column">
+							Break your design down into flat parts, and determine the materials you will use. Draw these 2D parts with a vector drawing tool. Lay them out on the document, ensurng that there is ample space between each part.
+							<br><br>
+							<b>Make sure your document's units is set to millimeters or inches!</b>
+						</p>
+						<p class="double_column">
+							<img src="images/images-02.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							Determine which edges you want to join in the laser cut assembly. Separate each individual edge. To elaborate, each different joint edge should be its own path; in Illustrator, a common method is to use the "cut" (scissors) tool to separate paths into different edge segments.
+							<br><br>
+							<b>Straight edges should only have two anchor points, defining the start and end of the line. The start and end anchor points should not have any "handles".</b>
+						</p>
+						<p class="double_column">
+							<img src="images/images-03.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							Ensure that all joint edges are ungrouped. Other artwork that will not be used for joints can be grouped. Joinery will not be able to edit paths in a group, and you can use this to organize the paths in your file.
+							<br><br>
+							<b>Export your file to SVG. Ensure that the SVG is not responsive.</b>
+						</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<a name="loadsvg"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Loading SVGs</h2>
+			<div class="nine column">
+				<ol>
+					<li>
+						<p class="double_column">
+							Open Joinery on a web browser. <a href="../index.html" target="_blank"><u>link</u></a><br><br>
+							Click on the "Load SVG" button to import an SVG file into the tool kit. Multiple SVG files can be imported into the same workspace.
+						</p>
+						<p class="double_column">
+							<img src="images/images-04.png">	
+						</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<a name="basiccontrol"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Basic Controls</h2>
+			<div class="nine column">
+				<ol>
+					<li>
+						<p class="double_column">
+							The interface is organized in four main sections.<br><br>
+							Left:  System controls such as loading and exporting SVG, changing units, dimensions, and control tools.<br><br>
+							Right: Joint profile panel and joint list panel.<br><br>
+							The workspace occupies the rest of the interface, and this is where imported SVG files are displayed.
+						</p>
+						<p class="double_column">
+							<img src="images/images-01.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							Holding "space" and dragging with the mouse enables you to pan the workspace. Scrolling with the mouse wheel enables you to zoom in and out of the workspace.
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							<b>"arrange parts"</b>: use this tool to move individual SVG files around.<br>
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							<b>"remove parts"</b>: use this tool to remove individual SVG files from the workspace.<br><br>
+						</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<a name="definingjoint"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Defining Joints</h2>
+			<div class="nine column">
+				<ol>
+					<li>
+						<p class="double_column">
+							The <b>set joints</b> tool is used to define joints by selecting edge pairs. Hovering over a SVG path with this tool will highlight the path if it is a valid joint path. Click on the path to add it to a joint.
+						</p>
+						<p class="double_column">
+							<img src="images/images-05.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							A joint is defined once two edges have been selected. Joints will appear in the joint list panel, and will be connected via dashed lines in the workspace.
+						</p>
+						<p class="double_column">
+							<img src="images/images-06.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							<b>If the length of two paths are significantly different, they cannot be paired to form a joint.</b>
+						</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<a name="creatingjointprofile"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Creating Joint Profiles</h2>
+			<div class="nine column">
+				<ol>
+					<li>
+						<p class="double_column">
+							Joinery offers various joint profiles for different purposes. To add a joint profile, click on the joint profile dropdown menu. As you hover over the different joint profiles, a thumbnail will appear showing an example of that profile.
+						</p>
+						<p class="double_column">
+							<img src="images/images-07.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							Click to select a joint profile from the dropdown menu, and click "add" to create a joint profile.
+						</p>
+						<p class="double_column">
+							<img src="images/images-08.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							Click on a joint profile to expand it. This displays the different parameters and options for customizing the joint profile.<br><br>
+							The notes text box allows you to jot down notes for later reference. This can include material or design details.<br><br>
+							Joint parameter values can be modified by typing new values for the different parameters.<br><br>
+							<b>"set joint"</b> saves the notes and parameters and applies any changes.<br><br>
+							<b>"save profile"</b> exports the current joint profile. Exported joint profiles can be loaded via the "load" button in the joint profile panel. Use this to save profiles for future use, or to share them with others. 
+						</p>
+						<p class="double_column">
+							<img src="images/images-09.png">	
+						</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<a name="modifyingjoint"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Modifying Joints</h2>
+			<div class="nine column">
+				<ol>
+					<li>
+						<p class="double_column">
+							Selecting a joint in the joint list panel expands it. Select a joint profile from the dropdown menu to apply that joint profile to the joint. The same joint profile can be applied to multiple joints. Modifying the parameters of a joint profile will therefore modify all the joints it is applied to.
+						</p>
+						<p class="double_column">
+							<img src="images/images-10.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							<b>"swap M/F"</b> swaps male and female joints.
+						</p>
+						<p class="double_column">
+							<img src="images/images-11.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							<b>"reverse M"</b> reverses the direction of the male joint.<br><br>
+							<b>"reverse F"</b> reverses the direction of the female joint.<br><br>
+							You should see the dashed lines connecting the two edges of a joint flip after reversing.
+						</p>
+						<p class="double_column">
+							<img src="images/images-12.png">	
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							<b>"flip M"</b> flips the normal direction of the male joint.<br><br>
+							<b>"flip F"</b> flips the normal direction of the female joint.<br><br>
+							You should see the joint extending in the opposite direction (normal to the path) after flipping.
+						</p>
+						<p class="double_column">
+							<img src="images/images-13.png">	
+						</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<a name="exportsvg"></a>
+		<div class="container section bottom_buffer">
+			<h2 class="twelve column">Exporting SVG</h2>
+			<div class="nine column">
+				<ol>
+					<li>
+						<p class="double_column">
+							You can export your design, along with the generated joints, as an SVG file. This file can be used an input for laser cutting, or for further design work if necessary.
+						</p>
+					</li>
+					<li>
+						<p class="double_column">
+							Paths are color coded in the exported file. These colors will be useful for organizing the different paths during the fabrication process.<br><br>
+							<b style="color:blue;">Blue</b> paths are joint paths generated by Joinery.<br><br>
+							<b style="color:#0FF;">Aqua</b> paths are fold paths generated by Joinery.<br><br>
+							<b style="color:red;">Red</b> paths are the orginal paths.<br><br>
+							<b style="color:purple;">Purple</b> paths are grouped paths.
+						</p>
+					</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<a name="jointprofile"></a>
+		<div class="container subsection bottom_buffer">
+			<h1 class="twelve column">Joint Profiles</h1>
+			<div class="four column">
+				<p>Joinery offers various joint profiles for connecting and assembling flat parts together. Different joint profiles cater to different materials and purposes. This section elaborates on the use of each joint profile, and explains the customizable parameters within each profile.
+				</p>
+			</div><br>
+		</div>
+
+		<a name="loopinserto"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Loop Insert (Overlap)</h2>
+			<div class="four column">
+				<p>Loop Inserts are designed to interface fabrics with fabrics, or fabrics with stiff materials. They can be used as a replacement for conventional sewing or other fasteners. Loop Insert (Overlap) extends the edge of the joint, creating an overlapping region between the two parts.<br><br>
+				<b>Note</b>
+				<br>Male joints should be generated on fabric/soft materials.
+				<br>Works on both curve and straight paths.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				<a href="images/jp-1-1.png" target="_blank"><img src="images/jp-1-1.png"></a>
+				<a href="images/jp-1-2.png" target="_blank"><img src="images/jp-1-2.png"></a>
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Material Thickness M</b><br>Thickness of the material with the male joint.
+					<br><br>
+					<b>Material Thickness F</b><br>Thickness of the material with the female joint.
+					<br><br>
+					<b>Hem Offset</b><br>Width of overlap; offset distance from the orginal edge.
+					<br><br>
+					<b>Insert Width</b><br>Width of the insert's stem.
+					<br><br>
+					<b>Hook Width</b><br>Width of the hooks that extend from the insert's stem.
+					<br><br>
+					<b>Joint Spacing</b><br>Space between each insert.
+					<br><br>
+					<b>Slack</b><br>The amount of slack between the insert and the slits.<br>0: no slack<br>0&lt;: looser inserts with specified amount of slack<br>0&gt;: tighter inserts where inserts are shorter than loop space.
+					<br><br>
+					<b>Offset Start</b><br>Distance from start where joints begin.
+					<br><br>
+					<b>Offset End</b><br>Distance from end where joints end.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-01.svg">
+			</div>
+		</div>
+
+		<a name="loopinsert"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Loop Insert</h2>
+			<div class="four column">
+				<p>Loop Inserts are designed to interface fabrics with fabrics, or fabrics with stiff materials. They can be used as a replacement for conventional sewing or other fasteners. This Loop Insert variation does not extend the edge of the female joint; that is, there will not be overlap between the two parts.<br><br>
+				<b>Note</b>
+				<br>Male joints should be generated on fabric/soft materials.
+				<br>Works on both curve and straight paths.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Material Thickness M</b><br>Thickness of the material with the male joint.
+					<br><br>
+					<b>Material Thickness F</b><br>Thickness of the material with the female joint.
+					<br><br>
+					<b>Hem Offset</b><br>Width of overlap; offset distance from the orginal edge.
+					<br><br>
+					<b>Insert Width</b><br>Width of the insert's stem.
+					<br><br>
+					<b>Hook Width</b><br>Width of the hooks that extend from the insert's stem.
+					<br><br>
+					<b>Joint Spacing</b><br>Space between each insert.
+					<br><br>
+					<b>Slack</b><br>The amount of slack between the insert and the slits.<br>0: no slack<br>0&lt;: looser inserts with specified amount of slack<br>0&gt;: tighter inserts where inserts are shorter than loop space.
+					<br><br>
+					<b>Offset Start</b><br>Distance from start where joints begin.
+					<br><br>
+					<b>Offset End</b><br>Distance from end where joints end.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-02.svg">
+			</div>
+		</div>
+
+
+		<a name="loopinserts"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Loop Insert (Surface)</h2>
+			<div class="four column">
+				<p>Loop Inserts are designed to interface fabrics with fabrics, or fabrics with stiff materials. They can be used as a replacement for conventional sewing or other fasteners. This Loop Insert variation connects two surfaces together<br><br>
+				<b>Note</b>
+				<br>Male joints should be generated on fabric/soft materials.
+				<br>Works on straight paths only.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				<a href="images/jp-3-1.png" target="_blank"><img src="images/jp-3-1.png"></a>
+				<a href="images/jp-3-2.png" target="_blank"><img src="images/jp-3-2.png"></a>
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Material Thickness M</b><br>Thickness of the material with the male joint.
+					<br><br>
+					<b>Material Thickness F</b><br>Thickness of the material with the female joint.
+					<br><br>
+					<b>Hem Offset</b><br>Width of overlap; offset distance from the orginal edge.
+					<br><br>
+					<b>Insert Width</b><br>Width of the insert's stem.
+					<br><br>
+					<b>Hook Width</b><br>Width of the hooks that extend from the insert's stem.
+					<br><br>
+					<b>Hook Count</b><br>Number of hooks.
+					<br><br>
+					<b>Joint Spacing</b><br>Space between each insert.
+					<br><br>
+					<b>Slack</b><br>The amount of slack between the insert and the slits.<br>0: no slack<br>0&lt;: looser inserts with specified amount of slack<br>0&gt;: tighter inserts where inserts are shorter than loop space.
+					<br><br>
+					<b>Offset Start</b><br>Distance from start where joints begin.
+					<br><br>
+					<b>Offset End</b><br>Distance from end where joints end.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-03.svg">
+			</div>
+		</div>
+
+		<a name="hem"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Hem</h2>
+			<div class="four column">
+				<p>This joint extends the edge by a specified amount. If required, it can also generate holes along the original edge to guide sewing.
+				<br><br>
+				<b>Note</b>
+				<br>Works on curve and straight paths.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Hem Offset</b><br>Width of overlap; offset distance from the orginal edge.
+					<br><br>
+					<b>Hole Diameter</b><br>Size of hole. Holes will not be generated if 0 is specified.
+					<br><br>
+					<b>Hole Spacing</b><br>Space between holes.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-04.svg">
+			</div>
+		</div>
+
+		<a name="interlocking"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Interlocking</h2>
+			<div class="four column">
+				<p>A series of alternating tabs that interlock along the joint edge. This joint works well on flexible paper-based or plastic materials.
+				<br><br>
+				<b>Note</b>
+				<br>Works on curve and straight paths.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Material Thickness M</b><br>Thickness of the material with the male joint.
+					<br><br>
+					<b>Material Thickness F</b><br>Thickness of the material with the female joint.
+					<br><br>
+					<b>Interlocking Width</b><br>Width of the interlocking tab's stem.
+					<br><br>
+					<b>Interlocking Height</b><br>Height of each interlocking tab.
+					<br><br>
+					<b>Offset Start</b><br>Distance from start where joints begin.
+					<br><br>
+					<b>Offset End</b><br>Distance from end where joints end.
+					<br><br>
+					<b>Grip</b><br>Amount of overlap between interlocking tabs.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-05.svg">
+			</div>
+		</div>
+
+		<a name="fingerjoint90"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Finger Joint (90deg)</h2>
+			<div class="four column">
+				<p>A series of alternating protrusions that interlocking two parts at a right angle. The is a common joint used to fabricate boxes from thicker sheet materials like acrylic and bass wood. Adhesives like hot/super glue can be used to reinforce this joint and create a permanent connection.
+				<br><br>
+				<b>Note</b>
+				<br>Works on straight paths only.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Material Thickness M</b><br>Thickness of the material with the male joint.
+					<br><br>
+					<b>Material Thickness F</b><br>Thickness of the material with the female joint.
+					<br><br>
+					<b>Finger Width</b><br>Width of the interlocking finger.
+					<br><br>
+					<b>Finger Radius</b><br>Outer corner radius of the interlocking finger. Rounding the corners of the interlocking fingers can help ease two parts together to form the joint.
+					<br><br>
+					<b>Offset Start</b><br>Distance from start where joints begin.
+					<br><br>
+					<b>Offset End</b><br>Distance from end where joints end.
+					<br><br>
+					<b>Tolerance</b><br>Amount of overlap between interlocking fingers. Negative tolerance creates interfering finger joints which can be forced fit together for tighter joints.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-06.svg">
+			</div>
+		</div>
+
+
+		<a name="fingerjointa"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Finger Joint (angle)</h2>
+			<div class="four column">
+				<p>A series of alternating protrusions that interlocking two parts at a specified interior angle. This joint is restricted to joining parts with the same thickness, but it enables these parts to be interfaced at angles other than 90 degrees. The interior angle is the dihedral angle between two parts; that is, the plane-to-plane angle.
+				<br><br>
+				<b>Note</b>
+				<br>Works on straight paths only.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				<a href="images/jp-7-1.png" target="_blank"><img src="images/jp-7-1.png"></a>
+				<a href="images/jp-7-2.png" target="_blank"><img src="images/jp-7-2.png"></a>
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Material Thickness M</b><br>Thickness of the material with the male joint.
+					<br><br>
+					<b>Material Thickness F</b><br>Thickness of the material with the female joint.
+					<br><br>
+					<b>Insert Width</b><br>Width of the interlocking finger.
+					<br><br>
+					<b>Finger Radius</b><br>Outer corner radius of the interlocking finger. Rounding the corners of the interlocking fingers can help ease two parts together to form the joint.
+					<br><br>
+					<b>Offset Start</b><br>Distance from start where joints begin.
+					<br><br>
+					<b>Offset End</b><br>Distance from end where joints end.
+					<br><br>
+					<b>Tolerance</b><br>Amount of overlap between interlocking fingers. Negative tolerance creates interfering finger joints which can be forced fit together for tighter joints.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-07.svg">
+			</div>
+		</div>
+
+		<a name="tabinsert"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Tab Insert</h2>
+			<div class="four column">
+				<p>This joint generates a series of tabs which insert into corresponding slits on a flap. It is commonly used on paper-based materials for quick assembly. Do note that you may need to create folding lines for the tabs and flaps for stiffer materials; for example, a perforated line to make folding easier after fabrication.
+				<br><br>
+				<b>Note</b>
+				<br>Works on straight paths only.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				<a href="images/jp-8-1.png" target="_blank"><img src="images/jp-8-1.png"></a>
+				<a href="images/jp-8-2.png" target="_blank"><img src="images/jp-8-2.png"></a>
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Material Thickness M</b><br>Thickness of the material with the male joint.
+					<br><br>
+					<b>Material Thickness F</b><br>Thickness of the material with the female joint.
+					<br><br>
+					<b>Insert Width</b><br>Width of the insert's stem.
+					<br><br>
+					<b>Insert Height</b><br>Height of the insert.
+					<br><br>
+					<b>Flap Height</b><br>Height of the flap.
+					<br><br>
+					<b>Joint Spacing</b><br>Space between each insert.
+					<br><br>
+					<b>Offset Start</b><br>Distance from start where joints begin.
+					<br><br>
+					<b>Offset End</b><br>Distance from end where joints end.
+					<br><br>
+					<b>Grip</b><br>Amount of overlap between interlocking tabs.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-08.svg">
+			</div>
+		</div>
+
+		<a name="flap"></a>
+		<div class="container subsection bottom_buffer">
+			<h2 class="twelve column">Flap</h2>
+			<div class="four column">
+				<p>This joint generates a flaps on either side of the joint, which can then be connected with adhesives such as hot glue or double sided tape.
+				<br><br>
+				<b>Note</b>
+				<br>Works on straight paths only.
+				</p>
+			</div>
+			<div class="six column jpGallery">
+				
+			</div>
+			<br>
+			<div class="four column">
+				<p><i>Parameters</i></p>
+				<p>
+					<b>Height M</b><br>Male flap height.
+					<br><br>
+					<b>Height F</b><br>Female flap height.
+					<br><br>
+				</p>
+			</div>
+			<div class="six column">
+				<img src="images/jointprofiles-09.svg">
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+	<div id="contents">
+		<div id="title">
+			<h1>Joinery</h1>
+		</div>
+
+		<div id="content_list">
+			<li><a href="#about">About</a>
+			</li>
+			<li><a href="#gettingstarted">Getting started</a>
+				<ul>
+					<li><a href="#svgprep">SVG preparation</a></li>
+					<li><a href="#loadsvg">Loading SVGs</a></li>
+					<li><a href="#basiccontrol">Basic controls</a></li>
+					<li><a href="#definingjoint">Defining joints</a></li>
+					<li><a href="#creatingjointprofile">Creating joint profiles</a></li>
+					<li><a href="#modifyingjoint">Modifying joints</a></li>
+					<li><a href="#exportsvg">Exporting SVG</a></li>
+				</ul>
+			</li>
+			<li><a href="#jointprofile">Joint Profiles</a>
+				<ul>
+					<li><a href="#loopinserto">Loop Insert (Overlap)</a></li>
+					<li><a href="#loopinsert">Loop Insert</a></li>
+					<li><a href="#loopinserts">Loop Insert (Surface)</a></li>
+					<li><a href="#hem">Hem</a></li>
+					<li><a href="#interlocking">Interlocking</a></li>
+					<li><a href="#fingerjoint90">Finger Joint (90deg)</a></li>
+					<li><a href="#fingerjointa">Finger Joint (angle)</a></li>
+					<li><a href="#tabinsert">Tab Insert</a></li>
+					<li><a href="#flap">Flap</a></li>
+				</ul>
+			</li>
+		</div>
+	</div>
+
+</body>

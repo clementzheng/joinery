@@ -1,0 +1,638 @@
+body, html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: Roboto, sans-serif;
+	font-weight: 400;
+	font-size: 13px;
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+	overflow-y: hidden;
+	letter-spacing: 1px;
+	background: #E2E2E2;
+}
+
+#paperCanvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#leftMenu {
+	position: absolute;
+	top: 12px;
+	left: -210px;
+	width: 230px;
+	height: 400px;
+	-webkit-transition: all 300ms ease-in-out;
+	-moz-transition: all 300ms ease-in-out;
+	-o-transition: all 300ms ease-in-out;
+	transition: all 300ms ease-in-out;
+}
+
+#leftMenu.active {
+	left: 0px;
+}
+
+#leftMenuFrame {
+	position: relative;
+	float: left;
+	width: 210px;
+	height: 400px;
+	padding: 20px 15px 15px 30px;
+	box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.9);
+}
+
+#leftMenuCollapse {
+	position: relative;
+	float: left;
+	width: 12px;
+	height: 100%;
+	border-left: 1px solid #777;
+}
+
+.collapse {
+	background: rgba(70, 70, 70, 0.9);
+	color: #FFF;
+	text-align: center;
+	font-size: 20px;
+	line-height: 15px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.active .collapse {
+	background: rgba(170, 170, 170, 0.8);
+	color: #222;
+}
+
+.collapse:hover {
+	background: rgba(20, 20, 20, 0.8);
+	color: #FFF;
+}
+
+#leftMenuFrame div {
+	position: relative;
+	float: left;
+	clear: both;
+}
+
+#actionMenu {
+	position: relative;
+	float: left;
+	clear: both;
+	width: 100%;
+	margin-top: 20px;
+}
+
+#actionMenu li {
+	list-style: none;
+	margin-top: 8px;
+	text-decoration: none;
+	color: #000;
+	font-weight: 400;
+}
+
+#actionMenu li:hover {
+	color: #888;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+#actionMenu li:active {
+	color: #555;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+
+
+#actionMenu li.active {
+	font-weight: 700;
+	text-decoration: underline;
+}
+
+.button {
+	position: relative;
+	float: left;
+	color: #FFF;
+	padding: 7px 13px;
+	opacity: 1.0;
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: 1px;
+	font-size: 12px;
+	font-weight: 400;
+	background: #777;
+	border-radius: 1px;
+}
+
+.button:hover {
+	background: #444;
+	cursor: pointer;
+}
+
+.button:active {
+	opacity: 1.0;
+}
+
+.button2 {
+	position: relative;
+	float: left;
+	color: #222;
+	padding: 6px 12px;
+	opacity: 1.0;
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: 2px;
+	font-size: 12px;
+	font-weight: 400;
+	border-radius: 1px;
+	border: 1px solid #777;
+}
+
+.button2:hover {
+	background: #777;
+	color: white;
+	cursor: pointer;
+}
+
+.button2:active {
+	background: #999;
+}
+
+#topMessage {
+	font-family: "Roboto Mono", monospace;
+	position: absolute;
+	top: 0;
+	width: 100vw;
+	margin: auto;
+	margin-top: 40px;
+	text-align: center;
+	font-size: 14px;
+	line-height: 10px;
+	color: #F80;
+	pointer-events: none;
+}
+
+#rightMenu {
+	position: fixed;
+	right: -330px;
+	top: 0;
+	width: 342px;
+	height: 45%;
+	background: rgba(255, 255, 255, 0.9);
+	border-bottom: 1px solid #555;
+	-webkit-transition: all 300ms ease-in-out;
+	-moz-transition: all 300ms ease-in-out;
+	-o-transition: all 300ms ease-in-out;
+	transition: all 300ms ease-in-out;
+}
+
+#rightMenu2 {
+	position: fixed;
+	right: -330px;
+	top: 45%;
+	width: 342px;
+	height: 55%;
+	background: rgba(255, 255, 255, 0.9);
+	border-top: 1px solid #555;
+	-webkit-transition: all 300ms ease-in-out;
+	-moz-transition: all 300ms ease-in-out;
+	-o-transition: all 300ms ease-in-out;
+	transition: all 300ms ease-in-out;
+}
+
+#rightMenu.active {
+	right: 0;
+}
+
+#rightMenu2.active {
+	right: 0;
+}
+
+#rightMenuCollapse {
+	position: relative;
+	float: left;
+	width: 12px;
+	height: 100%;
+	border-right: 1px solid #777;
+}
+
+#rightMenuCollapse2 {
+	position: relative;
+	float: left;
+	width: 12px;
+	height: 100%;
+	border-right: 1px solid #777;
+}
+
+#rightMenuFrame {
+	position: relative;
+	float: left;
+	width: 310px;
+	height: 100%;
+	padding-right: 10px;
+	margin-left: 10px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#rightMenuFrame2 {
+	position: relative;
+	float: left;
+	width: 310px;
+	height: 100%;
+	padding-right: 10px;
+	margin-left: 10px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#jointTypeDiv .dropdown .dropdownSelected {
+	box-sizing: border-box;
+	display: block;
+	position: relative;
+	float: left;
+	width: 100%;
+	height: 100%;
+	border: 1px solid #777;
+	padding: 0 5px;
+	line-height: 25px;
+	cursor: pointer;
+	z-index: 100;
+	background: rgba(255,255,255,0.9);
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+#jointTypeDiv .dropdown .optionsDiv .dropdownOption {
+	box-sizing: border-box;
+	display: none;
+	position: relative;
+	float: left;
+	width: 220px;
+	height: 100%;
+	border-bottom: 1px solid #AAA;
+	border-left: 1px solid #AAA;
+	border-right: 1px solid #AAA;
+	padding: 0 5px;
+	line-height: 25px;
+	cursor: pointer;
+	z-index: 100;
+	background: rgba(255,255,255,0.9);
+}
+
+#downArrow {
+	pointer-events: none;
+	position: absolute;
+	right: 1px;
+	top: 1px;
+	color: #333;
+	z-index: 101;
+	font-size: 11px;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+100 */
+	background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+	height: 28px;
+	width: 100px;
+	text-align: right;
+	line-height: 27px;
+	padding-right: 7px;
+}
+
+#jointTypeDiv .dropdown .optionsDiv .dropdownOption.show {
+	display: block;
+}
+
+#jointTypeDiv .dropdown .optionsDiv .dropdownOption.show:hover {
+	background: #666;
+	color: white;
+}
+
+#jointImageDiv {
+	position: fixed;
+	top: 59px;
+	right: 319px;
+	width: 200px;
+	height: 261px;
+	display: none;
+	border: 1px solid #666;
+	border-right: 1px solid #666;
+	padding: 25px;
+	z-index: 103;
+	background: rgba(255, 255, 255, 0.9);
+	box-sizing: border-box;
+}
+
+#jointImageDiv img {
+	width: 100%;
+	height: 100%;
+}
+
+#jointProfileDiv {
+	position: relative;
+	float: left;
+	width: 290px;
+	margin-bottom: 25px;
+}
+
+#addJointProfile {
+	position: relative;
+	float: left;
+	width: 290px;
+	border-bottom: 1px dotted #CCC;
+	padding-bottom: 10px;
+}
+
+#jointListTitle {
+	position: relative;
+	float: left;
+	width: 290px;
+	border-bottom: 1px dotted #CCC;
+	padding-bottom: 10px;
+}
+
+#jointProfileListDiv {
+	position: relative;
+	float: left;
+	width: 290px;
+	margin-bottom: 20px;
+}
+
+#jointListDiv {
+	position: relative;
+	float: left;
+	width: 290px;
+	margin-bottom: 20px;
+}
+
+.jointProfile {
+	position: relative;
+	float: left;
+	width: 290px;
+	margin-top: 10px;
+	z-index: 99;
+}
+
+.jointItem {
+	position: relative;
+	float: left;
+	width: 290px;
+	margin-top: 10px;
+}
+
+.title {
+	position: relative;
+	float: left;
+	width: 100%;
+	background: #DDD;
+	font-weight: 700;
+	margin-bottom: 5px;
+	padding: 4px 0 4px 4px;
+	border-top: 1px solid #666;
+}
+
+.jointProfile .title {
+	background: #BBB;
+}
+
+.title b {
+	position: relative;
+	float: right;
+	font-weight: 400;
+	padding: 2px 5px;
+	font-size: 10px;
+}
+
+.title:hover {
+	cursor: pointer;
+	background: #AAA;
+}
+
+.title b:hover {
+	color: red;
+}
+
+.paramList {
+	position: relative;
+	float: left;
+	width: 100%;
+	max-height: 0px;
+	padding-bottom: 0px;
+	overflow: hidden;
+	-webkit-transition: all 300ms ease-in-out;
+	-moz-transition: all 300ms ease-in-out;
+	-o-transition: all 300ms ease-in-out;
+	transition: all 300ms ease-in-out;
+}
+
+.jointNotes {
+	width: 290px;
+	box-sizing: border-box;
+}
+
+.jointNotes textarea {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	font-size: 10px;
+	height: 30px;
+	resize: vertical;
+}
+
+.jointOptions {
+	position: relative;
+	float: left;
+	width: 100%;
+	max-height: 0px;
+	padding-bottom: 0px;
+	overflow: hidden;
+	-webkit-transition: all 300ms ease-in-out;
+	-moz-transition: all 300ms ease-in-out;
+	-o-transition: all 300ms ease-in-out;
+	transition: all 300ms ease-in-out;
+}
+
+.paramList.active {
+	max-height: 400px;
+	padding-bottom: 10px;
+}
+
+.jointOptions.active {
+	max-height: 150px;
+	padding-bottom: 10px;
+}
+
+.param {
+	position: relative;
+	float: left;
+	list-style: none;
+	font-size: 12px;
+	width: 100%;
+	margin-top: 3px;
+	letter-spacing: 0px;
+}
+
+.param input {
+	position: relative;
+	float: right; 
+	width: 75px;
+}
+
+.setVal {
+	position: relative;
+	float: left;
+	list-style: none;
+	font-size: 14px;
+	width: 50%;
+	margin-top: 10px;
+	font-weight: 700;
+	text-align: right;
+	text-decoration: underline;
+	color: #000;
+	letter-spacing: 0px;
+}
+
+.saveProfile {
+	position: relative;
+	float: left;
+	list-style: none;
+	font-size: 14px;
+	width: 50%;
+	margin-top: 10px;
+	font-weight: 700;
+	text-align: left;
+	text-decoration: underline;
+	color: #000;
+	letter-spacing: 0px;
+	margin-bottom: 10px;
+}
+
+.setVal label:hover {
+	cursor: pointer;
+	color: #999;
+}
+
+.saveProfile label:hover {
+	cursor: pointer;
+	color: #999;
+}
+
+.jointOptions select {
+	position: relative;
+	float: left;
+	width: 100%;
+}
+
+.jointOptions .optionButton {
+	position: relative;
+	float: left;
+	width: 33%;
+	margin-top: 10px;
+	text-align: center;
+	font-weight: 700;
+	text-decoration: underline;
+	font-size: 13px;
+	letter-spacing: 0px;
+}
+
+.jointOptions .optionButton2 {
+	position: relative;
+	float: left;
+	width: 50%;
+	margin-top: 10px;
+	text-align: center;
+	font-weight: 700;
+	text-decoration: underline;
+	font-size: 13px;
+	letter-spacing: 0px;
+}
+
+.jointOptions .optionButton:hover {
+	cursor: pointer;
+	color: #999;
+}
+
+.jointOptions .optionButton2:hover {
+	cursor: pointer;
+	color: #999;
+}
+
+.checkbox {
+	display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+	opacity: 0;
+	margin-right: 5px;
+	margin-left: 10px;
+    position: absolute;
+}
+
+.checkbox + .checkboxLabel:before {
+	content: '';
+    background: none;
+    border: 1px solid #666;
+    display: inline-block;
+    vertical-align: bottom;
+    width: 10px;
+    height: 10px;
+    padding: 2px;
+    margin-right: 5px;
+	margin-left: 10px;
+    text-align: center;
+}
+
+.checkbox:checked + .checkboxLabel:before {
+    background: #777;
+}
+
+.footer {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	font-size: 12px;
+	color: #444;
+	letter-spacing: 0em;
+}
+
+#helpDiv {
+	text-align: center;
+	width: 30px;
+	height: 30px;
+	line-height: 27px;
+	font-size: 20px;
+	box-sizing: border-box;
+	border: 1px solid #888;
+	color: #777;
+	border-radius: 50%;
+	margin-bottom: 10px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+#helpDiv a {
+	position: relative;
+	float: left;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	text-decoration: none;
+	color: #666;
+}
+
+#helpDiv:hover {
+	border: 1px solid #222;
+}
+
+#helpDiv:hover a {
+	color: #222;
+}

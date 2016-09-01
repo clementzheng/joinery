@@ -1,0 +1,34 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      .cls-1 {
+        stroke: #bfbfbf;
+        stroke-linejoin: round;
+        stroke-width: 3px;
+      }
+
+      .cls-2 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <title>jointType</title>
+  <g>
+    <path id="joint" class="cls-1" d="M33.94,25V225"/>
+    <path id="joint-2" class="cls-1" d="M213.93,25V225"/>
+    <path class="cls-2" d="M33.94,53.34h4.25V50.86a1.42,1.42,0,0,1,1.73-1.38l20,4.5a8.5,8.5,0,0,1,6.64,8.3V78.43a8.5,8.5,0,0,1-6.64,8.3l-20,4.5a1.42,1.42,0,0,1-1.73-1.38V87.36H33.94"/>
+    <path class="cls-2" d="M33.94,162.64h4.25v-2.48a1.42,1.42,0,0,1,1.73-1.38l20,4.5a8.5,8.5,0,0,1,6.64,8.3v16.16A8.5,8.5,0,0,1,59.9,196l-20,4.5a1.42,1.42,0,0,1-1.73-1.38v-2.48H33.94"/>
+    <path class="cls-2" d="M33.94,87.36v75.29"/>
+    <path class="cls-2" d="M33.94,25V53.34"/>
+    <path class="cls-2" d="M33.94,225V196.66"/>
+    <path class="cls-2" d="M216.06,55.47a2.13,2.13,0,0,0-4.25,0V85.23a2.13,2.13,0,0,0,4.25,0V55.47"/>
+    <path class="cls-2" d="M216.06,164.77a2.13,2.13,0,0,0-4.25,0v29.76a2.13,2.13,0,1,0,4.25,0V164.77"/>
+    <path class="cls-2" d="M213.93,25l-14,8a28.35,28.35,0,0,0-14.31,24.63V192.38A28.35,28.35,0,0,0,199.9,217l14,8"/>
+  </g>
+</svg>

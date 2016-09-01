@@ -1,0 +1,32 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      .cls-1 {
+        stroke: #bfbfbf;
+        stroke-linejoin: round;
+        stroke-width: 3px;
+      }
+
+      .cls-2 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <title>jointType</title>
+  <g>
+    <path id="joint" class="cls-1" d="M35,25V225"/>
+    <path id="joint-2" class="cls-1" d="M215,25V225"/>
+    <g id="_0_joint" data-name=" 0 joint">
+      <path class="cls-2" d="M35,25H49.18V65H35v40H49.18v40H35v40H49.18v40H35"/>
+    </g>
+    <g id="_1_joint" data-name=" 1 joint">
+      <path class="cls-2" d="M215,25h0V65H200.82v40H215v40H200.82v40H215v40h0"/>
+    </g>
+  </g>
+</svg>

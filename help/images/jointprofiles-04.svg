@@ -1,0 +1,89 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="700" height="600" viewBox="0 0 700 600">
+  <defs>
+    <style>
+      .cls-1, .cls-5 {
+        font-size: 12px;
+        font-family: Roboto;
+      }
+
+      .cls-2, .cls-5 {
+        opacity: 0.5;
+      }
+
+      .cls-3, .cls-4, .cls-6 {
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      .cls-3 {
+        stroke: red;
+        stroke-linejoin: round;
+      }
+
+      .cls-4 {
+        stroke: #000;
+      }
+
+      .cls-4, .cls-6 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-5 {
+        fill: red;
+      }
+
+      .cls-6 {
+        stroke: blue;
+        stroke-width: 0.5px;
+      }
+
+      .cls-7 {
+        fill: blue;
+      }
+    </style>
+  </defs>
+  <title>jointprofiles</title>
+  <text class="cls-1" transform="translate(212.63 284.35)">H<tspan x="9.05" y="0">E</tspan><tspan x="16.61" y="0">M </tspan><tspan x="31.31" y="0">O</tspan><tspan x="40.07" y="0">F</tspan><tspan x="47.64" y="0">F</tspan><tspan x="55.18" y="0">S</tspan><tspan x="63.25" y="0">E</tspan><tspan x="71.17" y="0">T</tspan></text>
+  <text class="cls-1" transform="translate(517.94 273.83)">HO<tspan x="17.84" y="0">L</tspan><tspan x="24.97" y="0">E </tspan><tspan x="36.11" y="0">S</tspan><tspan x="44.19" y="0">P</tspan><tspan x="51.92" y="0">A</tspan><tspan x="60.09" y="0">C</tspan><tspan x="68.26" y="0">I</tspan><tspan x="72.19" y="0">N</tspan><tspan x="81.27" y="0">G</tspan></text>
+  <g class="cls-2">
+    <path id="joint" class="cls-3" d="M150,100s40,77.5,40,200-40,200-40,200"/>
+    <path id="joint-2" class="cls-3" d="M550,100s-40,77.5-40,200,40,200,40,200"/>
+    <path class="cls-4" d="M550,100l-40.3-20.8c-8.6,21.22-17.18,42.42-23.58,63.36A449,449,0,0,0,472.24,205a626.9,626.9,0,0,0-6.76,63.24,607.82,607.82,0,0,0,0,63.46A530.94,530.94,0,0,0,472.24,395c3.6,21,8.74,41.72,13.88,62.48s14.36,42,23.58,63.36L550,500"/>
+    <path class="cls-4" d="M535.9,127.07a2.84,2.84,0,1,1,0,.08S535.9,127.1,535.9,127.07Z"/>
+    <path class="cls-4" d="M519.7,183.47a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,519.7,183.47Z"/>
+    <path class="cls-4" d="M510.26,241.39a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,510.26,241.39Z"/>
+    <path class="cls-4" d="M507.16,300a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,507.16,300Z"/>
+    <path class="cls-4" d="M510.26,358.59a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,510.26,358.59Z"/>
+    <path class="cls-4" d="M519.7,416.51a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,519.7,416.51Z"/>
+    <path class="cls-4" d="M535.9,472.91a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,535.9,472.91Z"/>
+    <path class="cls-4" d="M150,100l40.3-20.8c8.6,21.22,17.18,42.42,23.58,63.36A449,449,0,0,1,227.76,205a626.89,626.89,0,0,1,6.76,63.24,607.82,607.82,0,0,1,0,63.46A530.94,530.94,0,0,1,227.76,395c-3.6,21-8.74,41.72-13.88,62.48s-14.36,42-23.58,63.36L150,500"/>
+    <path class="cls-4" d="M158.44,127.07a2.84,2.84,0,1,1,0,.06v-0.06Z"/>
+    <path class="cls-4" d="M174.64,183.47a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,174.64,183.47Z"/>
+    <path class="cls-4" d="M184,241.39a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,184,241.39Z"/>
+    <path class="cls-4" d="M187.16,300a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,187.16,300Z"/>
+    <path class="cls-4" d="M184,358.59a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,184,358.59Z"/>
+    <path class="cls-4" d="M174.64,416.51a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,174.64,416.51Z"/>
+    <path class="cls-4" d="M158.44,472.91a2.84,2.84,0,1,1,2.84,2.84h0A2.84,2.84,0,0,1,158.44,472.91Z"/>
+  </g>
+  <text class="cls-5" transform="translate(92.17 520.81)">O<tspan x="8.75" y="0">R</tspan><tspan x="17.17" y="0">I</tspan><tspan x="21.16" y="0">G</tspan><tspan x="29.73" y="0">I</tspan><tspan x="33.67" y="0">N</tspan><tspan x="42.89" y="0">A</tspan><tspan x="51.34" y="0">L</tspan><tspan x="26.19" y="14.4">E</tspan><tspan x="33.76" y="14.4">D</tspan><tspan x="42.27" y="14.4">G</tspan><tspan x="50.88" y="14.4">E</tspan></text>
+  <text class="cls-5" transform="translate(550 520.81)">O<tspan x="8.75" y="0">R</tspan><tspan x="17.17" y="0">I</tspan><tspan x="21.16" y="0">G</tspan><tspan x="29.73" y="0">I</tspan><tspan x="33.67" y="0">N</tspan><tspan x="42.89" y="0">A</tspan><tspan x="51.34" y="0">L</tspan><tspan x="0" y="14.4">E</tspan><tspan x="7.57" y="14.4">D</tspan><tspan x="16.08" y="14.4">G</tspan><tspan x="24.69" y="14.4">E</tspan></text>
+  <g>
+    <line class="cls-6" x1="234.22" y1="299.99" x2="191.04" y2="299.99"/>
+    <polygon class="cls-7" points="230.91 295.9 230.23 296.63 233.84 299.99 230.23 303.35 230.91 304.08 235.31 299.99 230.91 295.9"/>
+    <polygon class="cls-7" points="194.35 295.9 195.03 296.63 191.42 299.99 195.03 303.35 194.35 304.08 189.95 299.99 194.35 295.9"/>
+  </g>
+  <g>
+    <line class="cls-6" x1="510.06" y1="298.91" x2="513.04" y2="242.47"/>
+    <polygon class="cls-7" points="514.32 295.81 513.62 295.09 510.08 298.52 506.92 294.74 506.15 295.38 510 299.99 514.32 295.81"/>
+    <polygon class="cls-7" points="516.95 246 516.18 246.64 513.02 242.86 509.48 246.29 508.78 245.57 513.1 241.39 516.95 246"/>
+  </g>
+  <text class="cls-1" transform="translate(211.1 246.39)">HO<tspan x="17.84" y="0">L</tspan><tspan x="24.97" y="0">E </tspan><tspan x="36.11" y="0">D</tspan><tspan x="44.55" y="0">I</tspan><tspan x="48.66" y="0">A</tspan><tspan x="57.11" y="0">M</tspan><tspan x="68.14" y="0">E</tspan><tspan x="76.05" y="0">T</tspan><tspan x="83.65" y="0">E</tspan><tspan x="91.22" y="0">R</tspan></text>
+  <g>
+    <line class="cls-6" x1="165.63" y1="241.39" x2="182.92" y2="241.39"/>
+    <polygon class="cls-7" points="179.61 245.48 178.92 244.75 182.54 241.39 178.92 238.03 179.61 237.3 184 241.39 179.61 245.48"/>
+  </g>
+  <g>
+    <line class="cls-6" x1="208.06" y1="241.39" x2="190.76" y2="241.39"/>
+    <polygon class="cls-7" points="194.08 237.3 194.76 238.03 191.15 241.39 194.76 244.75 194.08 245.48 189.68 241.39 194.08 237.3"/>
+  </g>
+</svg>

@@ -1,0 +1,111 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="700" height="600" viewBox="0 0 700 600">
+  <defs>
+    <style>
+      .cls-1, .cls-4 {
+        opacity: 0.5;
+      }
+
+      .cls-2, .cls-3, .cls-6 {
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      .cls-2 {
+        stroke: red;
+        stroke-linejoin: round;
+      }
+
+      .cls-3 {
+        stroke: #000;
+      }
+
+      .cls-3, .cls-6 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4, .cls-5 {
+        font-size: 12px;
+        font-family: Roboto;
+      }
+
+      .cls-4 {
+        fill: red;
+      }
+
+      .cls-6 {
+        stroke: blue;
+        stroke-width: 0.5px;
+      }
+
+      .cls-7 {
+        fill: blue;
+      }
+
+      .cls-8 {
+        letter-spacing: 1px;
+      }
+    </style>
+  </defs>
+  <title>jointprofiles</title>
+  <g class="cls-1">
+    <path id="joint" class="cls-2" d="M157.87,100V500"/>
+    <path id="joint-2" class="cls-2" d="M517.85,100V500"/>
+    <path class="cls-3" d="M157.87,156.68h8.5v-5a2.84,2.84,0,0,1,3.46-2.76l40,9a17,17,0,0,1,13.28,16.6v32.3a17,17,0,0,1-13.28,16.6l-40,9a2.84,2.84,0,0,1-3.46-2.76v-5h-8.5"/>
+    <path class="cls-3" d="M157.87,375.28h8.5v-5a2.84,2.84,0,0,1,3.46-2.76l40,9a17,17,0,0,1,13.28,16.6v32.32A17,17,0,0,1,209.8,442l-40,9a2.84,2.84,0,0,1-3.46-2.76v-5h-8.46"/>
+    <path class="cls-3" d="M157.87,224.72V375.3"/>
+    <path class="cls-3" d="M157.87,100v56.68"/>
+    <path class="cls-3" d="M157.87,500V443.32"/>
+    <path class="cls-3" d="M522.12,160.94a4.26,4.26,0,0,0-8.5,0v59.52a4.26,4.26,0,0,0,8.5,0V160.94"/>
+    <path class="cls-3" d="M522.12,379.54a4.26,4.26,0,0,0-8.5,0v59.52a4.26,4.26,0,1,0,8.5,0V379.54"/>
+    <path class="cls-3" d="M517.85,100l-28,16a56.7,56.7,0,0,0-28.62,49.26v269.5A56.7,56.7,0,0,0,489.79,484l28,16"/>
+  </g>
+  <text class="cls-4" transform="translate(101.48 515.59)">O<tspan x="8.75" y="0">R</tspan><tspan x="17.17" y="0">I</tspan><tspan x="21.16" y="0">G</tspan><tspan x="29.73" y="0">I</tspan><tspan x="33.67" y="0">N</tspan><tspan x="42.89" y="0">A</tspan><tspan x="51.34" y="0">L</tspan><tspan x="26.19" y="14.4">E</tspan><tspan x="33.76" y="14.4">D</tspan><tspan x="42.27" y="14.4">G</tspan><tspan x="50.88" y="14.4">E</tspan></text>
+  <text class="cls-4" transform="translate(520 515.59)">O<tspan x="8.75" y="0">R</tspan><tspan x="17.17" y="0">I</tspan><tspan x="21.16" y="0">G</tspan><tspan x="29.73" y="0">I</tspan><tspan x="33.67" y="0">N</tspan><tspan x="42.89" y="0">A</tspan><tspan x="51.34" y="0">L</tspan><tspan x="0" y="14.4">E</tspan><tspan x="7.57" y="14.4">D</tspan><tspan x="16.08" y="14.4">G</tspan><tspan x="24.69" y="14.4">E</tspan></text>
+  <text class="cls-5" transform="translate(228.63 190.7)">I<tspan x="3.93" y="0">N</tspan><tspan x="12.93" y="0">S</tspan><tspan x="21.01" y="0">E</tspan><tspan x="28.57" y="0">R</tspan><tspan x="37.08" y="0">T </tspan><tspan x="48.21" y="0">H</tspan><tspan x="57.26" y="0">E</tspan><tspan x="64.78" y="0">I</tspan><tspan x="68.77" y="0">G</tspan><tspan x="77.38" y="0">H</tspan><tspan x="86.56" y="0">T</tspan></text>
+  <text class="cls-5" transform="translate(66.8 413.7)">I<tspan x="3.93" y="0">N</tspan><tspan x="12.93" y="0">S</tspan><tspan x="21.01" y="0">E</tspan><tspan x="28.57" y="0">R</tspan><tspan x="37.08" y="0">T </tspan><tspan x="48.21" y="0">W</tspan><tspan x="59.39" y="0">ID</tspan><tspan x="71.69" y="0">T</tspan><tspan x="79.29" y="0">H</tspan></text>
+  <g>
+    <line class="cls-6" x1="222.03" y1="190.71" x2="160.08" y2="190.71"/>
+    <polygon class="cls-7" points="218.72 186.62 218.03 187.35 221.65 190.71 218.03 194.07 218.72 194.8 223.12 190.71 218.72 186.62"/>
+    <polygon class="cls-7" points="163.39 186.62 164.08 187.35 160.47 190.71 164.08 194.07 163.39 194.8 159 190.71 163.39 186.62"/>
+  </g>
+  <text class="cls-5" transform="translate(372.01 304.21)">F<tspan class="cls-8" x="7.57" y="0">L</tspan><tspan x="15.12" y="0">A</tspan><tspan x="23.57" y="0">P </tspan><tspan x="35.51" y="0">H</tspan><tspan x="44.55" y="0">E</tspan><tspan x="52.08" y="0">I</tspan><tspan x="56.06" y="0">G</tspan><tspan x="64.67" y="0">H</tspan><tspan x="73.85" y="0">T</tspan></text>
+  <text class="cls-5" transform="translate(536.88 304.21)">J<tspan x="7.28" y="0">O</tspan><tspan x="16" y="0">I</tspan><tspan x="19.94" y="0">N</tspan><tspan x="29.11" y="0">T </tspan><tspan x="40.24" y="0">S</tspan><tspan x="48.32" y="0">P</tspan><tspan x="56.06" y="0">A</tspan><tspan x="64.23" y="0">C</tspan><tspan x="72.4" y="0">I</tspan><tspan x="76.33" y="0">N</tspan><tspan x="85.4" y="0">G</tspan></text>
+  <g>
+    <line class="cls-6" x1="516.78" y1="304.21" x2="461.97" y2="304.21"/>
+    <polygon class="cls-7" points="513.47 300.12 512.78 300.85 516.4 304.21 512.78 307.57 513.47 308.3 517.87 304.21 513.47 300.12"/>
+    <polygon class="cls-7" points="465.29 300.12 465.97 300.85 462.36 304.21 465.97 307.57 465.29 308.3 460.89 304.21 465.29 300.12"/>
+  </g>
+  <g>
+    <line class="cls-6" x1="530.94" y1="376.25" x2="530.94" y2="225.8"/>
+    <polygon class="cls-7" points="535.03 372.94 534.3 372.25 530.94 375.87 527.59 372.25 526.85 372.94 530.94 377.33 535.03 372.94"/>
+    <polygon class="cls-7" points="535.03 229.12 534.3 229.8 530.94 226.19 527.59 229.8 526.85 229.12 530.94 224.72 535.03 229.12"/>
+  </g>
+  <g>
+    <line class="cls-6" x1="166.37" y1="376.38" x2="166.34" y2="442.2"/>
+    <polygon class="cls-7" points="162.28 379.7 163.01 380.38 166.37 376.77 169.73 380.38 170.46 379.7 166.37 375.3 162.28 379.7"/>
+    <polygon class="cls-7" points="162.25 438.88 162.98 438.2 166.34 441.81 169.69 438.2 170.43 438.88 166.33 443.28 162.25 438.88"/>
+  </g>
+  <text class="cls-5" transform="translate(187.47 235.03)">M<tspan x="11.21" y="0">A</tspan><tspan x="18.74" y="0">T</tspan><tspan x="26.34" y="0">E</tspan><tspan x="33.91" y="0">R</tspan><tspan x="42.33" y="0">I</tspan><tspan x="46.44" y="0">A</tspan><tspan x="54.89" y="0">L </tspan><tspan x="65.58" y="0">T</tspan><tspan x="73.17" y="0">H</tspan><tspan x="82.18" y="0">I</tspan><tspan x="86.16" y="0">C</tspan><tspan x="94.35" y="0">K</tspan><tspan x="102.85" y="0">N</tspan><tspan x="111.9" y="0">ES</tspan><tspan x="127.7" y="0">S F</tspan></text>
+  <text class="cls-5" transform="translate(169.47 346.03)">G<tspan x="8.61" y="0">RI</tspan><tspan x="20.96" y="0">P</tspan></text>
+  <g>
+    <line class="cls-6" x1="140" y1="230.03" x2="157.29" y2="230.03"/>
+    <polygon class="cls-7" points="153.98 234.12 153.29 233.39 156.91 230.03 153.29 226.67 153.98 225.94 158.38 230.03 153.98 234.12"/>
+  </g>
+  <g>
+    <line class="cls-6" x1="184.43" y1="230.03" x2="167.14" y2="230.03"/>
+    <polygon class="cls-7" points="170.45 225.94 171.13 226.67 167.52 230.03 171.13 233.38 170.45 234.12 166.05 230.03 170.45 225.94"/>
+  </g>
+  <g>
+    <line class="cls-6" x1="166.36" y1="349.66" x2="166.36" y2="366.95"/>
+    <polygon class="cls-7" points="162.26 363.64 163 362.96 166.35 366.57 169.71 362.96 170.44 363.64 166.35 368.04 162.26 363.64"/>
+  </g>
+  <text class="cls-5" transform="translate(341.73 211.03)">M<tspan x="11.21" y="0">A</tspan><tspan x="18.74" y="0">T</tspan><tspan x="26.34" y="0">E</tspan><tspan x="33.91" y="0">R</tspan><tspan x="42.33" y="0">I</tspan><tspan x="46.44" y="0">A</tspan><tspan x="54.89" y="0">L </tspan><tspan x="65.58" y="0">T</tspan><tspan x="73.17" y="0">H</tspan><tspan x="82.18" y="0">I</tspan><tspan x="86.16" y="0">C</tspan><tspan x="94.35" y="0">K</tspan><tspan x="102.85" y="0">N</tspan><tspan x="111.9" y="0">ES</tspan><tspan x="127.7" y="0">S M</tspan></text>
+  <g>
+    <line class="cls-6" x1="495.7" y1="206.03" x2="513" y2="206.03"/>
+    <polygon class="cls-7" points="509.68 210.12 509 209.39 512.61 206.03 509 202.67 509.68 201.94 514.08 206.03 509.68 210.12"/>
+  </g>
+  <g>
+    <line class="cls-6" x1="540.13" y1="206.03" x2="522.84" y2="206.03"/>
+    <polygon class="cls-7" points="526.15 201.94 526.84 202.67 523.22 206.03 526.84 209.38 526.15 210.12 521.76 206.03 526.15 201.94"/>
+  </g>
+</svg>

@@ -1,0 +1,72 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="700" height="600" viewBox="0 0 700 600">
+  <defs>
+    <style>
+      .cls-1, .cls-7 {
+        font-size: 12px;
+        font-family: Roboto;
+      }
+
+      .cls-2, .cls-5, .cls-6 {
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      .cls-2 {
+        stroke: blue;
+        stroke-width: 0.5px;
+      }
+
+      .cls-2, .cls-6 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        fill: blue;
+      }
+
+      .cls-4, .cls-7 {
+        opacity: 0.5;
+      }
+
+      .cls-5 {
+        stroke: red;
+        stroke-linejoin: round;
+      }
+
+      .cls-6 {
+        stroke: #000;
+      }
+
+      .cls-7 {
+        fill: red;
+      }
+    </style>
+  </defs>
+  <title>jointprofiles</title>
+  <text class="cls-1" transform="translate(408.04 295.63)">H<tspan x="9.05" y="0">E</tspan><tspan x="16.57" y="0">I</tspan><tspan x="20.56" y="0">G</tspan><tspan x="29.17" y="0">H</tspan><tspan x="38.34" y="0">T F</tspan></text>
+  <g>
+    <line class="cls-2" x1="528.92" y1="295.63" x2="474.11" y2="295.63"/>
+    <polygon class="cls-3" points="525.6 291.54 524.92 292.27 528.53 295.63 524.92 298.99 525.6 299.72 530 295.63 525.6 291.54"/>
+    <polygon class="cls-3" points="477.42 291.54 478.1 292.27 474.49 295.63 478.1 298.99 477.42 299.72 473.02 295.63 477.42 291.54"/>
+  </g>
+  <text class="cls-1" transform="translate(234.35 295.63)">H<tspan x="9.05" y="0">E</tspan><tspan x="16.57" y="0">I</tspan><tspan x="20.56" y="0">G</tspan><tspan x="29.17" y="0">H</tspan><tspan x="38.34" y="0">T M</tspan></text>
+  <g>
+    <line class="cls-2" x1="225.51" y1="295.63" x2="170.71" y2="295.63"/>
+    <polygon class="cls-3" points="222.2 291.54 221.52 292.27 225.13 295.63 221.52 298.99 222.2 299.72 226.6 295.63 222.2 291.54"/>
+    <polygon class="cls-3" points="174.02 291.54 174.7 292.27 171.09 295.63 174.7 298.99 174.02 299.72 169.62 295.63 174.02 291.54"/>
+  </g>
+  <g class="cls-4">
+    <path id="joint" class="cls-5" d="M170,100V500"/>
+    <path id="joint-2" class="cls-5" d="M530,100V500"/>
+    <path class="cls-5" d="M170,100V500"/>
+    <path class="cls-5" d="M530,100V500"/>
+    <path class="cls-5" d="M170,100V500"/>
+    <path class="cls-5" d="M530,100V500"/>
+    <path class="cls-5" d="M170,100V500"/>
+    <path class="cls-5" d="M530,100V500"/>
+    <path class="cls-6" d="M170,100l35.24,20a42.52,42.52,0,0,1,21.46,37V443a42.52,42.52,0,0,1-21.46,37L170,500"/>
+    <path class="cls-6" d="M530,100l-35.22,20a42.52,42.52,0,0,0-21.46,37V443a42.52,42.52,0,0,0,21.46,37L530,500"/>
+  </g>
+  <text class="cls-7" transform="translate(111.82 515.59)">O<tspan x="8.75" y="0">R</tspan><tspan x="17.17" y="0">I</tspan><tspan x="21.16" y="0">G</tspan><tspan x="29.73" y="0">I</tspan><tspan x="33.67" y="0">N</tspan><tspan x="42.89" y="0">A</tspan><tspan x="51.34" y="0">L</tspan><tspan x="26.19" y="14.4">E</tspan><tspan x="33.76" y="14.4">D</tspan><tspan x="42.27" y="14.4">G</tspan><tspan x="50.88" y="14.4">E</tspan></text>
+  <text class="cls-7" transform="translate(530.34 515.59)">O<tspan x="8.75" y="0">R</tspan><tspan x="17.17" y="0">I</tspan><tspan x="21.16" y="0">G</tspan><tspan x="29.73" y="0">I</tspan><tspan x="33.67" y="0">N</tspan><tspan x="42.89" y="0">A</tspan><tspan x="51.34" y="0">L</tspan><tspan x="0" y="14.4">E</tspan><tspan x="7.57" y="14.4">D</tspan><tspan x="16.08" y="14.4">G</tspan><tspan x="24.69" y="14.4">E</tspan></text>
+</svg>

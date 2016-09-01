@@ -1,0 +1,76 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="700" height="600" viewBox="0 0 700 600">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        opacity: 0.5;
+      }
+
+      .cls-1, .cls-7 {
+        font-size: 12px;
+        font-family: Roboto;
+      }
+
+      .cls-1 {
+        fill: red;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      .cls-3 {
+        stroke: red;
+        stroke-linejoin: round;
+      }
+
+      .cls-4 {
+        stroke: #000;
+      }
+
+      .cls-4, .cls-5 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-5 {
+        stroke: blue;
+        stroke-width: 0.5px;
+      }
+
+      .cls-6 {
+        fill: blue;
+      }
+    </style>
+  </defs>
+  <title>jointprofiles</title>
+  <text class="cls-1" transform="translate(111.48 515.59)">O<tspan x="8.75" y="0">R</tspan><tspan x="17.17" y="0">I</tspan><tspan x="21.16" y="0">G</tspan><tspan x="29.73" y="0">I</tspan><tspan x="33.67" y="0">N</tspan><tspan x="42.89" y="0">A</tspan><tspan x="51.34" y="0">L</tspan><tspan x="26.19" y="14.4">E</tspan><tspan x="33.76" y="14.4">D</tspan><tspan x="42.27" y="14.4">G</tspan><tspan x="50.88" y="14.4">E</tspan></text>
+  <text class="cls-1" transform="translate(530 515.59)">O<tspan x="8.75" y="0">R</tspan><tspan x="17.17" y="0">I</tspan><tspan x="21.16" y="0">G</tspan><tspan x="29.73" y="0">I</tspan><tspan x="33.67" y="0">N</tspan><tspan x="42.89" y="0">A</tspan><tspan x="51.34" y="0">L</tspan><tspan x="0" y="14.4">E</tspan><tspan x="7.57" y="14.4">D</tspan><tspan x="16.08" y="14.4">G</tspan><tspan x="24.69" y="14.4">E</tspan></text>
+  <g class="cls-2">
+    <path id="joint" class="cls-3" d="M170,100V500"/>
+    <path id="joint-2" class="cls-3" d="M530,100V500"/>
+    <g id="_0_joint" data-name=" 0 joint">
+      <path class="cls-4" d="M170,100h28.36v80H170v80h28.36v80H170v80h28.36v80H170"/>
+    </g>
+    <g id="_1_joint" data-name=" 1 joint">
+      <path class="cls-4" d="M530,100h0v80H501.64v80H530v80H501.64v80H530v80h0"/>
+    </g>
+  </g>
+  <g>
+    <line class="cls-5" x1="184.18" y1="100.28" x2="184.18" y2="178.92"/>
+    <polygon class="cls-6" points="180.09 103.59 180.82 104.28 184.18 100.66 187.54 104.28 188.27 103.59 184.18 99.19 180.09 103.59"/>
+    <polygon class="cls-6" points="180.09 175.6 180.82 174.92 184.18 178.53 187.54 174.92 188.27 175.6 184.18 180 180.09 175.6"/>
+  </g>
+  <g>
+    <line class="cls-5" x1="171.78" y1="189.16" x2="197.28" y2="189.16"/>
+    <polygon class="cls-6" points="175.1 193.25 175.78 192.52 172.17 189.16 175.78 185.8 175.1 185.07 170.7 189.16 175.1 193.25"/>
+    <polygon class="cls-6" points="193.96 193.25 193.28 192.52 196.89 189.16 193.28 185.8 193.96 185.07 198.36 189.16 193.96 193.25"/>
+  </g>
+  <text class="cls-7" transform="translate(86.27 143.12)">F<tspan x="7.53" y="0">I</tspan><tspan x="11.46" y="0">N</tspan><tspan x="20.53" y="0">G</tspan><tspan x="29.14" y="0">E</tspan><tspan x="36.71" y="0">R </tspan><tspan x="48.85" y="0">W</tspan><tspan x="60.02" y="0">ID</tspan><tspan x="72.32" y="0">T</tspan><tspan x="79.92" y="0">H</tspan></text>
+  <text class="cls-7" transform="translate(204.39 189.16)">M<tspan x="11.21" y="0">A</tspan><tspan x="18.74" y="0">T</tspan><tspan x="26.34" y="0">E</tspan><tspan x="33.91" y="0">R</tspan><tspan x="42.33" y="0">I</tspan><tspan x="46.44" y="0">A</tspan><tspan x="54.89" y="0">L </tspan><tspan x="65.58" y="0">T</tspan><tspan x="73.17" y="0">H</tspan><tspan x="82.18" y="0">I</tspan><tspan x="86.16" y="0">C</tspan><tspan x="94.35" y="0">K</tspan><tspan x="102.85" y="0">N</tspan><tspan x="111.9" y="0">ES</tspan><tspan x="127.7" y="0">S F</tspan></text>
+  <g>
+    <line class="cls-5" x1="502.72" y1="270.83" x2="528.22" y2="270.83"/>
+    <polygon class="cls-6" points="506.04 274.92 506.72 274.18 503.11 270.83 506.72 267.47 506.04 266.74 501.64 270.83 506.04 274.92"/>
+    <polygon class="cls-6" points="524.9 274.92 524.22 274.18 527.83 270.83 524.22 267.47 524.9 266.74 529.3 270.83 524.9 274.92"/>
+  </g>
+  <text class="cls-7" transform="translate(339.88 270.83)">M<tspan x="11.21" y="0">A</tspan><tspan x="18.74" y="0">T</tspan><tspan x="26.34" y="0">E</tspan><tspan x="33.91" y="0">R</tspan><tspan x="42.33" y="0">I</tspan><tspan x="46.44" y="0">A</tspan><tspan x="54.89" y="0">L </tspan><tspan x="65.58" y="0">T</tspan><tspan x="73.17" y="0">H</tspan><tspan x="82.18" y="0">I</tspan><tspan x="86.16" y="0">C</tspan><tspan x="94.35" y="0">K</tspan><tspan x="102.85" y="0">N</tspan><tspan x="111.9" y="0">ES</tspan><tspan x="127.7" y="0">S M</tspan></text>
+</svg>
