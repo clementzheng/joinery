@@ -259,6 +259,8 @@ function emptyAll() {
 	refreshShapeDisplay();
 }
 
+var pasteJointProfile = {"bool":false, "id":"", "index":-1};
+
 function createJointProfileMenu(i, ic, id) {
 	var html = '<div class="jointProfile" id="joint_'+ic+'">';
 	html = html+'<div class="title">'+jointProfileList[i].profile+'<b>delete</b></div>';
@@ -266,7 +268,11 @@ function createJointProfileMenu(i, ic, id) {
 	html = html+'<div class="jointNotes"><textarea>'+jointProfileList[i].notes+'</textarea>';
 	html = html+'</div>';
 	for (j in jointProfileList[i].param) {
-		html = html+'<li class="param"><label>'+j+'</label><input type="number" step="0.1" name="'+j+'"></li>';
+		if (docUnits=='mm') {
+			html = html+'<li class="param"><label>'+j+'</label><input type="number" step="0.1" name="'+j+'"></li>';
+		} else {
+			html = html+'<li class="param"><label>'+j+'</label><input type="number" step="0.0625" name="'+j+'"></li>';
+		}
 	}
 	html = html+'<li class="saveProfile" id="save-'+id+'"><label>save profile</label></li>';
 	html = html+'<li class="setVal" id="set-'+id+'"><label>set values</label></li>';
@@ -275,7 +281,28 @@ function createJointProfileMenu(i, ic, id) {
 	$('#jointProfileListDiv').append(html);
 	
 	$('#'+id+' .title').on('click', function() {
-		$('#'+id+' .paramList').toggleClass('active');
+		if (!shiftDown) {
+			$('#'+id+' .paramList').toggleClass('active');	
+		} else {
+			pasteJointProfile.bool = true;
+			var bool = false;
+			pasteJointProfile.id = id;
+			for (k in jointProfileList) {
+				var id1 = jointProfileList[k].profile;
+				var id1Array = id1.split(' ');
+				var id2Array = id.split('_');
+				if (id1Array[id1Array.length-1]==id2Array[id2Array.length-1]) {
+					pasteJointProfile.index = k;
+					bool = true;
+					break;
+				}
+			}
+			if (!bool) {
+				pasteJointProfile.bool = false;
+			} else {
+				$('#'+id+' .title').css("background", "#0AF");
+			}
+		}
 	});
 	
 	$('#'+id+' .title b').on('click', function() {	
@@ -426,7 +453,6 @@ function refreshJointList() {
 		$(this).find('.flipF').on('click', function() {
 			joints[id].dirF = joints[id].dirF*-1;
 			generateJoint(id);		
-			console.log(joints[id]);	
 		});
 		$(this).find('.revM').on('click', function() {
 			if (joints[id].m==0) {
@@ -457,7 +483,17 @@ function refreshJointList() {
 			generateJoint(id);			
 		});
 		$(this).find('.title').on('click', function() {
-			$(this).parent().find('.jointOptions').toggleClass('active');
+			if (!pasteJointProfile.bool) {
+				$(this).parent().find('.jointOptions').toggleClass('active');
+			} else {
+				joints[id].profile = jointProfileList[pasteJointProfile.index].profile;
+				$(this).parent().find('.jointOptions select > option').each(function () {
+					if ($(this).val()==joints[id].profile) {
+						$(this).prop('selected', true);
+					}
+				});
+				generateJoint(id);	
+			}
 		});
 		$(this).find('.title').find('b').on('click', function() {
 			removeJoint(shapeA, pathA);

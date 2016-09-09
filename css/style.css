@@ -185,7 +185,7 @@ body, html {
 	right: -330px;
 	top: 0;
 	width: 342px;
-	height: 45%;
+	height: 50%;
 	background: rgba(255, 255, 255, 0.9);
 	border-bottom: 1px solid #555;
 	-webkit-transition: all 300ms ease-in-out;
@@ -197,9 +197,9 @@ body, html {
 #rightMenu2 {
 	position: fixed;
 	right: -330px;
-	top: 45%;
+	top: 50%;
 	width: 342px;
-	height: 55%;
+	height: 50%;
 	background: rgba(255, 255, 255, 0.9);
 	border-top: 1px solid #555;
 	-webkit-transition: all 300ms ease-in-out;
@@ -414,7 +414,7 @@ body, html {
 
 .title:hover {
 	cursor: pointer;
-	background: #AAA;
+	background: #AAA !important;
 }
 
 .title b:hover {

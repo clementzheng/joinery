@@ -290,7 +290,7 @@ function highlightShapePath() {
 	var bool = false;
 	for (i in shape) {
 		for (j in shape[i].children) {
-			if (shape[i].children[j].className=='Path' && shape[i].children[j].name!='joint') {
+			if (shape[i].children[j].className=='Path') {
 				var pt = shape[i].children[j].getNearestLocation(cursorPt);
 				var d = pt.getDistance(cursorPt);
 				if (d < tolerance) {
@@ -327,7 +327,7 @@ function checkPathJoint(s, p) {
 	for (i in joints) {
 		for (j in joints[i]) {
 			if (joints[i][j].shape==s && joints[i][j].path==p) {
-				type = 'joint';
+				type = {'joint':true, 'index':i};
 			}
 		}
 	}
@@ -368,6 +368,15 @@ function shapePathClick() {
 					tempLines.removeChildren();
 				}	
 			}
+		} else if (checkPathJoint(pathSelected.shape, pathSelected.path).joint && pasteJointProfile.bool) {
+			var index = checkPathJoint(pathSelected.shape, pathSelected.path).index;
+			joints[index].profile = jointProfileList[pasteJointProfile.index].profile;
+			$('#joint '+index+'_'+joints[index][0].shape+'-'+joints[index][0].path+'_'+joints[index][1].shape+'-'+joints[index][1].path+' .jointOptions select > option').each(function () {
+				if ($(this).val()==joints[index].profile) {
+					$(this).prop('selected', true);
+				}
+			});
+			generateJoint(index);
 		} else {
 			jointMake = [];
 			tempLines.removeChildren();
