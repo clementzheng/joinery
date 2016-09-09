@@ -171,6 +171,18 @@ document.onkeyup = function(e) {
 		
 		if (key==17) {
 			ctrlDown = false;
+			if (pasteJointProfile.bool) {
+				pasteJointProfile.bool = false;
+				$('#'+pasteJointProfile.id+' .title').css("background", "#BBB");
+			}
+		}
+
+		if (key==16) {
+			shiftDown = false;
+			if (pasteJointProfile.bool) {
+				pasteJointProfile.bool = false;
+				$('#'+pasteJointProfile.id+' .title').css("background", "#BBB");
+			}
 		}
 	} else if (initialized) {
 		var key = e.keyCode ? e.keyCode : e.which;
@@ -185,6 +197,7 @@ document.onkeyup = function(e) {
 }
 
 var ctrlDown = false;
+var shiftDown = false;
 document.onkeydown = function(e) {
 	if (initialized) {
 		var key = e.keyCode ? e.keyCode : e.which;
@@ -200,6 +213,9 @@ document.onkeydown = function(e) {
 		}
 		if (key==17) {
 			ctrlDown = true;
+		}
+		if (key==16) {
+			shiftDown = true;
 		}
 	}
 }
