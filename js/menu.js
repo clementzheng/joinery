@@ -85,6 +85,8 @@ function initForms() {
 	$('#arrangeClick').on('click', arrangeClick);
 	$('#removeClick').on('click', removeClick);
 	$('#setClick').on('click', setClick);
+	$('#reverseClick').on('click', reverseClick);
+	$('#flipClick').on('click', flipClick);
 	$('#panClick').on('click', panClick);
 	
 	$( '#leftMenu' ).mouseenter(function() {
@@ -237,6 +239,28 @@ function setClick() {
 	displayJointLines();
 }
 
+function reverseClick() {
+	$('#leftMenu li.active').toggleClass('active');
+	$('#reverseClick').toggleClass('active');
+	mode = 'reverse';
+	rememberMode = '';
+	$('body').css('cursor', 'default');
+	emptyAll();
+	generateJointLines();
+	displayJointLines();
+}
+
+function flipClick() {
+	$('#leftMenu li.active').toggleClass('active');
+	$('#flipClick').toggleClass('active');
+	mode = 'flip';
+	rememberMode = '';
+	$('body').css('cursor', 'default');
+	emptyAll();
+	generateEdgeNormals();
+	displayFlipLines();
+}
+
 function panClick() {
 	$('#leftMenu li.active').toggleClass('active');
 	$('#panClick').toggleClass('active');
@@ -250,6 +274,7 @@ function emptyAll() {
 	cursorIcon.removeChildren();
 	jointLines.removeChildren();
 	tempLines.removeChildren();
+	flipLines.removeChildren();
 	highlight.removeChildren();
 	for (i in shape) {
 		shape[i].bounds.selected = false;
@@ -448,11 +473,19 @@ function refreshJointList() {
 		});
 		$(this).find('.flipM').on('click', function() {
 			joints[id].dirM = joints[id].dirM*-1;
-			generateJoint(id);			
+			generateJoint(id);
+			if (mode=='flip') {
+				generateEdgeNormals();
+				displayFlipLines();			
+			}
 		});
 		$(this).find('.flipF').on('click', function() {
 			joints[id].dirF = joints[id].dirF*-1;
-			generateJoint(id);		
+			generateJoint(id);
+			if (mode=='flip') {
+				generateEdgeNormals();
+				displayFlipLines();			
+			}	
 		});
 		$(this).find('.revM').on('click', function() {
 			if (joints[id].m==0) {
@@ -462,9 +495,13 @@ function refreshJointList() {
 				shape[shapeB].children[pathB].reverse();
 				joints[id].revB = joints[id].revB*-1;
 			}
-			if (mode=='set') {
+			if (mode=='set' || mode=='reverse') {
 				generateJointLines();
 				displayJointLines();
+			}
+			if (mode=='flip') {
+				generateEdgeNormals();
+				displayFlipLines();			
 			}
 			generateJoint(id);			
 		});
@@ -476,9 +513,13 @@ function refreshJointList() {
 				shape[shapeB].children[pathB].reverse();
 				joints[id].revB = joints[id].revB*-1;
 			}
-			if (mode=='set') {
+			if (mode=='set' || mode=='reverse') {
 				generateJointLines();
 				displayJointLines();
+			}
+			if (mode=='flip') {
+				generateEdgeNormals();
+				displayFlipLines();			
 			}
 			generateJoint(id);			
 		});

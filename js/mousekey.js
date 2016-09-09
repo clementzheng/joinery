@@ -38,12 +38,19 @@ document.onmousemove = function(e){
 			case 'set':
 				highlightShapePath();
 				break;
+			case 'reverse':
+				highlightShapePath();
+				break;
+			case 'flip':
+				highlightShapePath();
+				break;
 			case 'pan':
 				if (isMouseDown) {
 					var tV = cursorPt.subtract(pcursorPt);
 					cursorIcon.position = cursorIcon.position.add(tV);
 					jointLines.position = jointLines.position.add(tV);
 					tempLines.position = tempLines.position.add(tV);
+					flipLines.position = flipLines.position.add(tV);
 					for (i in shape) {
 						shape[i].position = shape[i].position.add(tV);
 					}
@@ -63,6 +70,12 @@ document.onclick = function(e) {
 				removeShape();
 				break;
 			case 'set':
+				shapePathClick();
+				break;
+			case 'reverse':
+				shapePathClick();
+				break;
+			case 'flip':
 				shapePathClick();
 				break;
 		}
@@ -141,6 +154,12 @@ document.onkeyup = function(e) {
 			}
 			if (key==80) {  // 'p'
 				panClick();
+			}
+			if (key==69) {  // 'e'
+				reverseClick();
+			}
+			if (key==70) {  // 'f'
+				flipClick();
 			}
 			// if (key==67) { // 'c'
 			// 	for (var i=0; i<joints.length; i++) {
