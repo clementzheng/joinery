@@ -135,6 +135,7 @@ var rememberMode = '';
 document.onkeyup = function(e) {
 	if (initialized && !$("input,textarea").is(":focus")) {		
 		var key = e.keyCode ? e.keyCode : e.which;
+		console.log(key);
 		if (key==32) { // space
 			if (mode=='pan' && rememberMode!='pan') {
 				mode = rememberMode;
@@ -147,7 +148,7 @@ document.onkeyup = function(e) {
 				arrangeClick();
 			}
 			if (key==82) {  // 'r'
-				removeClick();
+				reverseClick();
 			}
 			if (key==83) {  // 's'
 				setClick();
@@ -155,8 +156,8 @@ document.onkeyup = function(e) {
 			if (key==80) {  // 'p'
 				panClick();
 			}
-			if (key==69) {  // 'e'
-				reverseClick();
+			if (key==88) {  // 'x'
+				removeClick();
 			}
 			if (key==70) {  // 'f'
 				flipClick();
@@ -190,17 +191,11 @@ document.onkeyup = function(e) {
 		
 		if (key==17) {
 			ctrlDown = false;
-			if (pasteJointProfile.bool) {
-				pasteJointProfile.bool = false;
-				$('#'+pasteJointProfile.id+' .title').css("background", "#BBB");
-			}
 		}
 
 		if (key==16) {
 			shiftDown = false;
-			if (pasteJointProfile.bool) {
-				pasteJointProfile.bool = false;
-			}
+			pasteJointProfile.bool = false;
 			$('#'+pasteJointProfile.id+' .title').css("background", "#BBB");
 		}
 	} else if (initialized) {
