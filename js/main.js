@@ -179,9 +179,11 @@ function processProject(e) {
 		jointProfileCount = JSONfile.jointProfileCount;
 		var jointProfileCountTemp = jointProfileCount - JSONfile.jointProfileList.length;
 		for (var i=0; i<JSONfile.jointProfileList.length; i++) {
-			var id = 'joint_'+(jointProfileCountTemp);
+			var id1 = JSONfile.jointProfileList[i].profile;
+			var id1Array = id1.split(' ');
+			var id = 'joint_'+id1Array[id1Array.length-1];
 			jointProfileList.push(JSONfile.jointProfileList[i]);
-			createJointProfileMenu((jointProfileList.length-1), jointProfileCountTemp, id);
+			createJointProfileMenu((jointProfileList.length-1), id1Array[id1Array.length-1], id);
 			jointProfileCountTemp++;
 		}
 
@@ -213,7 +215,11 @@ function processProject(e) {
     if (mode=='set' || mode=='reverse') {
     	generateJointLines();
     	displayJointLines();
+    	generateEdgeNormals();
+    	displayFlipLines();
     } else if (mode=='flip') {
+    	generateJointLines();
+    	displayJointLines();
     	generateEdgeNormals();
     	displayFlipLines();
     }
@@ -365,6 +371,8 @@ function shapePathClick() {
 					generateJoint(joints.length-1);
 					generateJointLines();
 					displayJointLines();
+					generateEdgeNormals();
+					displayFlipLines();
 					jointMake = [];
 					tempLines.removeChildren();
 					setMessage('<b>Joint created</b>', '#5D0');
@@ -380,7 +388,7 @@ function shapePathClick() {
 			var edgeIndex = checkPathJoint(pathSelected.shape, pathSelected.path).edge;
 			if (pasteJointProfile.bool) {
 				joints[index].profile = jointProfileList[pasteJointProfile.index].profile;
-				$('#joint '+index+'_'+joints[index][0].shape+'-'+joints[index][0].path+'_'+joints[index][1].shape+'-'+joints[index][1].path+' .jointOptions select > option').each(function () {
+				$('#joint_'+index+'_'+joints[index][0].shape+'-'+joints[index][0].path+'_'+joints[index][1].shape+'-'+joints[index][1].path+' .jointOptions select > option').each(function () {
 					if ($(this).val()==joints[index].profile) {
 						$(this).prop('selected', true);
 					}
@@ -394,7 +402,9 @@ function shapePathClick() {
 					joints[index].revB = joints[index].revB*-1;
 				}
 				generateJointLines();
-				displayJointLines();	
+				displayJointLines();
+				generateEdgeNormals();
+				displayFlipLines();	
 				generateJoint(index);
 			} else if (mode=='flip') {
 				if (joints[index].m==edgeIndex) {
@@ -403,8 +413,10 @@ function shapePathClick() {
 					joints[index].dirF = joints[index].dirF * -1;
 				}
 				generateJoint(index);
+				generateJointLines();
+				displayJointLines();
 				generateEdgeNormals();
-				displayFlipLines();
+				displayFlipLines();	
 			}
 		} else {
 			jointMake = [];
@@ -448,9 +460,9 @@ function displayJointLines() {
 			jointLines.children[i].strokeWidth = 1.5;
 		}
 		if (jointLines.children[i].name=='connection') {
-			jointLines.children[i].strokeColor = '#222';
-			jointLines.children[i].strokeWidth = 0.3;
-			jointLines.children[i].dashArray = [2, 2];
+			jointLines.children[i].strokeColor = '#666';
+			jointLines.children[i].strokeWidth = 0.5;
+			jointLines.children[i].dashArray = [1, 1];
 		}
 	}
 }
@@ -479,11 +491,11 @@ function generateEdgeNormals() {
 function displayFlipLines() {
 	for (i in flipLines.children) {
 		if (flipLines.children[i].name=='edge') {
-			flipLines.children[i].strokeColor = '#F80';
-			flipLines.children[i].strokeWidth = 1.5;
+			flipLines.children[i].strokeColor = '#0F0';
+			flipLines.children[i].strokeWidth = 0;
 		}
 		if (flipLines.children[i].name=='normal') {
-			flipLines.children[i].strokeColor = '#F80';
+			flipLines.children[i].strokeColor = '#0F0';
 			flipLines.children[i].strokeWidth = 1;
 		}
 	}

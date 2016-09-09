@@ -237,6 +237,8 @@ function setClick() {
 	emptyAll();
 	generateJointLines();
 	displayJointLines();
+	generateEdgeNormals();
+	displayFlipLines();
 }
 
 function reverseClick() {
@@ -248,6 +250,8 @@ function reverseClick() {
 	emptyAll();
 	generateJointLines();
 	displayJointLines();
+	generateEdgeNormals();
+	displayFlipLines();
 }
 
 function flipClick() {
@@ -257,8 +261,10 @@ function flipClick() {
 	rememberMode = '';
 	$('body').css('cursor', 'default');
 	emptyAll();
+	generateJointLines();
+	displayJointLines();
 	generateEdgeNormals();
-	displayFlipLines();
+	displayFlipLines();	
 }
 
 function panClick() {
@@ -309,6 +315,8 @@ function createJointProfileMenu(i, ic, id) {
 		if (!shiftDown) {
 			$('#'+id+' .paramList').toggleClass('active');	
 		} else {
+			pasteJointProfile.bool = false;
+			$('.jointProfile .title').css("background", "#BBB");
 			pasteJointProfile.bool = true;
 			var bool = false;
 			pasteJointProfile.id = id;
@@ -498,8 +506,12 @@ function refreshJointList() {
 			if (mode=='set' || mode=='reverse') {
 				generateJointLines();
 				displayJointLines();
+				generateEdgeNormals();
+				displayFlipLines();	
 			}
 			if (mode=='flip') {
+				generateJointLines();
+				displayJointLines();
 				generateEdgeNormals();
 				displayFlipLines();			
 			}
@@ -516,10 +528,14 @@ function refreshJointList() {
 			if (mode=='set' || mode=='reverse') {
 				generateJointLines();
 				displayJointLines();
+				generateEdgeNormals();
+				displayFlipLines();
 			}
 			if (mode=='flip') {
+				generateJointLines();
+				displayJointLines();
 				generateEdgeNormals();
-				displayFlipLines();			
+				displayFlipLines();		
 			}
 			generateJoint(id);			
 		});
