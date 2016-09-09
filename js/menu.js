@@ -164,6 +164,7 @@ function initForms() {
 			var id = 'joint_'+idStr[idStr.length-1];
 			for (i in jointProfileList[j].param) {
 				$('#'+id+' input[name="'+i+'"]').val(jointProfileList[jointProfileList.length-1].param[i]);
+				$('#'+id+' input[name="'+i+'"]').attr("step", 0.1);
 			}
 		}
 		drawGrid();
@@ -179,6 +180,7 @@ function initForms() {
 			var id = 'joint_'+idStr[idStr.length-1];
 			for (i in jointProfileList[j].param) {
 				$('#'+id+' input[name="'+i+'"]').val(jointProfileList[jointProfileList.length-1].param[i]/inchToMM);
+				$('#'+id+' input[name="'+i+'"]').attr("step", 0.0625);
 			}
 		}
 		drawGrid();
@@ -264,7 +266,7 @@ function createJointProfileMenu(i, ic, id) {
 	html = html+'<div class="jointNotes"><textarea>'+jointProfileList[i].notes+'</textarea>';
 	html = html+'</div>';
 	for (j in jointProfileList[i].param) {
-		html = html+'<li class="param"><label>'+j+'</label><input type="number" name="'+j+'"></li>';
+		html = html+'<li class="param"><label>'+j+'</label><input type="number" step="0.1" name="'+j+'"></li>';
 	}
 	html = html+'<li class="saveProfile" id="save-'+id+'"><label>save profile</label></li>';
 	html = html+'<li class="setVal" id="set-'+id+'"><label>set values</label></li>';
@@ -299,30 +301,8 @@ function createJointProfileMenu(i, ic, id) {
 	
 	$('#'+id+' .setVal').on('click', function() {
 		var idString = $(this).attr('id');
-		var idVal = idString.split('_');
-		idVal = parseInt(id[id.length-1]);
-		for (j in jointProfileList) {
-			var str = jointProfileList[j].profile;
-			var strSplit = str.split(' ');
-			jointProfileList[j]['notes'] = $('#'+id+' .jointNotes textarea').val();
-			if (idVal==parseInt(strSplit[strSplit.length-1])) {
-				for (k in jointProfileList[j].param) {
-					var val = $('#'+id+' input[name="'+k+'"]').val();
-					if (!isNaN(val)) {
-						if (docUnits=='mm') {
-							jointProfileList[j].param[k] = parseFloat(val);
-						} else {
-							jointProfileList[j].param[k] = parseFloat(val)*inchToMM;
-						}
-					}
-				}
-				break;
-			}
-		}
-				
-		for (j in joints) {
-			generateJoint(j);
-		}
+		var idStringArray = idString.split('-');
+		setJointValue(idStringArray[1]);
 	});
 
 	$('#'+id+' .saveProfile').on('click', function() {
@@ -348,6 +328,33 @@ function createJointProfileMenu(i, ic, id) {
 		} else {
 			$('#'+id+' input[name="'+j+'"]').val(jointProfileList[i].param[j]/inchToMM);
 		}
+	}
+}
+
+function setJointValue(idString) {
+	var idVal = idString.split('_');
+	idVal = parseInt(idString[idString.length-1]);
+	for (j in jointProfileList) {
+		var str = jointProfileList[j].profile;
+		var strSplit = str.split(' ');
+		jointProfileList[j]['notes'] = $('#'+idString+' .jointNotes textarea').val();
+		if (idVal==parseInt(strSplit[strSplit.length-1])) {
+			for (k in jointProfileList[j].param) {
+				var val = $('#'+idString+' input[name="'+k+'"]').val();
+				if (!isNaN(val)) {
+					if (docUnits=='mm') {
+						jointProfileList[j].param[k] = parseFloat(val);
+					} else {
+						jointProfileList[j].param[k] = parseFloat(val)*inchToMM;
+					}
+				}
+			}
+			break;
+		}
+	}
+			
+	for (j in joints) {
+		generateJoint(j);
 	}
 }
 
