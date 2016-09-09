@@ -181,8 +181,8 @@ document.onkeyup = function(e) {
 			shiftDown = false;
 			if (pasteJointProfile.bool) {
 				pasteJointProfile.bool = false;
-				$('#'+pasteJointProfile.id+' .title').css("background", "#BBB");
 			}
+			$('#'+pasteJointProfile.id+' .title').css("background", "#BBB");
 		}
 	} else if (initialized) {
 		var key = e.keyCode ? e.keyCode : e.which;
