@@ -172,6 +172,15 @@ document.onkeyup = function(e) {
 		if (key==17) {
 			ctrlDown = false;
 		}
+	} else if (initialized) {
+		var key = e.keyCode ? e.keyCode : e.which;
+		if (key==13) {
+			for (j in jointProfileList) {
+				if ($("#joint_"+j+" input").is(":focus")) {
+					setJointValue("joint_"+j);
+				}
+			}
+		}
 	}
 }
 
