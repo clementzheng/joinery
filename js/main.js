@@ -375,7 +375,7 @@ function shapePathClick() {
 					displayFlipLines();
 					jointMake = [];
 					tempLines.removeChildren();
-					setMessage('<b>Joint created</b>', '#5D0');
+					setMessage('<b>Joint created</b>', '#444');
 					refreshJointList();
 				} else {
 					setMessage('<b>Cannot join</b>: paths have significantly different lengths', '#F80');
@@ -406,6 +406,7 @@ function shapePathClick() {
 				generateEdgeNormals();
 				displayFlipLines();	
 				generateJoint(index);
+				setMessage('<b>Path reversed</b>', '#444');
 			} else if (mode=='flip') {
 				if (joints[index].m==edgeIndex) {
 					joints[index].dirM = joints[index].dirM * -1;
@@ -417,6 +418,7 @@ function shapePathClick() {
 				displayJointLines();
 				generateEdgeNormals();
 				displayFlipLines();	
+				setMessage('<b>Joint flipped</b>', '#444');
 			} else if (mode=='swap') {
 				joints[index].m = (joints[index].m+1)%2;
 				joints[index].f = (joints[index].f+1)%2;
@@ -427,6 +429,7 @@ function shapePathClick() {
 				displayJointLines();
 				generateEdgeNormals();
 				displayFlipLines();	
+				setMessage('<b>Swapped male and female</b>', '#444');
 			}
 		} else {
 			jointMake = [];
@@ -435,6 +438,10 @@ function shapePathClick() {
 	} else {
 		jointMake = [];
 		tempLines.removeChildren();
+	}
+
+	if (!checkPathJoint(pathSelected.shape, pathSelected.path).joint && mode!='set' && pathSelected.shape!=-1 && pathSelected.path!=-1) {
+		setMessage('<b>Not a joint.</b> please set joints', '#F80');
 	}
 }
 
@@ -581,7 +588,7 @@ function setMessage(s, c) {
 	messageCounter++;
 	setTimeout(function(){
 		$('#'+id).fadeOut(500, function() { $(this).remove(); });
-	}, 4000);
+	}, 3500);
 }
 
 
