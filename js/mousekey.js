@@ -44,6 +44,9 @@ document.onmousemove = function(e){
 			case 'flip':
 				highlightShapePath();
 				break;
+			case 'swap':
+				highlightShapePath();
+				break;
 			case 'pan':
 				if (isMouseDown) {
 					var tV = cursorPt.subtract(pcursorPt);
@@ -76,6 +79,9 @@ document.onclick = function(e) {
 				shapePathClick();
 				break;
 			case 'flip':
+				shapePathClick();
+				break;
+			case 'swap':
 				shapePathClick();
 				break;
 		}
@@ -161,6 +167,9 @@ document.onkeyup = function(e) {
 			if (key==70) {  // 'f'
 				flipClick();
 			}
+			if (key==87) {  // 'w'
+				swapClick();
+			}
 			// if (key==67) { // 'c'
 			// 	for (var i=0; i<joints.length; i++) {
 			// 		for (j in joints[i]) {
@@ -194,8 +203,10 @@ document.onkeyup = function(e) {
 
 		if (key==16) {
 			shiftDown = false;
+			if (pasteJointProfile.bool) {
+				$('#'+pasteJointProfile.id+' .title').css("background", "#BBB");
+			}
 			pasteJointProfile.bool = false;
-			$('#'+pasteJointProfile.id+' .title').css("background", "#BBB");
 		}
 	} else if (initialized) {
 		var key = e.keyCode ? e.keyCode : e.which;

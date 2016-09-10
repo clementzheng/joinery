@@ -88,6 +88,7 @@ function initForms() {
 	$('#reverseClick').on('click', reverseClick);
 	$('#flipClick').on('click', flipClick);
 	$('#panClick').on('click', panClick);
+	$('#swapClick').on('click', swapClick);
 	
 	$( '#leftMenu' ).mouseenter(function() {
 		insideMenu = true;
@@ -267,6 +268,19 @@ function flipClick() {
 	displayFlipLines();	
 }
 
+function swapClick() {
+	$('#leftMenu li.active').toggleClass('active');
+	$('#swapClick').toggleClass('active');
+	mode = 'swap';
+	rememberMode = '';
+	$('body').css('cursor', 'default');
+	emptyAll();
+	generateJointLines();
+	displayJointLines();
+	generateEdgeNormals();
+	displayFlipLines();	
+}
+
 function panClick() {
 	$('#leftMenu li.active').toggleClass('active');
 	$('#panClick').toggleClass('active');
@@ -315,25 +329,27 @@ function createJointProfileMenu(i, ic, id) {
 		if (!shiftDown) {
 			$('#'+id+' .paramList').toggleClass('active');	
 		} else {
-			pasteJointProfile.bool = false;
-			$('.jointProfile .title').css("background", "#BBB");
-			pasteJointProfile.bool = true;
-			var bool = false;
-			pasteJointProfile.id = id;
-			for (k in jointProfileList) {
-				var id1 = jointProfileList[k].profile;
-				var id1Array = id1.split(' ');
-				var id2Array = id.split('_');
-				if (id1Array[id1Array.length-1]==id2Array[id2Array.length-1]) {
-					pasteJointProfile.index = k;
-					bool = true;
-					break;
-				}
-			}
-			if (!bool) {
+			if (mode=='set' || mode=='flip' || mode=='reverse' || mode=='swap') {
 				pasteJointProfile.bool = false;
-			} else {
-				$('#'+id+' .title').css("background", "#0AF");
+				$('.jointProfile .title').css("background", "#BBB");
+				pasteJointProfile.bool = true;
+				var bool = false;
+				pasteJointProfile.id = id;
+				for (k in jointProfileList) {
+					var id1 = jointProfileList[k].profile;
+					var id1Array = id1.split(' ');
+					var id2Array = id.split('_');
+					if (id1Array[id1Array.length-1]==id2Array[id2Array.length-1]) {
+						pasteJointProfile.index = k;
+						bool = true;
+						break;
+					}
+				}
+				if (!bool) {
+					pasteJointProfile.bool = false;
+				} else {
+					$('#'+id+' .title').css("background", "#0AF");
+				}
 			}
 		}
 	});

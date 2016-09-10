@@ -417,6 +417,16 @@ function shapePathClick() {
 				displayJointLines();
 				generateEdgeNormals();
 				displayFlipLines();	
+			} else if (mode=='swap') {
+				joints[index].m = (joints[index].m+1)%2;
+				joints[index].f = (joints[index].f+1)%2;
+				joints[index].dirM = joints[index].dirM*-1;
+				joints[index].dirF = joints[index].dirF*-1;
+				generateJoint(index);
+				generateJointLines();
+				displayJointLines();
+				generateEdgeNormals();
+				displayFlipLines();	
 			}
 		} else {
 			jointMake = [];
