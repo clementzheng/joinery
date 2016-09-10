@@ -25,9 +25,9 @@ body, html {
 #leftMenu {
 	position: absolute;
 	top: 12px;
-	left: -210px;
-	width: 230px;
-	height: 450px;
+	left: -200px;
+	width: 220px;
+	height: 495px;
 	-webkit-transition: all 300ms ease-in-out;
 	-moz-transition: all 300ms ease-in-out;
 	-o-transition: all 300ms ease-in-out;
@@ -41,9 +41,9 @@ body, html {
 #leftMenuFrame {
 	position: relative;
 	float: left;
-	width: 210px;
-	height: 450px;
-	padding: 20px 15px 15px 30px;
+	width: 200px;
+	height: 495px;
+	padding: 20px 15px 15px 25px;
 	box-sizing: border-box;
 	background: rgba(255, 255, 255, 0.9);
 }
@@ -87,7 +87,12 @@ body, html {
 	float: left;
 	clear: both;
 	width: 100%;
-	margin-top: 20px;
+	margin-top: 30px;
+}
+
+#actionMenu b {
+	font-family: "Roboto Mono", monospace;
+	letter-spacing: 0;
 }
 
 #actionMenu li {
