@@ -382,6 +382,24 @@ function createJointProfileMenu(i, ic, id) {
 		
 		refreshJointList();
 	});
+
+	$('#'+id+' .title').on('mouseenter', function() {
+		var idVal = id.split('_');
+		highlight.removeChildren();
+		for (j in joints) {
+			var id2 = joints[j].profile;
+			var id2Val = id2.split(' ');
+			if (id2Val[id2Val.length-1]==idVal[idVal.length-1]) {
+				highlight.addChild(shape[joints[j][0].shape].children[joints[j][0].path+'_joint'].clone());
+				highlight.addChild(shape[joints[j][1].shape].children[joints[j][1].path+'_joint'].clone());
+			}
+		}
+		highlight.strokeColor = '#0AF';
+		highlight.strokeWidth = 2;
+	});
+	$('#'+id+' .title').on('mouseleave', function() {
+		highlight.removeChildren();
+	});
 	
 	$('#'+id+' .setVal').on('click', function() {
 		var idString = $(this).attr('id');
@@ -593,7 +611,7 @@ function refreshJointList() {
 			highlight.addChild(shape[shapeA].children[pathA+'_joint'].clone());
 			highlight.addChild(shape[shapeB].children[pathB+'_joint'].clone());
 			highlight.strokeColor = '#0AF';
-			highlight.strokeWidth = 3;
+			highlight.strokeWidth = 2;
 		});
 		$(this).find('.title').on('mouseleave', function() {
 			highlight.removeChildren();
