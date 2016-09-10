@@ -1427,7 +1427,7 @@ function exportProject() {
 		var d = new Date();
 		saveAs(blob, 'joinery_'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'_'+d.getHours()+'.'+d.getMinutes()+'.'+d.getSeconds()+'.svg');
 		refreshShapeDisplay();
-		setMessage('<b>SVG Exported</b>', '#5D0');
+		setMessage('<b>SVG Exported</b>', '#444');
 	} else {
 		setMessage('<b>No drawings to export</b>', '#F80');
 	}

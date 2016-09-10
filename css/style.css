@@ -26,12 +26,13 @@ body, html {
 	position: absolute;
 	top: 12px;
 	left: -200px;
-	width: 220px;
-	height: 495px;
+	width: 212px;
+	height: 280px;
 	-webkit-transition: all 300ms ease-in-out;
 	-moz-transition: all 300ms ease-in-out;
 	-o-transition: all 300ms ease-in-out;
 	transition: all 300ms ease-in-out;
+	border-bottom: 1px solid #555;
 }
 
 #leftMenu.active {
@@ -42,13 +43,47 @@ body, html {
 	position: relative;
 	float: left;
 	width: 200px;
-	height: 495px;
+	height: 280px;
 	padding: 20px 15px 15px 25px;
 	box-sizing: border-box;
 	background: rgba(255, 255, 255, 0.9);
 }
 
 #leftMenuCollapse {
+	position: relative;
+	float: left;
+	width: 12px;
+	height: 100%;
+	border-left: 1px solid #777;
+}
+
+#leftMenu2 {
+	position: absolute;
+	top: 293px;
+	left: -200px;
+	width: 212px;
+	height: 300px;
+	-webkit-transition: all 300ms ease-in-out;
+	-moz-transition: all 300ms ease-in-out;
+	-o-transition: all 300ms ease-in-out;
+	transition: all 300ms ease-in-out;
+}
+
+#leftMenu2.active {
+	left: 0px;
+}
+
+#leftMenuFrame2 {
+	position: relative;
+	float: left;
+	width: 200px;
+	height: 300px;
+	padding: 30px 15px 15px 25px;
+	box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.9);
+}
+
+#leftMenuCollapse2 {
 	position: relative;
 	float: left;
 	width: 12px;
@@ -87,7 +122,16 @@ body, html {
 	float: left;
 	clear: both;
 	width: 100%;
-	margin-top: 30px;
+}
+
+#actionMenu p {
+	font-family: "Roboto Mono", monospace;
+	font-weight: 700;
+	font-size: 10px;
+	text-transform: uppercase;
+	margin: 0;
+	padding: 0;
+	letter-spacing: 0.5px;
 }
 
 #actionMenu b {
@@ -104,9 +148,9 @@ body, html {
 }
 
 #actionMenu li:hover {
-	color: #888;
+	color: #333;
 	cursor: pointer;
-	text-decoration: underline;
+	background: #DDD;
 }
 
 #actionMenu li:active {
@@ -179,10 +223,15 @@ body, html {
 	margin: auto;
 	margin-top: 40px;
 	text-align: center;
-	font-size: 14px;
-	line-height: 10px;
+	font-size: 13px;
+	line-height: 20px;
 	color: #F80;
 	pointer-events: none;
+}
+
+#topMessage p {
+	margin: 0;
+	padding: 0;
 }
 
 #rightMenu {
