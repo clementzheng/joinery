@@ -13,7 +13,7 @@ function initForms() {
 				SVGprocessed = false;
 				$(reader).on('load', processSVG);
 			} else {
-				setMessage('<b>Invalid SVG</b>', 'F80');
+				setMessage('<b>Invalid SVG</b>', '#F80');
 			}
 		} else {
 
@@ -31,7 +31,7 @@ function initForms() {
 				reader.readAsText(file);
 				$(reader).on('load', processProject);
 			} else {
-				setMessage('<b>Invalid Joinery file</b>', 'F80');
+				setMessage('<b>Invalid Joinery file</b>', '#F80');
 			}
 		} else {
 
@@ -48,7 +48,7 @@ function initForms() {
 				reader.readAsText(file);
 				$(reader).on('load', processJointProfile);
 			} else {
-				setMessage('<b>Invalid Joint Profile</b>', 'F80');
+				setMessage('<b>Invalid Joint Profile</b>', '#F80');
 			}
 		} else {
 			
@@ -61,6 +61,14 @@ function initForms() {
 			$('#leftMenuCollapse').html('\u2039');
 		} else {
 			$('#leftMenuCollapse').html('\u203a');
+		}
+	});
+	$('#leftMenuCollapse2').on('click', function() {
+		$('#leftMenu2').toggleClass('active');
+		if ($('#leftMenu2').hasClass('active')) {
+			$('#leftMenuCollapse2').html('\u2039');
+		} else {
+			$('#leftMenuCollapse2').html('\u203a');
 		}
 	});
 
@@ -201,7 +209,7 @@ function initForms() {
 }
 
 function arrangeClick() {
-	$('#leftMenu li.active').toggleClass('active');
+	$('#leftMenu2 li.active').toggleClass('active');
 	$('#arrangeClick').toggleClass('active');
 	mode = 'arrange';
 	rememberMode = '';
@@ -210,7 +218,7 @@ function arrangeClick() {
 }
 
 function removeClick() {
-	$('#leftMenu li.active').toggleClass('active');
+	$('#leftMenu2 li.active').toggleClass('active');
 	$('#removeClick').toggleClass('active');
 	mode = 'remove';
 	rememberMode = '';
@@ -230,7 +238,7 @@ function createRemoveIcon() {
 }
 
 function setClick() {
-	$('#leftMenu li.active').toggleClass('active');
+	$('#leftMenu2 li.active').toggleClass('active');
 	$('#setClick').toggleClass('active');
 	mode = 'set';
 	rememberMode = '';
@@ -243,7 +251,7 @@ function setClick() {
 }
 
 function reverseClick() {
-	$('#leftMenu li.active').toggleClass('active');
+	$('#leftMenu2 li.active').toggleClass('active');
 	$('#reverseClick').toggleClass('active');
 	mode = 'reverse';
 	rememberMode = '';
@@ -256,7 +264,7 @@ function reverseClick() {
 }
 
 function flipClick() {
-	$('#leftMenu li.active').toggleClass('active');
+	$('#leftMenu2 li.active').toggleClass('active');
 	$('#flipClick').toggleClass('active');
 	mode = 'flip';
 	rememberMode = '';
@@ -269,7 +277,7 @@ function flipClick() {
 }
 
 function swapClick() {
-	$('#leftMenu li.active').toggleClass('active');
+	$('#leftMenu2 li.active').toggleClass('active');
 	$('#swapClick').toggleClass('active');
 	mode = 'swap';
 	rememberMode = '';
@@ -282,7 +290,7 @@ function swapClick() {
 }
 
 function panClick() {
-	$('#leftMenu li.active').toggleClass('active');
+	$('#leftMenu2 li.active').toggleClass('active');
 	$('#panClick').toggleClass('active');
 	mode = 'pan';
 	rememberMode = '';
@@ -373,6 +381,24 @@ function createJointProfileMenu(i, ic, id) {
 		}
 		
 		refreshJointList();
+	});
+
+	$('#'+id+' .title').on('mouseenter', function() {
+		var idVal = id.split('_');
+		highlight.removeChildren();
+		for (j in joints) {
+			var id2 = joints[j].profile;
+			var id2Val = id2.split(' ');
+			if (id2Val[id2Val.length-1]==idVal[idVal.length-1]) {
+				highlight.addChild(shape[joints[j][0].shape].children[joints[j][0].path+'_joint'].clone());
+				highlight.addChild(shape[joints[j][1].shape].children[joints[j][1].path+'_joint'].clone());
+			}
+		}
+		highlight.strokeColor = '#0AF';
+		highlight.strokeWidth = 2;
+	});
+	$('#'+id+' .title').on('mouseleave', function() {
+		highlight.removeChildren();
 	});
 	
 	$('#'+id+' .setVal').on('click', function() {
@@ -585,7 +611,7 @@ function refreshJointList() {
 			highlight.addChild(shape[shapeA].children[pathA+'_joint'].clone());
 			highlight.addChild(shape[shapeB].children[pathB+'_joint'].clone());
 			highlight.strokeColor = '#0AF';
-			highlight.strokeWidth = 3;
+			highlight.strokeWidth = 2;
 		});
 		$(this).find('.title').on('mouseleave', function() {
 			highlight.removeChildren();
