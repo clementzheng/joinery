@@ -135,7 +135,6 @@ var rememberMode = '';
 document.onkeyup = function(e) {
 	if (initialized && !$("input,textarea").is(":focus")) {		
 		var key = e.keyCode ? e.keyCode : e.which;
-		console.log(key);
 		if (key==32) { // space
 			if (mode=='pan' && rememberMode!='pan') {
 				mode = rememberMode;
@@ -202,8 +201,10 @@ document.onkeyup = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
 		if (key==13) {
 			for (j in jointProfileList) {
-				if ($("#joint_"+j+" input").is(":focus")) {
-					setJointValue("joint_"+j);
+				var id = jointProfileList[j].profile;
+				var idArray = id.split(' ');
+				if ($("#joint_"+idArray[idArray.length-1]+" input").is(":focus")) {
+					setJointValue("joint_"+idArray[idArray.length-1]);
 				}
 			}
 		}
