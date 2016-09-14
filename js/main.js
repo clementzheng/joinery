@@ -32,6 +32,9 @@ function init() {
 	initialized = true;
 }
 
+var minorLineCol = "#EAEAEA";
+var majorLineCol = "#FAFAFA";
+
 function drawGrid() {
 	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 	if (shape.length>0) {
@@ -44,11 +47,11 @@ function drawGrid() {
 		var count = 0;
 		for (var i=0; i<window.innerWidth; i=i+gridSize) {
 			ctx.beginPath();
-			ctx.strokeStyle = "#EAEAEA"
+			ctx.strokeStyle = minorLineCol;
 			if (count%5==0 && docUnits=='mm') {
-				ctx.strokeStyle = "#FAFAFA"
+				ctx.strokeStyle = majorLineCol;
 			} else if (count%6==0 && docUnits=='in') {
-				ctx.strokeStyle = "#FAFAFA"
+				ctx.strokeStyle = majorLineCol;
 			}
 			ctx.moveTo(i-0.5, -0.5);
 			ctx.lineTo(i-0.5, window.innerHeight+0.5);
@@ -58,11 +61,11 @@ function drawGrid() {
 		count = 0;
 		for (var i=0; i<window.innerHeight; i=i+gridSize) {
 			ctx.beginPath();
-			ctx.strokeStyle = "#EAEAEA"
+			ctx.strokeStyle = minorLineCol;
 			if (count%5==0 && docUnits=='mm') {
-				ctx.strokeStyle = "#FAFAFA"
+				ctx.strokeStyle = majorLineCol;
 			} else if (count%6==0 && docUnits=='in') {
-				ctx.strokeStyle = "#FAFAFA"
+				ctx.strokeStyle = majorLineCol;
 			}
 			ctx.moveTo(-0.5, i-0.5);
 			ctx.lineTo(window.innerWidth+0.5, i-0.5);

@@ -148,9 +148,8 @@ body, html {
 }
 
 #actionMenu li:hover {
-	color: #333;
 	cursor: pointer;
-	background: #DDD;
+	background: #CCC;
 }
 
 #actionMenu li:active {
