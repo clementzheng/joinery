@@ -11,7 +11,7 @@ body, html {
 	-ms-user-select: none; /* IE10+ */
 	overflow-y: hidden;
 	letter-spacing: 1px;
-	background: #E2E2E2;
+	background: #DDD;
 }
 
 #paperCanvas {
