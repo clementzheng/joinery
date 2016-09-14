@@ -539,6 +539,7 @@ function removeShape() {
 		}
 		shape[shapeSelected].remove();
 		shape.splice(shapeSelected, 1);
+		shapeColor.splice(shapeSelected, 1);
 		
 		for (var i=0; i<joints.length; i++) {
 			for (j in joints[i]) {
