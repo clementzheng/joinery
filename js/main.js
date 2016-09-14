@@ -44,11 +44,11 @@ function drawGrid() {
 		var count = 0;
 		for (var i=0; i<window.innerWidth; i=i+gridSize) {
 			ctx.beginPath();
-			ctx.strokeStyle = "#F0F0F0"
+			ctx.strokeStyle = "#EAEAEA"
 			if (count%5==0 && docUnits=='mm') {
-				ctx.strokeStyle = "#FFFFFF"
+				ctx.strokeStyle = "#FAFAFA"
 			} else if (count%6==0 && docUnits=='in') {
-				ctx.strokeStyle = "#FFFFFF"
+				ctx.strokeStyle = "#FAFAFA"
 			}
 			ctx.moveTo(i-0.5, -0.5);
 			ctx.lineTo(i-0.5, window.innerHeight+0.5);
@@ -58,11 +58,11 @@ function drawGrid() {
 		count = 0;
 		for (var i=0; i<window.innerHeight; i=i+gridSize) {
 			ctx.beginPath();
-			ctx.strokeStyle = "#F0F0F0"
+			ctx.strokeStyle = "#EAEAEA"
 			if (count%5==0 && docUnits=='mm') {
-				ctx.strokeStyle = "#FFFFFF"
+				ctx.strokeStyle = "#FAFAFA"
 			} else if (count%6==0 && docUnits=='in') {
-				ctx.strokeStyle = "#FFFFFF"
+				ctx.strokeStyle = "#FAFAFA"
 			}
 			ctx.moveTo(-0.5, i-0.5);
 			ctx.lineTo(window.innerWidth+0.5, i-0.5);
