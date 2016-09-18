@@ -103,7 +103,7 @@ function processSVG(e) {
 				break;
 			}
 		}
-		if (units=='mm' || units=='in') {
+		if (units=='mm' || units=='in' || units=='px') {
 			if (!SVGprocessed) {
 				SVGString.push(file);
 				shape.push(paper.project.importSVG(file));
@@ -118,6 +118,10 @@ function processSVG(e) {
 				}
 				if (units=='in') {
 					shape[shape.length-1].scale(inchToMM, shape[shape.length-1].position);
+				}
+				if (units=='px') {
+					shape[shape.length-1].scale(inchToMM/72, shape[shape.length-1].position);
+					setMessage('SVG units detected as <b>pixels</b>. Using default conversion to millimeters', '#F80');	
 				}
 				calProjectBounds();
 				drawGrid();
