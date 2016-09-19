@@ -423,160 +423,158 @@ function generateFingerJointA(index, shapeA, pathA, shapeB, pathB, param) {
 			}
 		}
 	} else {
-		generateBool = false;
+		setMessage('<b>Paths have more than two points</b> Joint generated based on the start and end points.', '#F80');
 	}
 	if (!generateBool) {
-		setMessage('<b>Paths are not straight</b> Joint not generated.', '#F80');
+		setMessage('<b>Paths are not straight</b> Joint generated based on the start and end points.', '#F80');
+	} 
+	if (param['interior angle'] < 30 || param['interior angle'] > 330 ) {
+		setMessage('<b>"interior angle" not between 30 and 330 degrees</b> Joint not generated.', '#F80');
 		return false;
 	} else {
-		if (param['interior angle'] < 30 || param['interior angle'] > 330 ) {
-			setMessage('<b>"interior angle" not between 30 and 330 degrees</b> Joint not generated.', '#F80');
+		var intAngle = param['interior angle']/180*Math.PI;
+		var ascend = 0;
+		var descend = 0;
+		if (intAngle<=Math.PI/2) {
+			ascend = (param['material thickness'])/Math.cos(Math.PI/2-intAngle);
+		} else if (intAngle>Math.PI/2 && intAngle<=Math.PI) {
+			ascend = (param['material thickness'])*(Math.tan(Math.PI/2-intAngle/2));
+			descend = ascend*Math.cos(Math.PI-intAngle);
+		} else if (intAngle>Math.PI && intAngle<Math.PI*1.5) {
+			descend = 2*param['material thickness']*Math.sin(intAngle/4-Math.PI/4)*Math.cos(intAngle/4-Math.PI/4);
+		} else if (intAngle>=Math.PI*1.5) {
+			descend = param['material thickness']/(Math.tan((Math.PI*2-intAngle)/2));
+		}
+		if (ascend==0 && descend==0) {
 			return false;
 		} else {
-			var intAngle = param['interior angle']/180*Math.PI;
-			var ascend = 0;
-			var descend = 0;
-			if (intAngle<=Math.PI/2) {
-				ascend = (param['material thickness'])/Math.cos(Math.PI/2-intAngle);
-			} else if (intAngle>Math.PI/2 && intAngle<=Math.PI) {
-				ascend = (param['material thickness'])*(Math.tan(Math.PI/2-intAngle/2));
-				descend = ascend*Math.cos(Math.PI-intAngle);
-			} else if (intAngle>Math.PI && intAngle<Math.PI*1.5) {
-				descend = 2*param['material thickness']*Math.sin(intAngle/4-Math.PI/4)*Math.cos(intAngle/4-Math.PI/4);
-			} else if (intAngle>=Math.PI*1.5) {
-				descend = param['material thickness']/(Math.tan((Math.PI*2-intAngle)/2));
+			var pathAStart = shape[shapeA].children[pathA].firstSegment.point;
+			var pathAEnd = shape[shapeA].children[pathA].lastSegment.point;
+			var pathBStart = shape[shapeB].children[pathB].firstSegment.point;
+			var pathBEnd = shape[shapeB].children[pathB].lastSegment.point;
+			var dirA = pathAEnd.subtract(pathAStart).normalize();
+			var dirB = pathBEnd.subtract(pathBStart).normalize();
+			var normA = new Point(dirA.y, -dirA.x);
+			var normB = new Point(dirB.y, -dirB.x);
+			var fingerCount = Math.floor(pathAStart.getDistance(pathAEnd)/param['finger width']);
+			var gap = pathAStart.getDistance(pathAEnd)/fingerCount;
+			var pathAStartCloneIndex = -1;
+			var pathAEndCloneIndex = -1;
+			var pathBStartCloneIndex = -1;
+			var pathBEndCloneIndex = -1;
+			for (i in shape[shapeA].children) {
+				if (i!=pathA && shape[shapeA].children[i].className=='Path') {
+					var d1 = pathAStart.getDistance(shape[shapeA].children[i].firstSegment.point);
+					var d2 = pathAStart.getDistance(shape[shapeA].children[i].lastSegment.point);
+					if ((d1<0.1 || d2<0.1) && !isNaN(i)) {
+						pathAStartCloneIndex = i;
+					}
+					d1 = pathAEnd.getDistance(shape[shapeA].children[i].firstSegment.point);
+					d2 = pathAEnd.getDistance(shape[shapeA].children[i].lastSegment.point);
+					if ((d1<0.1 || d2<0.1) && !isNaN(i)) {
+						pathAEndCloneIndex = i;
+					}
+				}
 			}
-			if (ascend==0 && descend==0) {
-				return false;
-			} else {
-				var pathAStart = shape[shapeA].children[pathA].firstSegment.point;
-				var pathAEnd = shape[shapeA].children[pathA].lastSegment.point;
-				var pathBStart = shape[shapeB].children[pathB].firstSegment.point;
-				var pathBEnd = shape[shapeB].children[pathB].lastSegment.point;
-				var dirA = pathAEnd.subtract(pathAStart).normalize();
-				var dirB = pathBEnd.subtract(pathBStart).normalize();
-				var normA = new Point(dirA.y, -dirA.x);
-				var normB = new Point(dirB.y, -dirB.x);
-				var fingerCount = Math.floor(pathAStart.getDistance(pathAEnd)/param['finger width']);
-				var gap = pathAStart.getDistance(pathAEnd)/fingerCount;
-				var pathAStartCloneIndex = -1;
-				var pathAEndCloneIndex = -1;
-				var pathBStartCloneIndex = -1;
-				var pathBEndCloneIndex = -1;
-				for (i in shape[shapeA].children) {
-					if (i!=pathA && shape[shapeA].children[i].className=='Path') {
-						var d1 = pathAStart.getDistance(shape[shapeA].children[i].firstSegment.point);
-						var d2 = pathAStart.getDistance(shape[shapeA].children[i].lastSegment.point);
-						if ((d1<0.1 || d2<0.1) && !isNaN(i)) {
-							pathAStartCloneIndex = i;
-						}
-						d1 = pathAEnd.getDistance(shape[shapeA].children[i].firstSegment.point);
-						d2 = pathAEnd.getDistance(shape[shapeA].children[i].lastSegment.point);
-						if ((d1<0.1 || d2<0.1) && !isNaN(i)) {
-							pathAEndCloneIndex = i;
-						}
+			for (i in shape[shapeB].children) {
+				if (i!=pathB && shape[shapeB].children[i].className=='Path') {
+					var d1 = pathBStart.getDistance(shape[shapeB].children[i].firstSegment.point);
+					var d2 = pathBStart.getDistance(shape[shapeB].children[i].lastSegment.point);
+					if ((d1<0.1 || d2<0.1) && !isNaN(i)) {
+						pathBStartCloneIndex = i;
+					}
+					d1 = pathBEnd.getDistance(shape[shapeB].children[i].firstSegment.point);
+					d2 = pathBEnd.getDistance(shape[shapeB].children[i].lastSegment.point);
+					if ((d1<0.1 || d2<0.1) && !isNaN(i)) {
+						pathBEndCloneIndex = i;
 					}
 				}
-				for (i in shape[shapeB].children) {
-					if (i!=pathB && shape[shapeB].children[i].className=='Path') {
-						var d1 = pathBStart.getDistance(shape[shapeB].children[i].firstSegment.point);
-						var d2 = pathBStart.getDistance(shape[shapeB].children[i].lastSegment.point);
-						if ((d1<0.1 || d2<0.1) && !isNaN(i)) {
-							pathBStartCloneIndex = i;
-						}
-						d1 = pathBEnd.getDistance(shape[shapeB].children[i].firstSegment.point);
-						d2 = pathBEnd.getDistance(shape[shapeB].children[i].lastSegment.point);
-						if ((d1<0.1 || d2<0.1) && !isNaN(i)) {
-							pathBEndCloneIndex = i;
-						}
-					}
-				}
-				var pathAStartPt = pathAStart;
-				var pathAEndPt = pathAEnd;
-				var pathBStartPt = pathBStart;
-				var pathBEndPt = pathBEnd;
-				if (pathAEndCloneIndex!=-1) {
-					var pt1 = pathAStart.add(normA.multiply(-descend*joints[index]['dirM']));
-					var pt2 = pathAEnd.add(normA.multiply(-descend*joints[index]['dirM']));
-					var pt3 = pathAStart.add(dirA.multiply(pt1.getDistance(pt2)*10));
-					var intPath = new Path.Line(pt1, pt3);
-					var xPtList;
-					xPtList = intPath.getIntersections(shape[shapeA].children[pathAEndCloneIndex]);
-					var xPt = xPtList.length>0 ? xPtList[0].point : null;
-					if (xPt != null && intAngle>Math.PI && fingerCount%2==0) {
-						pathAEndPt = new Point(xPt.x, xPt.y);
-					}
-					intPath.remove();
-				}
-				if (pathBStartCloneIndex!=-1) {
-					var pt1 = pathBStart.add(normB.multiply(-descend*joints[index]['dirF']));
-					var pt2 = pathBEnd.add(normB.multiply(-descend*joints[index]['dirF']));
-					var pt3 = pathBEnd.add(dirB.multiply(pt1.getDistance(pt2)*-10));
-					var intPath = new Path.Line(pt2, pt3);
-					var xPtList;
-					xPtList = intPath.getIntersections(shape[shapeB].children[pathBStartCloneIndex]);
-					var xPt = xPtList.length>0 ? xPtList[0].point : null;
-					if (xPt != null && intAngle>Math.PI) {
-						pathBStartPt = new Point(xPt.x, xPt.y);
-					}
-					intPath.remove();
-				}
-				if (pathBEndCloneIndex!=-1) {
-					var pt1 = pathBStart.add(normB.multiply(-descend*joints[index]['dirF']));
-					var pt2 = pathBEnd.add(normB.multiply(-descend*joints[index]['dirF']));
-					var pt3 = pathBStart.add(dirB.multiply(pt1.getDistance(pt2)*10));
-					var intPath = new Path.Line(pt1, pt3);
-					var xPtList;
-					xPtList = intPath.getIntersections(shape[shapeB].children[pathBEndCloneIndex]);
-					var xPt = xPtList.length>0 ? xPtList[0].point : null;
-					if (xPt != null && intAngle>Math.PI && fingerCount%2==1) {
-						pathBEndPt = new Point(xPt.x, xPt.y);
-					}
-					intPath.remove();
-				}
-				var radiusArray = [ascend, param['finger width']/2];
-				radiusArray.sort(function (a, b) {
-					return a-b;
-				});
-				var fillet = param['finger radius']>radiusArray[0] ? radiusArray[0] : param['finger radius'];
-				var ptListA = [pathAStart, pathAStartPt];
-				var ptListB = [pathBStart, pathBStartPt];
-				var filletListA = [0];
-				var filletListB = [0];
-				for (var i=0; i<fingerCount; i++) {
-					if (i%2==0) {
-						var ptA1 = pathAStart.add(dirA.multiply(gap*i+param['tolerance']/2));
-						var ptA2 = ptA1.add(normA.multiply(ascend*joints[index]['dirM']));
-						var ptA3 = ptA2.add(dirA.multiply(gap-param['tolerance']));
-						var ptA4 = ptA1.add(dirA.multiply(gap-param['tolerance']));
-						var ptB1 = pathBStart.add(dirB.multiply(gap*i-param['tolerance']/2)).add(normB.multiply(-descend*joints[index]['dirF']));
-						var ptB2 = ptB1.add(dirB.multiply(gap+param['tolerance']));
-						ptListA.push(ptA1, ptA2, ptA3, ptA4);
-						ptListB.push(ptB1, ptB2);
-						filletListA.push(0, fillet, fillet, 0);
-						filletListB.push(0, 0);
-					} else {
-						var ptB1 = pathBStart.add(dirB.multiply(gap*i+param['tolerance']/2));
-						var ptB2 = ptB1.add(normB.multiply(ascend*joints[index]['dirF']));
-						var ptB3 = ptB2.add(dirB.multiply(gap-param['tolerance']));
-						var ptB4 = ptB1.add(dirB.multiply(gap-param['tolerance']));
-						var ptA1 = pathAStart.add(dirA.multiply(gap*i-param['tolerance']/2)).add(normA.multiply(-descend*joints[index]['dirM']));
-						var ptA2 = ptA1.add(dirA.multiply(gap+param['tolerance']));
-						ptListB.push(ptB1, ptB2, ptB3, ptB4);
-						ptListA.push(ptA1, ptA2);
-						filletListB.push(0, fillet, fillet, 0);
-						filletListA.push(0, 0);
-					}
-				}
-				ptListA.push(pathAEndPt, pathAEnd);
-				ptListB.push(pathBEndPt, pathBEnd);
-				filletListA.push(0);
-				filletListB.push(0);
-				returnA.push(generateFilletPath(ptListA, filletListA));
-				returnB.push(generateFilletPath(ptListB, filletListB));
-				
-				return {'returnA':returnA, 'returnB':returnB};
 			}
+			var pathAStartPt = pathAStart;
+			var pathAEndPt = pathAEnd;
+			var pathBStartPt = pathBStart;
+			var pathBEndPt = pathBEnd;
+			if (pathAEndCloneIndex!=-1) {
+				var pt1 = pathAStart.add(normA.multiply(-descend*joints[index]['dirM']));
+				var pt2 = pathAEnd.add(normA.multiply(-descend*joints[index]['dirM']));
+				var pt3 = pathAStart.add(dirA.multiply(pt1.getDistance(pt2)*10));
+				var intPath = new Path.Line(pt1, pt3);
+				var xPtList;
+				xPtList = intPath.getIntersections(shape[shapeA].children[pathAEndCloneIndex]);
+				var xPt = xPtList.length>0 ? xPtList[0].point : null;
+				if (xPt != null && intAngle>Math.PI && fingerCount%2==0) {
+					pathAEndPt = new Point(xPt.x, xPt.y);
+				}
+				intPath.remove();
+			}
+			if (pathBStartCloneIndex!=-1) {
+				var pt1 = pathBStart.add(normB.multiply(-descend*joints[index]['dirF']));
+				var pt2 = pathBEnd.add(normB.multiply(-descend*joints[index]['dirF']));
+				var pt3 = pathBEnd.add(dirB.multiply(pt1.getDistance(pt2)*-10));
+				var intPath = new Path.Line(pt2, pt3);
+				var xPtList;
+				xPtList = intPath.getIntersections(shape[shapeB].children[pathBStartCloneIndex]);
+				var xPt = xPtList.length>0 ? xPtList[0].point : null;
+				if (xPt != null && intAngle>Math.PI) {
+					pathBStartPt = new Point(xPt.x, xPt.y);
+				}
+				intPath.remove();
+			}
+			if (pathBEndCloneIndex!=-1) {
+				var pt1 = pathBStart.add(normB.multiply(-descend*joints[index]['dirF']));
+				var pt2 = pathBEnd.add(normB.multiply(-descend*joints[index]['dirF']));
+				var pt3 = pathBStart.add(dirB.multiply(pt1.getDistance(pt2)*10));
+				var intPath = new Path.Line(pt1, pt3);
+				var xPtList;
+				xPtList = intPath.getIntersections(shape[shapeB].children[pathBEndCloneIndex]);
+				var xPt = xPtList.length>0 ? xPtList[0].point : null;
+				if (xPt != null && intAngle>Math.PI && fingerCount%2==1) {
+					pathBEndPt = new Point(xPt.x, xPt.y);
+				}
+				intPath.remove();
+			}
+			var radiusArray = [ascend, param['finger width']/2];
+			radiusArray.sort(function (a, b) {
+				return a-b;
+			});
+			var fillet = param['finger radius']>radiusArray[0] ? radiusArray[0] : param['finger radius'];
+			var ptListA = [pathAStart, pathAStartPt];
+			var ptListB = [pathBStart, pathBStartPt];
+			var filletListA = [0];
+			var filletListB = [0];
+			for (var i=0; i<fingerCount; i++) {
+				if (i%2==0) {
+					var ptA1 = pathAStart.add(dirA.multiply(gap*i+param['tolerance']/2));
+					var ptA2 = ptA1.add(normA.multiply(ascend*joints[index]['dirM']));
+					var ptA3 = ptA2.add(dirA.multiply(gap-param['tolerance']));
+					var ptA4 = ptA1.add(dirA.multiply(gap-param['tolerance']));
+					var ptB1 = pathBStart.add(dirB.multiply(gap*i-param['tolerance']/2)).add(normB.multiply(-descend*joints[index]['dirF']));
+					var ptB2 = ptB1.add(dirB.multiply(gap+param['tolerance']));
+					ptListA.push(ptA1, ptA2, ptA3, ptA4);
+					ptListB.push(ptB1, ptB2);
+					filletListA.push(0, fillet, fillet, 0);
+					filletListB.push(0, 0);
+				} else {
+					var ptB1 = pathBStart.add(dirB.multiply(gap*i+param['tolerance']/2));
+					var ptB2 = ptB1.add(normB.multiply(ascend*joints[index]['dirF']));
+					var ptB3 = ptB2.add(dirB.multiply(gap-param['tolerance']));
+					var ptB4 = ptB1.add(dirB.multiply(gap-param['tolerance']));
+					var ptA1 = pathAStart.add(dirA.multiply(gap*i-param['tolerance']/2)).add(normA.multiply(-descend*joints[index]['dirM']));
+					var ptA2 = ptA1.add(dirA.multiply(gap+param['tolerance']));
+					ptListB.push(ptB1, ptB2, ptB3, ptB4);
+					ptListA.push(ptA1, ptA2);
+					filletListB.push(0, fillet, fillet, 0);
+					filletListA.push(0, 0);
+				}
+			}
+			ptListA.push(pathAEndPt, pathAEnd);
+			ptListB.push(pathBEndPt, pathBEnd);
+			filletListA.push(0);
+			filletListB.push(0);
+			returnA.push(generateFilletPath(ptListA, filletListA));
+			returnB.push(generateFilletPath(ptListB, filletListB));
+			
+			return {'returnA':returnA, 'returnB':returnB};
 		}
 	}
 }
@@ -599,45 +597,43 @@ function generateFlapJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			}
 		}
 	} else {
-		generateBool = false;
+		setMessage('<b>Paths have more than two points</b> Joint generated based on the start and end points.', '#F80');
 	}
 	if (!generateBool) {
-		setMessage('<b>Paths are not straight</b> Joint not generated.', '#F80');
-		return false;
+		setMessage('<b>Paths are not straight</b> Joint generated based on the start and end points.', '#F80');
+	} 
+	var pathAStart = shape[shapeA].children[pathA].firstSegment.point;
+	var pathAEnd = shape[shapeA].children[pathA].lastSegment.point;
+	var pathBStart = shape[shapeB].children[pathB].firstSegment.point;
+	var pathBEnd = shape[shapeB].children[pathB].lastSegment.point;
+	var tanA = pathAEnd.subtract(pathAStart).normalize();
+	var tanB = pathBEnd.subtract(pathBStart).normalize();
+	var normA = new Point(tanA.y, -tanA.x);
+	var normB = new Point(tanB.y, -tanB.x);
+	normA = normA.multiply(joints[index]['dirM']);
+	normB = normB.multiply(joints[index]['dirF']);
+	if (param['height (M)'] > 0) {
+		var pt1 = pathAStart;
+		var pt2 = pt1.add(normA.multiply(param['height (M)'])).add(tanA.multiply(param['height (M)']/Math.tan(param['flap angle']/180*Math.PI)));
+		var pt4 = pathAEnd;
+		var pt3 = pt4.add(normA.multiply(param['height (M)'])).add(tanA.multiply(-param['height (M)']/Math.tan(param['flap angle']/180*Math.PI)));
+		returnA.push(generateFilletPath([pt1, pt2, pt3, pt4], [param['height (M)']*0.75, param['height (M)']*0.75]));
+		returnAFold.push(new Path.Line(pathAStart, pathAEnd));
 	} else {
-		var pathAStart = shape[shapeA].children[pathA].firstSegment.point;
-		var pathAEnd = shape[shapeA].children[pathA].lastSegment.point;
-		var pathBStart = shape[shapeB].children[pathB].firstSegment.point;
-		var pathBEnd = shape[shapeB].children[pathB].lastSegment.point;
-		var tanA = pathAEnd.subtract(pathAStart).normalize();
-		var tanB = pathBEnd.subtract(pathBStart).normalize();
-		var normA = new Point(tanA.y, -tanA.x);
-		var normB = new Point(tanB.y, -tanB.x);
-		normA = normA.multiply(joints[index]['dirM']);
-		normB = normB.multiply(joints[index]['dirF']);
-		if (param['height (M)'] > 0) {
-			var pt1 = pathAStart;
-			var pt2 = pt1.add(normA.multiply(param['height (M)'])).add(tanA.multiply(param['height (M)']/Math.tan(param['flap angle']/180*Math.PI)));
-			var pt4 = pathAEnd;
-			var pt3 = pt4.add(normA.multiply(param['height (M)'])).add(tanA.multiply(-param['height (M)']/Math.tan(param['flap angle']/180*Math.PI)));
-			returnA.push(generateFilletPath([pt1, pt2, pt3, pt4], [param['height (M)']*0.75, param['height (M)']*0.75]));
-			returnAFold.push(new Path.Line(pathAStart, pathAEnd));
-		} else {
-			returnA.push(new Path.Line(pathAStart, pathAEnd));
-		}
-		if (param['height (F)'] > 0) {
-			var pt1 = pathBStart;
-			var pt2 = pt1.add(normB.multiply(param['height (F)'])).add(tanB.multiply(param['height (F)']/Math.tan(param['flap angle']/180*Math.PI)));
-			var pt4 = pathBEnd;
-			var pt3 = pt4.add(normB.multiply(param['height (F)'])).add(tanB.multiply(-param['height (F)']/Math.tan(param['flap angle']/180*Math.PI)));
-			returnB.push(generateFilletPath([pt1, pt2, pt3, pt4], [param['height (F)']*0.75, param['height (F)']*0.75]));
-			returnBFold.push(new Path.Line(pathBStart, pathBEnd));
-		} else {
-			returnB.push(new Path.Line(pathBStart, pathBEnd));	
-		}
-
-		return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
+		returnA.push(new Path.Line(pathAStart, pathAEnd));
 	}
+	if (param['height (F)'] > 0) {
+		var pt1 = pathBStart;
+		var pt2 = pt1.add(normB.multiply(param['height (F)'])).add(tanB.multiply(param['height (F)']/Math.tan(param['flap angle']/180*Math.PI)));
+		var pt4 = pathBEnd;
+		var pt3 = pt4.add(normB.multiply(param['height (F)'])).add(tanB.multiply(-param['height (F)']/Math.tan(param['flap angle']/180*Math.PI)));
+		returnB.push(generateFilletPath([pt1, pt2, pt3, pt4], [param['height (F)']*0.75, param['height (F)']*0.75]));
+		returnBFold.push(new Path.Line(pathBStart, pathBEnd));
+	} else {
+		returnB.push(new Path.Line(pathBStart, pathBEnd));	
+	}
+
+	return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
 }
 
 function generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param) {
@@ -763,102 +759,100 @@ function generateTabInsertJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			}
 		}
 	} else {
-		generateBool = false;
+		setMessage('<b>Paths have more than two points</b> Joint generated based on the start and end points.', '#F80');
 	}
 	if (!generateBool) {
-		setMessage('<b>Paths are not straight</b> Joint not generated.', '#F80');
+		setMessage('<b>Paths are not straight</b> Joint generated based on the start and end points.', '#F80');
+	} 
+	var lineA = new Path.Line(shape[shapeA].children[pathA].firstSegment.point, shape[shapeA].children[pathA].lastSegment.point);
+	var lineB = new Path.Line(shape[shapeB].children[pathB].firstSegment.point, shape[shapeB].children[pathB].lastSegment.point);
+	var ptAStart, ptAEnd, ptBStart, ptBEnd;
+	if (param['offset start'] > 0) {
+		ptAStart = lineA.getPointAt(param['offset start']);
+		ptBStart = lineB.getPointAt(param['offset start']);
+	} else {
+		ptAStart = shape[shapeA].children[pathA].firstSegment.point;
+		ptBStart = shape[shapeB].children[pathB].firstSegment.point;
+	}
+	if (param['offset end'] > 0) {
+		ptAEnd = lineA.getPointAt(lineA.length-param['offset end']);
+		ptBEnd = lineB.getPointAt(lineB.length-param['offset end']);
+	} else {
+		ptAEnd = shape[shapeA].children[pathA].lastSegment.point;
+		ptBEnd = shape[shapeB].children[pathB].lastSegment.point;
+	}
+	var dirA = ptAEnd.subtract(ptAStart).normalize();
+	var dirB = ptBEnd.subtract(ptBStart).normalize();
+	var normA = new Point(dirA.y, -dirA.x);
+	var normB = new Point(dirB.y, -dirB.x);
+	normA = normA.multiply(joints[index]['dirM']);
+	normB = normB.multiply(joints[index]['dirF']);
+	var pathLength = ptAStart.getDistance(ptAEnd);
+	if (Math.floor(pathLength/param['insert width'])==0) {
+		setMessage('<b>Paths too short</b> Joint not generated.', '#F80');
 		return false;
 	} else {
-		var lineA = new Path.Line(shape[shapeA].children[pathA].firstSegment.point, shape[shapeA].children[pathA].lastSegment.point);
-		var lineB = new Path.Line(shape[shapeB].children[pathB].firstSegment.point, shape[shapeB].children[pathB].lastSegment.point);
-		var ptAStart, ptAEnd, ptBStart, ptBEnd;
-		if (param['offset start'] > 0) {
-			ptAStart = lineA.getPointAt(param['offset start']);
-			ptBStart = lineB.getPointAt(param['offset start']);
-		} else {
-			ptAStart = shape[shapeA].children[pathA].firstSegment.point;
-			ptBStart = shape[shapeB].children[pathB].firstSegment.point;
-		}
-		if (param['offset end'] > 0) {
-			ptAEnd = lineA.getPointAt(lineA.length-param['offset end']);
-			ptBEnd = lineB.getPointAt(lineB.length-param['offset end']);
-		} else {
-			ptAEnd = shape[shapeA].children[pathA].lastSegment.point;
-			ptBEnd = shape[shapeB].children[pathB].lastSegment.point;
-		}
-		var dirA = ptAEnd.subtract(ptAStart).normalize();
-		var dirB = ptBEnd.subtract(ptBStart).normalize();
-		var normA = new Point(dirA.y, -dirA.x);
-		var normB = new Point(dirB.y, -dirB.x);
-		normA = normA.multiply(joints[index]['dirM']);
-		normB = normB.multiply(joints[index]['dirF']);
-		var pathLength = ptAStart.getDistance(ptAEnd);
-		if (Math.floor(pathLength/param['insert width'])==0) {
-			setMessage('<b>Paths too short</b> Joint not generated.', '#F80');
-			return false;
-		} else {
-			var insertCount = Math.floor(pathLength/(param['insert width']+param['joint spacing']))+1;
-			var insertStart, insertEnd;
-			var gap = (pathLength-insertCount*param['insert width'])/(insertCount-1);
-			var flapFoldStart = lineB.firstSegment.point;
-			for (var i=0; i<insertCount; i++) {
-				var pathOffsetStart;
-				var pathOffsetEnd;
-				if (insertCount==1) {
-					pathOffsetStart = pathLength/2-param['insert width']/2;
-					pathOffsetEnd = pathLength/2+param['insert width']/2;
-				} else {
-					pathOffsetStart = i*gap+i*param['insert width'];
-					pathOffsetEnd = i*gap+(i+1)*param['insert width'];
-				}
-				var insertPt1 = ptAStart.add(dirA.multiply(pathOffsetStart));
-				var insertPt8 = ptAStart.add(dirA.multiply(pathOffsetEnd));
-				var flapPt1 = ptBStart.add(dirB.multiply(pathOffsetStart));
-				var flapPt8 = ptBStart.add(dirB.multiply(pathOffsetEnd));
-				if (i==0) {
-					insertStart = insertPt1;
-				}
-				if (i==insertCount-1) {
-					insertEnd = insertPt8;
-				}
-				var insertPt2 = insertPt1.add(normA.multiply(param['material thickness (F)']));
-				var insertPt3 = insertPt2.add(dirA.multiply(-param['grip']));
-				var insertPt4 = insertPt2.add(normA.multiply(param['insert height'])).add(dirA.multiply(param['insert width']/16));
-				var insertPt7 = insertPt8.add(normA.multiply(param['material thickness (F)']));
-				var insertPt6 = insertPt7.add(dirA.multiply(param['grip']));
-				var insertPt5 = insertPt7.add(normA.multiply(param['insert height'])).add(dirA.multiply(-param['insert width']/16));
-				returnA.push(generateFilletPath([insertPt1, insertPt2, insertPt3, insertPt4, insertPt5, insertPt6, insertPt7, insertPt8], [0, param['grip']/3, param['insert width']/4, param['insert width']/4, param['grip']/3, 0]));
-				returnB.push(generateSlit(flapPt1, flapPt8, param['material thickness (M)']));
-				returnAFold.push(generateFilletPath([insertPt1, insertPt8], []));
-				returnBFold.push(generateFilletPath([flapFoldStart, flapPt1], []));
-				flapFoldStart = flapPt8;
-			}
-			returnBFold.push(generateFilletPath([flapFoldStart, lineB.lastSegment.point], []));
-			for (var i=0; i<insertCount-1; i++) {
-				var pathOffsetStart = i*gap+(i+1)*param['insert width'];
-				var pathOffsetEnd = (i+1)*gap+(i+1)*param['insert width'];
-				var insertPt1 = ptAStart.add(dirA.multiply(pathOffsetStart));
-				var insertPt8 = ptAStart.add(dirA.multiply(pathOffsetEnd));
-				returnA.push(new Path.Line(insertPt1, insertPt8));
-			}
+		var insertCount = Math.floor(pathLength/(param['insert width']+param['joint spacing']))+1;
+		var insertStart, insertEnd;
+		var gap = (pathLength-insertCount*param['insert width'])/(insertCount-1);
+		var flapFoldStart = lineB.firstSegment.point;
+		for (var i=0; i<insertCount; i++) {
+			var pathOffsetStart;
+			var pathOffsetEnd;
 			if (insertCount==1) {
-				var pathOffsetStart = pathLength/2-param['insert width']/2;
-				var pathOffsetEnd = pathLength/2+param['insert width']/2;
-				var insertPt1 = ptAStart.add(dirA.multiply(pathOffsetStart));
-				var insertPt8 = ptAStart.add(dirA.multiply(pathOffsetEnd));
-				//returnA.push(new Path.Line(insertPt1, insertPt8));
+				pathOffsetStart = pathLength/2-param['insert width']/2;
+				pathOffsetEnd = pathLength/2+param['insert width']/2;
+			} else {
+				pathOffsetStart = i*gap+i*param['insert width'];
+				pathOffsetEnd = i*gap+(i+1)*param['insert width'];
 			}
-			returnA.push(new Path.Line(shape[shapeA].children[pathA].firstSegment.point, insertStart));
-			returnA.push(new Path.Line(shape[shapeA].children[pathA].lastSegment.point, insertEnd));
-			var flapStart = shape[shapeB].children[pathB].firstSegment.point;
-			var flapEnd = shape[shapeB].children[pathB].lastSegment.point;
-			var flapStartTip = flapStart.add(normB.multiply(param['flap height'])).add(dirB.multiply(param['flap height']/Math.tan(param['flap angle']/180*Math.PI)));
-			var flapEndTip = flapEnd.add(normB.multiply(param['flap height'])).add(dirB.multiply(-param['flap height']/Math.tan(param['flap angle']/180*Math.PI)));
-			returnB.push(generateFilletPath([flapStart, flapStartTip, flapEndTip, flapEnd], [param['flap height'], param['flap height']]));
-			lineA.remove();
-			lineB.remove();
-			return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
+			var insertPt1 = ptAStart.add(dirA.multiply(pathOffsetStart));
+			var insertPt8 = ptAStart.add(dirA.multiply(pathOffsetEnd));
+			var flapPt1 = ptBStart.add(dirB.multiply(pathOffsetStart));
+			var flapPt8 = ptBStart.add(dirB.multiply(pathOffsetEnd));
+			if (i==0) {
+				insertStart = insertPt1;
+			}
+			if (i==insertCount-1) {
+				insertEnd = insertPt8;
+			}
+			var insertPt2 = insertPt1.add(normA.multiply(param['material thickness (F)']));
+			var insertPt3 = insertPt2.add(dirA.multiply(-param['grip']));
+			var insertPt4 = insertPt2.add(normA.multiply(param['insert height'])).add(dirA.multiply(param['insert width']/16));
+			var insertPt7 = insertPt8.add(normA.multiply(param['material thickness (F)']));
+			var insertPt6 = insertPt7.add(dirA.multiply(param['grip']));
+			var insertPt5 = insertPt7.add(normA.multiply(param['insert height'])).add(dirA.multiply(-param['insert width']/16));
+			returnA.push(generateFilletPath([insertPt1, insertPt2, insertPt3, insertPt4, insertPt5, insertPt6, insertPt7, insertPt8], [0, param['grip']/3, param['insert width']/4, param['insert width']/4, param['grip']/3, 0]));
+			returnB.push(generateSlit(flapPt1, flapPt8, param['material thickness (M)']));
+			returnAFold.push(generateFilletPath([insertPt1, insertPt8], []));
+			returnBFold.push(generateFilletPath([flapFoldStart, flapPt1], []));
+			flapFoldStart = flapPt8;
 		}
+		returnBFold.push(generateFilletPath([flapFoldStart, lineB.lastSegment.point], []));
+		for (var i=0; i<insertCount-1; i++) {
+			var pathOffsetStart = i*gap+(i+1)*param['insert width'];
+			var pathOffsetEnd = (i+1)*gap+(i+1)*param['insert width'];
+			var insertPt1 = ptAStart.add(dirA.multiply(pathOffsetStart));
+			var insertPt8 = ptAStart.add(dirA.multiply(pathOffsetEnd));
+			returnA.push(new Path.Line(insertPt1, insertPt8));
+		}
+		if (insertCount==1) {
+			var pathOffsetStart = pathLength/2-param['insert width']/2;
+			var pathOffsetEnd = pathLength/2+param['insert width']/2;
+			var insertPt1 = ptAStart.add(dirA.multiply(pathOffsetStart));
+			var insertPt8 = ptAStart.add(dirA.multiply(pathOffsetEnd));
+			//returnA.push(new Path.Line(insertPt1, insertPt8));
+		}
+		returnA.push(new Path.Line(shape[shapeA].children[pathA].firstSegment.point, insertStart));
+		returnA.push(new Path.Line(shape[shapeA].children[pathA].lastSegment.point, insertEnd));
+		var flapStart = shape[shapeB].children[pathB].firstSegment.point;
+		var flapEnd = shape[shapeB].children[pathB].lastSegment.point;
+		var flapStartTip = flapStart.add(normB.multiply(param['flap height'])).add(dirB.multiply(param['flap height']/Math.tan(param['flap angle']/180*Math.PI)));
+		var flapEndTip = flapEnd.add(normB.multiply(param['flap height'])).add(dirB.multiply(-param['flap height']/Math.tan(param['flap angle']/180*Math.PI)));
+		returnB.push(generateFilletPath([flapStart, flapStartTip, flapEndTip, flapEnd], [param['flap height'], param['flap height']]));
+		lineA.remove();
+		lineB.remove();
+		return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
 	}
 }
 
@@ -938,90 +932,88 @@ function generateFingerJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			}
 		}
 	} else {
-		generateBool = false;
+		setMessage('<b>Paths have more than two points</b> Joint generated based on the start and end points.', '#F80');
 	}
 	if (!generateBool) {
-		setMessage('<b>Paths are not straight</b> Joint not generated.', '#F80');
-		return false;
-	} else {
-		var lineA = new Path.Line(shape[shapeA].children[pathA].firstSegment.point, shape[shapeA].children[pathA].lastSegment.point);
-		var lineB = new Path.Line(shape[shapeB].children[pathB].firstSegment.point, shape[shapeB].children[pathB].lastSegment.point);
-		var ptAStart, ptAEnd, ptBStart, ptBEnd;
-		if (param['offset start'] > 0) {
-			ptAStart = lineA.getPointAt(param['offset start']);
-			ptBStart = lineB.getPointAt(param['offset start']);
-			//returnA.push(new Path.Line(shape[shapeA].children[pathA].firstSegment.point, ptAStart));
-			//returnB.push(new Path.Line(shape[shapeB].children[pathB].firstSegment.point, ptBStart));
-		} else {
-			ptAStart = shape[shapeA].children[pathA].firstSegment.point;
-			ptBStart = shape[shapeB].children[pathB].firstSegment.point;
-		}
-		if (param['offset end'] > 0) {
-			ptAEnd = lineA.getPointAt(lineA.length-param['offset end']);
-			ptBEnd = lineB.getPointAt(lineB.length-param['offset end']);
-			//returnA.push(new Path.Line(shape[shapeA].children[pathA].lastSegment.point, ptAEnd));
-			//returnB.push(new Path.Line(shape[shapeB].children[pathB].lastSegment.point, ptBEnd));
-		} else {
-			ptAEnd = shape[shapeA].children[pathA].lastSegment.point;
-			ptBEnd = shape[shapeB].children[pathB].lastSegment.point;
-		}
-		var dirA = ptAEnd.subtract(ptAStart).normalize();
-		var dirB = ptBEnd.subtract(ptBStart).normalize();
-		var normA = new Point(dirA.y, -dirA.x);
-		var normB = new Point(dirB.y, -dirB.x);
-		var fingerCount = Math.floor(ptAStart.getDistance(ptAEnd)/param['finger width']);
-		var gap = ptAStart.getDistance(ptAEnd)/fingerCount;
-		var ptListA = [shape[shapeA].children[pathA].firstSegment.point];
-		var ptListB = [shape[shapeB].children[pathB].firstSegment.point];
-		var radiusArray = [param['material thickness (F)'], param['material thickness (M)'], param['finger width']/2];
-		radiusArray.sort(function (a, b) {
-			return a-b;
-		});
-		var fillet = param['finger radius']>radiusArray[0] ? radiusArray[0] : param['finger radius'];
-		var filletArrayA = [];
-		var filletArrayB = [];
-		for (var i=0; i<fingerCount; i++) {
-			if (i%2==0) {
-				var ptA1 = ptAStart.add(dirA.multiply(i*gap));
-				var ptA2 = ptA1.add(dirA.multiply(param['tolerance']/2));
-				var ptA3 = ptA2.add(normA.multiply(param['material thickness (F)']*joints[index]['dirM']));
-				var ptA6 = ptA1.add(dirA.multiply(gap));
-				var ptA5 = ptA6.add(dirA.multiply(-param['tolerance']/2));
-				var ptA4 = ptA5.add(normA.multiply(param['material thickness (F)']*joints[index]['dirM']));
-				ptListA.push(ptA1, ptA2, ptA3, ptA4, ptA5, ptA6);
-				filletArrayA.push(0, 0, fillet, fillet, 0, 0);
-				
-				var ptB1 = ptBStart.add(dirB.multiply(i*gap));
-				var ptB2 = ptB1.add(dirB.multiply(gap));
-				ptListB.push(ptB1, ptB2);
-				filletArrayB.push(0, 0);
-			} else {
-				var ptB1 = ptBStart.add(dirB.multiply(i*gap));
-				var ptB2 = ptB1.add(dirB.multiply(param['tolerance']/2));
-				var ptB3 = ptB2.add(normB.multiply(param['material thickness (M)']*joints[index]['dirF']));
-				var ptB6 = ptB1.add(dirB.multiply(gap));
-				var ptB5 = ptB6.add(dirB.multiply(-param['tolerance']/2));
-				var ptB4 = ptB5.add(normB.multiply(param['material thickness (M)']*joints[index]['dirF']));
-				ptListB.push(ptB1, ptB2, ptB3, ptB4, ptB5, ptB6);
-				filletArrayB.push(0, 0, fillet, fillet, 0, 0);
-				
-				var ptA1 = ptAStart.add(dirA.multiply(i*gap));
-				var ptA2 = ptA1.add(dirA.multiply(gap));
-				ptListA.push(ptA1, ptA2);
-				filletArrayA.push(0, 0);
-			}
-		}
-		ptListA.push(shape[shapeA].children[pathA].lastSegment.point);
-		ptListB.push(shape[shapeB].children[pathB].lastSegment.point);
-		
-		returnA.push(generateFilletPath(ptListA, filletArrayA));
-		returnB.push(generateFilletPath(ptListB, filletArrayB));
-		
-		lineA.remove();
-		lineB.remove();
-		
-		return {'returnA':returnA, 'returnB':returnB};
+		setMessage('<b>Paths are not straight</b> Joint generated based on the start and end points.', '#F80');
 	}
+	var lineA = new Path.Line(shape[shapeA].children[pathA].firstSegment.point, shape[shapeA].children[pathA].lastSegment.point);
+	var lineB = new Path.Line(shape[shapeB].children[pathB].firstSegment.point, shape[shapeB].children[pathB].lastSegment.point);
+	var ptAStart, ptAEnd, ptBStart, ptBEnd;
+	if (param['offset start'] > 0) {
+		ptAStart = lineA.getPointAt(param['offset start']);
+		ptBStart = lineB.getPointAt(param['offset start']);
+		//returnA.push(new Path.Line(shape[shapeA].children[pathA].firstSegment.point, ptAStart));
+		//returnB.push(new Path.Line(shape[shapeB].children[pathB].firstSegment.point, ptBStart));
+	} else {
+		ptAStart = shape[shapeA].children[pathA].firstSegment.point;
+		ptBStart = shape[shapeB].children[pathB].firstSegment.point;
+	}
+	if (param['offset end'] > 0) {
+		ptAEnd = lineA.getPointAt(lineA.length-param['offset end']);
+		ptBEnd = lineB.getPointAt(lineB.length-param['offset end']);
+		//returnA.push(new Path.Line(shape[shapeA].children[pathA].lastSegment.point, ptAEnd));
+		//returnB.push(new Path.Line(shape[shapeB].children[pathB].lastSegment.point, ptBEnd));
+	} else {
+		ptAEnd = shape[shapeA].children[pathA].lastSegment.point;
+		ptBEnd = shape[shapeB].children[pathB].lastSegment.point;
+	}
+	var dirA = ptAEnd.subtract(ptAStart).normalize();
+	var dirB = ptBEnd.subtract(ptBStart).normalize();
+	var normA = new Point(dirA.y, -dirA.x);
+	var normB = new Point(dirB.y, -dirB.x);
+	var fingerCount = Math.floor(ptAStart.getDistance(ptAEnd)/param['finger width']);
+	var gap = ptAStart.getDistance(ptAEnd)/fingerCount;
+	var ptListA = [shape[shapeA].children[pathA].firstSegment.point];
+	var ptListB = [shape[shapeB].children[pathB].firstSegment.point];
+	var radiusArray = [param['material thickness (F)'], param['material thickness (M)'], param['finger width']/2];
+	radiusArray.sort(function (a, b) {
+		return a-b;
+	});
+	var fillet = param['finger radius']>radiusArray[0] ? radiusArray[0] : param['finger radius'];
+	var filletArrayA = [];
+	var filletArrayB = [];
+	for (var i=0; i<fingerCount; i++) {
+		if (i%2==0) {
+			var ptA1 = ptAStart.add(dirA.multiply(i*gap));
+			var ptA2 = ptA1.add(dirA.multiply(param['tolerance']/2));
+			var ptA3 = ptA2.add(normA.multiply(param['material thickness (F)']*joints[index]['dirM']));
+			var ptA6 = ptA1.add(dirA.multiply(gap));
+			var ptA5 = ptA6.add(dirA.multiply(-param['tolerance']/2));
+			var ptA4 = ptA5.add(normA.multiply(param['material thickness (F)']*joints[index]['dirM']));
+			ptListA.push(ptA1, ptA2, ptA3, ptA4, ptA5, ptA6);
+			filletArrayA.push(0, 0, fillet, fillet, 0, 0);
+			
+			var ptB1 = ptBStart.add(dirB.multiply(i*gap));
+			var ptB2 = ptB1.add(dirB.multiply(gap));
+			ptListB.push(ptB1, ptB2);
+			filletArrayB.push(0, 0);
+		} else {
+			var ptB1 = ptBStart.add(dirB.multiply(i*gap));
+			var ptB2 = ptB1.add(dirB.multiply(param['tolerance']/2));
+			var ptB3 = ptB2.add(normB.multiply(param['material thickness (M)']*joints[index]['dirF']));
+			var ptB6 = ptB1.add(dirB.multiply(gap));
+			var ptB5 = ptB6.add(dirB.multiply(-param['tolerance']/2));
+			var ptB4 = ptB5.add(normB.multiply(param['material thickness (M)']*joints[index]['dirF']));
+			ptListB.push(ptB1, ptB2, ptB3, ptB4, ptB5, ptB6);
+			filletArrayB.push(0, 0, fillet, fillet, 0, 0);
+			
+			var ptA1 = ptAStart.add(dirA.multiply(i*gap));
+			var ptA2 = ptA1.add(dirA.multiply(gap));
+			ptListA.push(ptA1, ptA2);
+			filletArrayA.push(0, 0);
+		}
+	}
+	ptListA.push(shape[shapeA].children[pathA].lastSegment.point);
+	ptListB.push(shape[shapeB].children[pathB].lastSegment.point);
+	
+	returnA.push(generateFilletPath(ptListA, filletArrayA));
+	returnB.push(generateFilletPath(ptListB, filletArrayB));
+	
+	lineA.remove();
+	lineB.remove();
+	
+	return {'returnA':returnA, 'returnB':returnB};
 }
 
 function generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, softBool, surfBool, hookCount) {
@@ -1043,231 +1035,229 @@ function generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, softBool
 				}
 			}
 		} else {
-			generateBool = false;
+			setMessage('<b>Paths have more than two points</b> Joint generated based on the start and end points.', '#F80');
 		}
 	}
 	
 	if (!generateBool) {
-		setMessage('<b>Paths are not straight</b> Joint not generated.', '#F80');
-		return false;
-	} else {
-		shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
+		setMessage('<b>Paths are not straight</b> Joint generated based on the start and end points.', '#F80');
+	}
+	shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
+	shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
+	var edgeA = shape[shapeA].children[pathA+'_joint'].children[0];
+	var edgeB = shape[shapeB].children[pathB+'_joint'].children[0];
+	
+	var aEnd = param['offset end']==0 ? edgeA.length-0.001 : edgeA.length-param['offset end'];
+	var aStart = param['offset start']==0 ? 0.001 : param['offset start'];
+	var bEnd = param['offset end']==0 ? edgeB.length-0.001 : edgeB.length-param['offset end'];
+	var bStart = param['offset start']==0 ? 0.001 : param['offset start'];
+	var edgeAEnd = edgeA.split(aEnd);
+	var edgeAMid = edgeA.split(aStart);
+	var edgeBEnd = edgeB.split(bEnd);
+	var edgeBMid = edgeB.split(bStart);
+	
+	var jW = param['insert width']+param['joint spacing']*2;
+	var jointCount = Math.floor(edgeAMid.length/jW);
+	var edgeSegmentA = dividePath(edgeAMid, jointCount);
+	var edgeSegmentB = dividePath(edgeBMid, jointCount);
+	shape[shapeA].children[pathA+'_joint'].removeChildren();
+	shape[shapeB].children[pathB+'_joint'].removeChildren();
+	
+	if (softBool && !surfBool) {
 		shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-		var edgeA = shape[shapeA].children[pathA+'_joint'].children[0];
-		var edgeB = shape[shapeB].children[pathB+'_joint'].children[0];
-		
-		var aEnd = param['offset end']==0 ? edgeA.length-0.001 : edgeA.length-param['offset end'];
-		var aStart = param['offset start']==0 ? 0.001 : param['offset start'];
-		var bEnd = param['offset end']==0 ? edgeB.length-0.001 : edgeB.length-param['offset end'];
-		var bStart = param['offset start']==0 ? 0.001 : param['offset start'];
-		var edgeAEnd = edgeA.split(aEnd);
-		var edgeAMid = edgeA.split(aStart);
-		var edgeBEnd = edgeB.split(bEnd);
-		var edgeBMid = edgeB.split(bStart);
-		
-		var jW = param['insert width']+param['joint spacing']*2;
-		var jointCount = Math.floor(edgeAMid.length/jW);
-		var edgeSegmentA = dividePath(edgeAMid, jointCount);
-		var edgeSegmentB = dividePath(edgeBMid, jointCount);
-		shape[shapeA].children[pathA+'_joint'].removeChildren();
+		var edgeB2 = shape[shapeB].children[pathB+'_joint'].children[0];
 		shape[shapeB].children[pathB+'_joint'].removeChildren();
-		
-		if (softBool && !surfBool) {
-			shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-			var edgeB2 = shape[shapeB].children[pathB+'_joint'].children[0];
-			shape[shapeB].children[pathB+'_joint'].removeChildren();
-			var edgeB3 = new Path();
-			var amount = Math.floor(edgeB2.length/10);
-			amount = amount<3 ? 3 : amount;
-			for (var i=0; i<amount+1; i++) {
-				var pt = edgeB2.getPointAt(i/amount*edgeB2.length);
-				var normal = edgeB2.getNormalAt(i/amount*edgeB2.length).multiply(joints[index]['dirF']);
-				var pt2 = pt.add(normal.multiply(param['hem offset']));
-				edgeB3.add(pt2);
-			}
-			edgeB3.smooth();
-			edgeB3.insert(0, edgeB2.firstSegment.point);
-			edgeB3.insert(edgeB3.segments.length, edgeB2.lastSegment.point);
-			returnB.push(edgeB3);
-			returnBFold.push(edgeB2);
-		} else if (!surfBool) {
-			shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-			var edgeB2 = shape[shapeB].children[pathB+'_joint'].children[0];
-			shape[shapeB].children[pathB+'_joint'].removeChildren();
-			returnB.push(edgeB2);
+		var edgeB3 = new Path();
+		var amount = Math.floor(edgeB2.length/10);
+		amount = amount<3 ? 3 : amount;
+		for (var i=0; i<amount+1; i++) {
+			var pt = edgeB2.getPointAt(i/amount*edgeB2.length);
+			var normal = edgeB2.getNormalAt(i/amount*edgeB2.length).multiply(joints[index]['dirF']);
+			var pt2 = pt.add(normal.multiply(param['hem offset']));
+			edgeB3.add(pt2);
 		}
-		
-		var intersectPath;
-		
-		if (edgeA.length>0) {
-			returnA.push(edgeA);
-		}
-		if (edgeAEnd.length>0) {
-			returnA.push(edgeAEnd);
-		}
-		
-		for (i in edgeSegmentA) {
+		edgeB3.smooth();
+		edgeB3.insert(0, edgeB2.firstSegment.point);
+		edgeB3.insert(edgeB3.segments.length, edgeB2.lastSegment.point);
+		returnB.push(edgeB3);
+		returnBFold.push(edgeB2);
+	} else if (!surfBool) {
+		shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
+		var edgeB2 = shape[shapeB].children[pathB+'_joint'].children[0];
+		shape[shapeB].children[pathB+'_joint'].removeChildren();
+		returnB.push(edgeB2);
+	}
+	
+	var intersectPath;
+	
+	if (edgeA.length>0) {
+		returnA.push(edgeA);
+	}
+	if (edgeAEnd.length>0) {
+		returnA.push(edgeAEnd);
+	}
+	
+	for (i in edgeSegmentA) {
 
-			var chordA = new Path([edgeSegmentA[i].firstSegment.point, edgeSegmentA[i].lastSegment.point]);
-			var chordB = new Path([edgeSegmentB[i].firstSegment.point, edgeSegmentB[i].lastSegment.point]);
-			
-			var dirA = chordA.getNormalAt(chordA.length/2).multiply(joints[index]['dirM']);
-			var chordAMidPt = chordA.getPointAt(chordA.length/2);
-			var chordAJointStart = chordA.getPointAt(chordA.length/2-param['insert width']/2);
-			var chordAJointEnd = chordA.getPointAt(chordA.length/2+param['insert width']/2);
-			intersectPath = new Path([chordAJointStart.add(dirA.multiply(-100)), chordAJointStart.add(dirA.multiply(100))]);
-			var pathAStartLoc = edgeSegmentA[i].getIntersections(intersectPath)[0];
-			var pathAStart = pathAStartLoc.point;
-			intersectPath.remove();
-			intersectPath = new Path([chordAJointEnd.add(dirA.multiply(-100)), chordAJointEnd.add(dirA.multiply(100))]);
-			var pathAEndLoc = edgeSegmentA[i].getIntersections(intersectPath)[0];
-			var pathAEnd = pathAEndLoc.point;
-			intersectPath.remove();
-			var dirB = chordB.getNormalAt(chordB.length/2).multiply(joints[index]['dirF']);
-			var chordBMidPt = chordB.getPointAt(chordB.length/2);
-			var chordBJointStart = chordB.getPointAt(chordB.length/2-param['insert width']/2);
-			var chordBJointEnd = chordB.getPointAt(chordB.length/2+param['insert width']/2);
-			intersectPath = new Path([chordBJointStart.add(dirB.multiply(-100)), chordBJointStart.add(dirB.multiply(100))]);
-			var pathBStartLoc = edgeSegmentB[i].getIntersections(intersectPath)[0];
-			var pathBStart = pathBStartLoc.point;
-			intersectPath.remove();
-			intersectPath = new Path([chordBJointEnd.add(dirB.multiply(-100)), chordBJointEnd.add(dirB.multiply(100))]);
-			var pathBEndLoc = edgeSegmentB[i].getIntersections(intersectPath)[0];
-			var pathBEnd = pathBEndLoc.point;
-			intersectPath.remove();
-			var segmentA = edgeSegmentA[i].clone();
-			var endSegment = segmentA.split(segmentA.getLocationOf(pathAEnd));
-			var midSegment = segmentA.split(segmentA.getLocationOf(pathAStart)); // segmentA left with start segment
-			
-			var tanA = new Point(dirA.y, -dirA.x);
-			tanA = tanA.multiply(joints[index]['dirM']);
-			var extension = (chordAJointStart.getDistance(pathAStart)+chordAJointEnd.getDistance(pathAEnd))/2;
-			var jointHeight;
-			if (softBool || surfBool) {
-				jointHeight = param['hem offset']+param['material thickness (F)']+param['material thickness (F)']+param['slack'];
+		var chordA = new Path([edgeSegmentA[i].firstSegment.point, edgeSegmentA[i].lastSegment.point]);
+		var chordB = new Path([edgeSegmentB[i].firstSegment.point, edgeSegmentB[i].lastSegment.point]);
+		
+		var dirA = chordA.getNormalAt(chordA.length/2).multiply(joints[index]['dirM']);
+		var chordAMidPt = chordA.getPointAt(chordA.length/2);
+		var chordAJointStart = chordA.getPointAt(chordA.length/2-param['insert width']/2);
+		var chordAJointEnd = chordA.getPointAt(chordA.length/2+param['insert width']/2);
+		intersectPath = new Path([chordAJointStart.add(dirA.multiply(-100)), chordAJointStart.add(dirA.multiply(100))]);
+		var pathAStartLoc = edgeSegmentA[i].getIntersections(intersectPath)[0];
+		var pathAStart = pathAStartLoc.point;
+		intersectPath.remove();
+		intersectPath = new Path([chordAJointEnd.add(dirA.multiply(-100)), chordAJointEnd.add(dirA.multiply(100))]);
+		var pathAEndLoc = edgeSegmentA[i].getIntersections(intersectPath)[0];
+		var pathAEnd = pathAEndLoc.point;
+		intersectPath.remove();
+		var dirB = chordB.getNormalAt(chordB.length/2).multiply(joints[index]['dirF']);
+		var chordBMidPt = chordB.getPointAt(chordB.length/2);
+		var chordBJointStart = chordB.getPointAt(chordB.length/2-param['insert width']/2);
+		var chordBJointEnd = chordB.getPointAt(chordB.length/2+param['insert width']/2);
+		intersectPath = new Path([chordBJointStart.add(dirB.multiply(-100)), chordBJointStart.add(dirB.multiply(100))]);
+		var pathBStartLoc = edgeSegmentB[i].getIntersections(intersectPath)[0];
+		var pathBStart = pathBStartLoc.point;
+		intersectPath.remove();
+		intersectPath = new Path([chordBJointEnd.add(dirB.multiply(-100)), chordBJointEnd.add(dirB.multiply(100))]);
+		var pathBEndLoc = edgeSegmentB[i].getIntersections(intersectPath)[0];
+		var pathBEnd = pathBEndLoc.point;
+		intersectPath.remove();
+		var segmentA = edgeSegmentA[i].clone();
+		var endSegment = segmentA.split(segmentA.getLocationOf(pathAEnd));
+		var midSegment = segmentA.split(segmentA.getLocationOf(pathAStart)); // segmentA left with start segment
+		
+		var tanA = new Point(dirA.y, -dirA.x);
+		tanA = tanA.multiply(joints[index]['dirM']);
+		var extension = (chordAJointStart.getDistance(pathAStart)+chordAJointEnd.getDistance(pathAEnd))/2;
+		var jointHeight;
+		if (softBool || surfBool) {
+			jointHeight = param['hem offset']+param['material thickness (F)']+param['material thickness (F)']+param['slack'];
+		} else {
+			jointHeight = Math.sqrt(Math.pow(param['hem offset'], 2)+Math.pow(param['material thickness (F)'], 2))+param['hem offset']*2+param['material thickness (F)']+param['slack'];
+		}
+		var ptAS = [];
+		var ptAE = [];
+		var ptAST = [];
+		var ptAET = [];
+		var matThick = param['material thickness (M)'];
+		if (surfBool) {
+			matThick = param['material thickness (F)']+param['material thickness (M)'];
+		}
+		for (var i=0; i<hookCount; i++) {
+			if (i==0) {
+				ptAS.push(chordAJointStart.add(dirA.multiply(extension+jointHeight)));
+				ptAE.push(chordAJointEnd.add(dirA.multiply(extension+jointHeight)));
+				ptAST.push(ptAS[0].add(dirA.multiply(-param['hook width'])).add(tanA.multiply(param['hook width'])));
+				ptAET.push(ptAE[0].add(dirA.multiply(-param['hook width'])).add(tanA.multiply(-param['hook width'])));
 			} else {
-				jointHeight = Math.sqrt(Math.pow(param['hem offset'], 2)+Math.pow(param['material thickness (F)'], 2))+param['hem offset']*2+param['material thickness (F)']+param['slack'];
+				ptAS.push(ptAS[(i-1)*2].add(dirA.multiply(param['insert width']+matThick)));
+				ptAE.push(ptAE[(i-1)*2].add(dirA.multiply(param['insert width']+matThick)));
+				ptAST.push(ptAST[(i-1)*2].add(dirA.multiply(param['insert width']+matThick)));
+				ptAET.push(ptAET[(i-1)*2].add(dirA.multiply(param['insert width']+matThick)));
 			}
-			var ptAS = [];
-			var ptAE = [];
-			var ptAST = [];
-			var ptAET = [];
-			var matThick = param['material thickness (M)'];
-			if (surfBool) {
-				matThick = param['material thickness (F)']+param['material thickness (M)'];
-			}
-			for (var i=0; i<hookCount; i++) {
-				if (i==0) {
-					ptAS.push(chordAJointStart.add(dirA.multiply(extension+jointHeight)));
-					ptAE.push(chordAJointEnd.add(dirA.multiply(extension+jointHeight)));
-					ptAST.push(ptAS[0].add(dirA.multiply(-param['hook width'])).add(tanA.multiply(param['hook width'])));
-					ptAET.push(ptAE[0].add(dirA.multiply(-param['hook width'])).add(tanA.multiply(-param['hook width'])));
-				} else {
-					ptAS.push(ptAS[(i-1)*2].add(dirA.multiply(param['insert width']+matThick)));
-					ptAE.push(ptAE[(i-1)*2].add(dirA.multiply(param['insert width']+matThick)));
-					ptAST.push(ptAST[(i-1)*2].add(dirA.multiply(param['insert width']+matThick)));
-					ptAET.push(ptAET[(i-1)*2].add(dirA.multiply(param['insert width']+matThick)));
-				}
-				ptAS.push(ptAS[i*2].add(dirA.multiply(param['insert width'])));
-				ptAE.push(ptAE[i*2].add(dirA.multiply(param['insert width'])));
-				ptAST.push(ptAST[i*2].add(dirA.multiply(param['insert width'])));
-				ptAET.push(ptAET[i*2].add(dirA.multiply(param['insert width'])));
-			}
-			var ptATip = chordAMidPt.add(dirA.multiply(extension+jointHeight+param['insert width']*(hookCount+0.5)+matThick*(hookCount-1)));
-			var ptList = [pathAStart];
-			var fillet = [];
-			for (var i=0; i<ptAS.length; i++) {
-				if (i%2==0) {
+			ptAS.push(ptAS[i*2].add(dirA.multiply(param['insert width'])));
+			ptAE.push(ptAE[i*2].add(dirA.multiply(param['insert width'])));
+			ptAST.push(ptAST[i*2].add(dirA.multiply(param['insert width'])));
+			ptAET.push(ptAET[i*2].add(dirA.multiply(param['insert width'])));
+		}
+		var ptATip = chordAMidPt.add(dirA.multiply(extension+jointHeight+param['insert width']*(hookCount+0.5)+matThick*(hookCount-1)));
+		var ptList = [pathAStart];
+		var fillet = [];
+		for (var i=0; i<ptAS.length; i++) {
+			if (i%2==0) {
+				ptList.push(ptAS[i]);
+				fillet.push(0);
+				ptList.push(ptAST[i]);
+				fillet.push(param['hook width']/5);
+			} else {
+				ptList.push(ptAST[i]);
+				fillet.push(param['hook width']/3);
+				if (i<ptAS.length-1) {
 					ptList.push(ptAS[i]);
 					fillet.push(0);
-					ptList.push(ptAST[i]);
-					fillet.push(param['hook width']/5);
-				} else {
-					ptList.push(ptAST[i]);
-					fillet.push(param['hook width']/3);
-					if (i<ptAS.length-1) {
-						ptList.push(ptAS[i]);
-						fillet.push(0);
-					}
 				}
 			}
-			ptList.push(ptATip);
-			fillet.push(param['hook width']/1.5);
-			for (var i=ptAE.length-1; i>=0; i--) {
-				if (i%2==1) {
-					if (i<ptAE.length-1) {
-						ptList.push(ptAE[i]);
-						fillet.push(0);
-					}
-					ptList.push(ptAET[i]);
-					fillet.push(param['hook width']/3);
-				} else {
-					ptList.push(ptAET[i]);
-					fillet.push(param['hook width']/5);
+		}
+		ptList.push(ptATip);
+		fillet.push(param['hook width']/1.5);
+		for (var i=ptAE.length-1; i>=0; i--) {
+			if (i%2==1) {
+				if (i<ptAE.length-1) {
 					ptList.push(ptAE[i]);
 					fillet.push(0);
 				}
-				
-			}
-			ptList.push(pathAEnd);
-
-			var insertPath = generateFilletPath(ptList, fillet);
-			returnA.push(insertPath);
-			returnA.push(endSegment);
-			returnA.push(segmentA);
-			
-			var slitAS = [chordAJointStart.add(dirA.multiply(-param['hem offset']))];
-			var slitAE = [chordAJointEnd.add(dirA.multiply(-param['hem offset']))];
-			for (var i=0; i<hookCount-1; i++) {
-				slitAS.push(slitAS[i].add(dirA.multiply(-param['insert width'])));
-				slitAE.push(slitAE[i].add(dirA.multiply(-param['insert width'])));
-			}	
-			var slitBS = [];
-			var slitBE = [];
-			if (softBool && !surfBool) {
-				slitBS.push(chordBJointStart);
-				slitBE.push(chordBJointEnd);
-			} else if ( !surfBool ) {
-				slitBS.push(chordBJointStart.add(dirB.multiply(-param['hem offset'])));
-				slitBE.push(chordBJointEnd.add(dirB.multiply(-param['hem offset'])));
-			} else if (surfBool) {
-				slitBS.push(chordBJointStart);
-				slitBE.push(chordBJointEnd);
-				for (var i=0; i<hookCount; i++) {
-					slitBS.push(slitBS[i].add(dirB.multiply(-param['insert width'])));
-					slitBE.push(slitBE[i].add(dirB.multiply(-param['insert width'])));
-				}
-			}
-			
-			
-			if (param['material thickness (M)']==0) {
-				for (i in slitAS) {
-					var AS = new Path([slitAS[i], slitAE[i]]);
-					returnA.push(AS);
-					returnA.push(new Path.Circle(slitAS[i], 0.25));
-					returnA.push(new Path.Circle(slitAE[i], 0.25));
-				}
-				for (i in slitBS) {
-					var BS = new Path([slitBS[i], slitBE[i]]);
-					returnB.push(BS);
-					returnB.push(new Path.Circle(slitBS[i], 0.25));
-					returnB.push(new Path.Circle(slitBE[i], 0.25));
-				}					
+				ptList.push(ptAET[i]);
+				fillet.push(param['hook width']/3);
 			} else {
-				for (i in slitAS) {
-					slitA = generateSlit(slitAS[i], slitAE[i], param['material thickness (M)']);	
-					returnA.push(slitA);
-				}
-				for (i in slitBS) {
-					slitB = generateSlit(slitBS[i], slitBE[i], param['material thickness (M)']);	
-					returnB.push(slitB);
-				}
+				ptList.push(ptAET[i]);
+				fillet.push(param['hook width']/5);
+				ptList.push(ptAE[i]);
+				fillet.push(0);
 			}
-			chordA.remove();
-			chordB.remove();
+			
 		}
-		return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
+		ptList.push(pathAEnd);
+
+		var insertPath = generateFilletPath(ptList, fillet);
+		returnA.push(insertPath);
+		returnA.push(endSegment);
+		returnA.push(segmentA);
+		
+		var slitAS = [chordAJointStart.add(dirA.multiply(-param['hem offset']))];
+		var slitAE = [chordAJointEnd.add(dirA.multiply(-param['hem offset']))];
+		for (var i=0; i<hookCount-1; i++) {
+			slitAS.push(slitAS[i].add(dirA.multiply(-param['insert width'])));
+			slitAE.push(slitAE[i].add(dirA.multiply(-param['insert width'])));
+		}	
+		var slitBS = [];
+		var slitBE = [];
+		if (softBool && !surfBool) {
+			slitBS.push(chordBJointStart);
+			slitBE.push(chordBJointEnd);
+		} else if ( !surfBool ) {
+			slitBS.push(chordBJointStart.add(dirB.multiply(-param['hem offset'])));
+			slitBE.push(chordBJointEnd.add(dirB.multiply(-param['hem offset'])));
+		} else if (surfBool) {
+			slitBS.push(chordBJointStart);
+			slitBE.push(chordBJointEnd);
+			for (var i=0; i<hookCount; i++) {
+				slitBS.push(slitBS[i].add(dirB.multiply(-param['insert width'])));
+				slitBE.push(slitBE[i].add(dirB.multiply(-param['insert width'])));
+			}
+		}
+		
+		
+		if (param['material thickness (M)']==0) {
+			for (i in slitAS) {
+				var AS = new Path([slitAS[i], slitAE[i]]);
+				returnA.push(AS);
+				returnA.push(new Path.Circle(slitAS[i], 0.25));
+				returnA.push(new Path.Circle(slitAE[i], 0.25));
+			}
+			for (i in slitBS) {
+				var BS = new Path([slitBS[i], slitBE[i]]);
+				returnB.push(BS);
+				returnB.push(new Path.Circle(slitBS[i], 0.25));
+				returnB.push(new Path.Circle(slitBE[i], 0.25));
+			}					
+		} else {
+			for (i in slitAS) {
+				slitA = generateSlit(slitAS[i], slitAE[i], param['material thickness (M)']);	
+				returnA.push(slitA);
+			}
+			for (i in slitBS) {
+				slitB = generateSlit(slitBS[i], slitBE[i], param['material thickness (M)']);	
+				returnB.push(slitB);
+			}
+		}
+		chordA.remove();
+		chordB.remove();
 	}
+	return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
 }
 
 function dividePath(p, n) {
