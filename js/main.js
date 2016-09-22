@@ -127,7 +127,18 @@ function processSVG(e) {
 				drawGrid();
 			}
 		} else {
-			setMessage('Please set SVG units to <b>millimeters</b> or <b>inches</b>.', '#F80');
+			setMessage('<b>SVG units not found</b>. Using default conversion to millimeters', '#F80');
+			if (!SVGprocessed) {
+				SVGString.push(file);
+				shape.push(paper.project.importSVG(file));
+				SVGprocessed = true;
+				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
+				shape[shape.length-1].name = 'shape';
+				shapeColor.push({});
+				shape[shape.length-1].scale(inchToMM/72, shape[shape.length-1].position);
+				calProjectBounds();
+				drawGrid();
+			}
 		}
 		$('#loadSVG').val('');
     }
@@ -607,7 +618,7 @@ function refreshShapeDisplay() {
 			shape[i].children[j].strokeWidth = 0;
 			shape[i].children[j].strokeCap = 'round';
 			if (shape[i].children[j].className=='Path') {
-				shape[i].children[j].strokeColor = shapeColor[i][j];
+				shape[i].children[j].strokeColor = '#000';
 				if (shape[i].children[j].name=='joint') {
 					shape[i].children[j].strokeWidth = 0;
 				} else {
