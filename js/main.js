@@ -79,6 +79,7 @@ var inchToMM = 25.4;
 var paperScale = 1.0;
 var docUnits = 'mm';
 var SVGString = [];
+var SVGScale = [];
 var SVGprocessed = false;
 
 function processSVG(e) {
@@ -118,9 +119,11 @@ function processSVG(e) {
 				}
 				if (units=='in') {
 					shape[shape.length-1].scale(inchToMM, shape[shape.length-1].position);
+					SVGScale.push(inchToMM);
 				}
 				if (units=='px') {
 					shape[shape.length-1].scale(inchToMM/72, shape[shape.length-1].position);
+					SVGScale.push(inchToMM/72);
 					setMessage('SVG units detected as <b>pixels</b>. Using default conversion to millimeters', '#F80');	
 				}
 				calProjectBounds();
@@ -136,6 +139,7 @@ function processSVG(e) {
 				shape[shape.length-1].name = 'shape';
 				shapeColor.push({});
 				shape[shape.length-1].scale(inchToMM/72, shape[shape.length-1].position);
+				SVGScale.push(inchToMM/72);
 				calProjectBounds();
 				drawGrid();
 			}
@@ -157,6 +161,7 @@ function processProject(e) {
 		jointMake = [];
 		shapeColor = [];
 		SVGString = [];
+		SVGScale = [];
 		init();
 		var JSONfile = JSON.parse(file);
 		
@@ -177,8 +182,10 @@ function processProject(e) {
 				}
 			}
 			SVGString.push(JSONfile.SVGString[j]);
+			SVGScale.push(JSONfile.SVGScale[j]);
 			shape.push(paper.project.importSVG(JSONfile.SVGString[j]));
-			shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
+			shape[shape.length-1].position = new Point(JSONfile.SVGPos[j][1], JSONfile.SVGPos[j][2]);
+			shape[shape.length-1].scale(SVGScale[SVGScale.length-1], shape[shape.length-1].position);
 			shape[shape.length-1].name = 'shape';
 			shapeColor.push({});
 			for (k in shape[shape.length-1].children) {
@@ -669,12 +676,16 @@ function activateDim(bool) {
 function saveProject() {
 	var state = {
 		'SVGString' : [],
+		'SVGScale': [],
+		'SVGPos' : [],
 		'joints' : [],
 		'jointProfileList' : [],
 		'jointProfileCount' : jointProfileCount
 	};
 	for (i in SVGString) {
 		state.SVGString.push( SVGString[i] );
+		state.SVGScale.push(SVGScale[i]);
+		state.SVGPos.push(shape[i].position);
 	}
 	for (i in joints) {
 		state.joints.push( $.extend(true,{},joints[i]) );
