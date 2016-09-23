@@ -263,6 +263,8 @@ function processJointProfile(e) {
 				createJointProfileMenu((jointProfileList.length-1), jointProfileCount-1, id);
 				refreshJointList();
 
+				$('#loadJointProfile').val('');
+
     			break;
     		}
     	}
