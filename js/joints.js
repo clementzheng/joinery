@@ -302,7 +302,9 @@ function generateJoint(index) {
 			shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
 			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 
-			shape[shapeB].children[pathB+'_joint'].addChild(g);
+			var g2 = new Group();
+			g2.name = 'folds';
+			shape[shapeB].children[pathB+'_joint'].addChild(g2);
 			shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
 			shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
 			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
@@ -326,7 +328,9 @@ function generateJoint(index) {
 				shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
 				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 
-				shape[shapeB].children[pathB+'_joint'].addChild(g);
+				var g2 = new Group();
+				g2.name = 'folds';
+				shape[shapeB].children[pathB+'_joint'].addChild(g2);
 				shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
 				shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
 				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
@@ -354,8 +358,10 @@ function generateJoint(index) {
 			shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
 			shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
 			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-
-			shape[shapeB].children[pathB+'_joint'].addChild(g);
+			
+			var g2 = new Group();
+			g2.name = 'folds';
+			shape[shapeB].children[pathB+'_joint'].addChild(g2);
 			shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
 			shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
 			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
@@ -379,7 +385,9 @@ function generateJoint(index) {
 				shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
 				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 
-				shape[shapeB].children[pathB+'_joint'].addChild(g);
+				var g2 = new Group();
+				g2.name = 'folds';
+				shape[shapeB].children[pathB+'_joint'].addChild(g2);
 				shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
 				shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
 				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
