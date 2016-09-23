@@ -238,6 +238,7 @@ function createRemoveIcon() {
 }
 
 function setClick() {
+	//refreshShapeDisplay();
 	$('#leftMenu2 li.active').toggleClass('active');
 	$('#setClick').toggleClass('active');
 	mode = 'set';
@@ -251,6 +252,7 @@ function setClick() {
 }
 
 function reverseClick() {
+	//refreshShapeDisplay();
 	$('#leftMenu2 li.active').toggleClass('active');
 	$('#reverseClick').toggleClass('active');
 	mode = 'reverse';
@@ -264,6 +266,7 @@ function reverseClick() {
 }
 
 function flipClick() {
+	//refreshShapeDisplay();
 	$('#leftMenu2 li.active').toggleClass('active');
 	$('#flipClick').toggleClass('active');
 	mode = 'flip';
@@ -277,6 +280,7 @@ function flipClick() {
 }
 
 function swapClick() {
+	//refreshShapeDisplay();
 	$('#leftMenu2 li.active').toggleClass('active');
 	$('#swapClick').toggleClass('active');
 	mode = 'swap';
@@ -290,6 +294,7 @@ function swapClick() {
 }
 
 function panClick() {
+	//refreshShapeDisplay();
 	$('#leftMenu2 li.active').toggleClass('active');
 	$('#panClick').toggleClass('active');
 	mode = 'pan';

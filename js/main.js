@@ -323,24 +323,26 @@ function highlightShapePath() {
 		for (j in shape[i].children) {
 			if (shape[i].children[j].className=='Path') {
 				var pt = shape[i].children[j].getNearestLocation(cursorPt);
-				var d = pt.getDistance(cursorPt);
-				if (d < tolerance) {
-					if (!bool) {
-						shape[i].children[j].strokeWidth = 1.5;
-						shape[i].children[j].strokeColor = '#0AF';
-						pathSelected.shape = i;
-						pathSelected.path = j;
-						bool = true;
+				if (pt) {
+					var d = pt.getDistance(cursorPt);
+					if (d < tolerance) {
+						if (!bool) {
+							shape[i].children[j].strokeWidth = 1.5;
+							shape[i].children[j].strokeColor = '#0AF';
+							pathSelected.shape = i;
+							pathSelected.path = j;
+							bool = true;
+						} else {
+							shape[i].children[j].strokeWidth = 0.5;
+							shape[i].children[j].strokeColor = shapeColor[i][j];
+						}
 					} else {
 						shape[i].children[j].strokeWidth = 0.5;
 						shape[i].children[j].strokeColor = shapeColor[i][j];
 					}
-				} else {
-					shape[i].children[j].strokeWidth = 0.5;
-					shape[i].children[j].strokeColor = shapeColor[i][j];
-				}
-				if (bool) {
-					break;
+					if (bool) {
+						break;
+					}
 				}
 			}
 		}
@@ -615,7 +617,7 @@ function setMessage(s, c) {
 function refreshShapeDisplay() {
 	for (i in shape) {
 		for (j in shape[i].children) {
-			shape[i].children[j].strokeWidth = 0;
+			shape[i].children[j].strokeWidth = 0.5;
 			shape[i].children[j].strokeCap = 'round';
 			if (shape[i].children[j].className=='Path') {
 				shape[i].children[j].strokeColor = '#000';
