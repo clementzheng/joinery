@@ -117,6 +117,9 @@ function processSVG(e) {
 						shapeColor[shapeColor.length-1][j] = shape[shape.length-1].children[j].strokeColor;
 					}
 				}
+				if (units=='mm') {
+					SVGScale.push(1);
+				}
 				if (units=='in') {
 					shape[shape.length-1].scale(inchToMM, shape[shape.length-1].position);
 					SVGScale.push(inchToMM);
