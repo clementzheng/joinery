@@ -10,6 +10,7 @@ var loopInsert = {
 		'hem offset': 8,
 		'insert width': 8,
 		'hook width': 4,
+		'hook count': 2,
 		'joint spacing': 8,
 		'slack': 0,
 		'offset start': 0,
@@ -27,6 +28,7 @@ var loopInsertH = {
 		'hem offset': 8,
 		'insert width': 8,
 		'hook width': 4,
+		'hook count': 2,
 		'joint spacing': 8,
 		'slack': 0,
 		'offset start': 0,
@@ -211,7 +213,7 @@ function generateJoint(index) {
 		
 	switch (jType) {
 		case 'loop insert (overlap)':
-			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, true, false, 2);
+			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, true, false, Math.floor(param['hook count']));
 			shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
 			shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
 			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
@@ -229,7 +231,7 @@ function generateJoint(index) {
 			break;
 			
 		case 'loop insert':
-			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, false, false, 2);
+			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, false, false, Math.floor(param['hook count']));
 			shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
 			shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
 			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
@@ -239,7 +241,7 @@ function generateJoint(index) {
 			break;
 
 		case 'loop insert (surface)':
-			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, false, true, param['hook count']);
+			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, false, true, Math.floor(param['hook count']));
 			if (childPath) {
 				shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
 				shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
