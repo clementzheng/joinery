@@ -196,9 +196,6 @@ function processProject(e) {
 					shapeColor[shapeColor.length-1][k] = shape[shape.length-1].children[k].strokeColor;
 				}
 			}
-			if (units=='in') {
-				shape[shape.length-1].scale(inchToMM, shape[shape.length-1].position);
-			}
 			calProjectBounds();
 			$('#loadSVG').val('');
 			activateDim(dimBool);
