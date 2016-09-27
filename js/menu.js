@@ -190,7 +190,11 @@ function initForms() {
 			var idStr = jointProfileList[j].profile.split(' ');
 			var id = 'joint_'+idStr[idStr.length-1];
 			for (i in jointProfileList[j].param) {
-				$('#'+id+' input[name="'+i+'"]').val(jointProfileList[jointProfileList.length-1].param[i]/inchToMM);
+				if (paramInteger.indexOf(i)<0 && paramAngle.indexOf(i)<0) {
+					$('#'+id+' input[name="'+i+'"]').val(jointProfileList[jointProfileList.length-1].param[i]/inchToMM);
+				} else {
+					$('#'+id+' input[name="'+i+'"]').val(jointProfileList[jointProfileList.length-1].param[i]);
+				}
 				$('#'+id+' input[name="'+i+'"]').attr("step", 0.0625);
 			}
 		}
@@ -454,7 +458,11 @@ function setJointValue(idString) {
 					if (docUnits=='mm') {
 						jointProfileList[j].param[k] = parseFloat(val);
 					} else {
-						jointProfileList[j].param[k] = parseFloat(val)*inchToMM;
+						if (paramInteger.indexOf(k)<0 && paramAngle.indexOf(k)<0) {
+							jointProfileList[j].param[k] = parseFloat(val)*inchToMM;
+						} else {
+							jointProfileList[j].param[k] = parseFloat(val);
+						}
 					}
 				}
 			}

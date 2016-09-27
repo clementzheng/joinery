@@ -4,6 +4,11 @@ var paramInteger = [
 	'hook count'
 ];
 
+var paramAngle = [
+	'interior angle',
+	'flap angle'
+];
+
 var loopInsert = {
 	'name':'loop insert (overlap)',
 	'profile':'',
