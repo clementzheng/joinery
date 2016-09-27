@@ -475,7 +475,7 @@ function generateFingerJointA(index, shapeA, pathA, shapeB, pathB, param) {
 			var dirB = pathBEnd.subtract(pathBStart).normalize();
 			var normA = new Point(dirA.y, -dirA.x);
 			var normB = new Point(dirB.y, -dirB.x);
-			var fingerCount = Math.floor(pathAStart.getDistance(pathAEnd)/param['finger width']);
+			var fingerCount = Math.floor(pathAStart.getDistance(pathAEnd)/(param['finger width']*2))*2;
 			var gap = pathAStart.getDistance(pathAEnd)/fingerCount;
 			var pathAStartCloneIndex = -1;
 			var pathAEndCloneIndex = -1;
@@ -981,7 +981,7 @@ function generateFingerJoint(index, shapeA, pathA, shapeB, pathB, param) {
 	var dirB = ptBEnd.subtract(ptBStart).normalize();
 	var normA = new Point(dirA.y, -dirA.x);
 	var normB = new Point(dirB.y, -dirB.x);
-	var fingerCount = Math.floor(ptAStart.getDistance(ptAEnd)/param['finger width']);
+	var fingerCount = Math.floor(ptAStart.getDistance(ptAEnd)/(param['finger width']*2))*2;
 	var gap = ptAStart.getDistance(ptAEnd)/fingerCount;
 	var ptListA = [shape[shapeA].children[pathA].firstSegment.point];
 	var ptListB = [shape[shapeB].children[pathB].firstSegment.point];
