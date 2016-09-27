@@ -326,7 +326,9 @@ function createJointProfileMenu(i, ic, id) {
 	html = html+'<div class="jointNotes"><textarea>'+jointProfileList[i].notes+'</textarea>';
 	html = html+'</div>';
 	for (j in jointProfileList[i].param) {
-		if (docUnits=='mm') {
+		if (paramInteger.indexOf(j) >= 0) {
+			html = html+'<li class="param"><label>'+j+'</label><input type="number" step="1" name="'+j+'"></li>';
+		} else if (docUnits=='mm') {
 			html = html+'<li class="param"><label>'+j+'</label><input type="number" step="0.1" name="'+j+'"></li>';
 		} else {
 			html = html+'<li class="param"><label>'+j+'</label><input type="number" step="0.0625" name="'+j+'"></li>';

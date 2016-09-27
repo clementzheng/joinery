@@ -1,5 +1,9 @@
 var jointProfileCount = 0;
 
+var paramInteger = [
+	'hook count'
+];
+
 var loopInsert = {
 	'name':'loop insert (overlap)',
 	'profile':'',
