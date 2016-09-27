@@ -694,3 +694,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 #helpDiv:hover a {
 	color: #222;
 }
+
+input:focus {
+    color: #F80;
+}

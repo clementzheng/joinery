@@ -439,9 +439,17 @@ function createJointProfileMenu(i, ic, id) {
 		if (docUnits=='mm') {
 			$('#'+id+' input[name="'+j+'"]').val(jointProfileList[i].param[j]);
 		} else {
-			$('#'+id+' input[name="'+j+'"]').val(jointProfileList[i].param[j]/inchToMM);
+			if (paramInteger.indexOf(j)<0 && paramAngle.indexOf(j)<0) {
+				$('#'+id+' input[name="'+j+'"]').val(jointProfileList[i].param[j]/inchToMM);
+			} else {
+				$('#'+id+' input[name="'+j+'"]').val(jointProfileList[i].param[j]);
+			}
 		}
 	}
+
+	$('#'+id+' input').on('change', function() {
+		$(this).css('color', '#F80');
+	});
 }
 
 function setJointValue(idString) {
@@ -469,6 +477,8 @@ function setJointValue(idString) {
 			break;
 		}
 	}
+
+	$('#'+idString+' input').css('color', '#000');
 			
 	for (j in joints) {
 		generateJoint(j);
