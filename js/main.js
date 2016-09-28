@@ -542,7 +542,7 @@ function displayFlipLines() {
 		}
 		if (flipLines.children[i].name=='normal') {
 			flipLines.children[i].strokeColor = '#0F0';
-			flipLines.children[i].strokeWidth = 1;
+			flipLines.children[i].strokeWidth = 1.5;
 		}
 	}
 }
