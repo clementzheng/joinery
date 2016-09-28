@@ -411,6 +411,7 @@ function createJointProfileMenu(i, ic, id) {
 	$('#'+id+' .title').on('mouseleave', function() {
 		highlight.removeChildren();
 	});
+
 	
 	$('#'+id+' .setVal').on('click', function() {
 		var idString = $(this).attr('id');
@@ -449,6 +450,11 @@ function createJointProfileMenu(i, ic, id) {
 
 	$('#'+id+' input').on('change', function() {
 		$(this).css('color', '#F80');
+	});
+
+	$('#'+id+' .paramList .param').on('click', function() {
+		$(this).children('input').focus();
+		$(this).children('input').select();
 	});
 }
 
