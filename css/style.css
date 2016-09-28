@@ -33,7 +33,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	top: 12px;
 	left: -200px;
 	width: 212px;
-	height: 280px;
+	height: 270px;
 	-webkit-transition: all 300ms ease-in-out;
 	-moz-transition: all 300ms ease-in-out;
 	-o-transition: all 300ms ease-in-out;
@@ -50,7 +50,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	position: relative;
 	float: left;
 	width: 200px;
-	height: 280px;
+	height: 270px;
 	padding: 20px 15px 15px 25px;
 	box-sizing: border-box;
 }
@@ -65,10 +65,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 
 #leftMenu2 {
 	position: absolute;
-	top: 292px;
+	top: 282px;
 	left: -200px;
 	width: 212px;
-	height: 300px;
+	height: 285px;
 	-webkit-transition: all 300ms ease-in-out;
 	-moz-transition: all 300ms ease-in-out;
 	-o-transition: all 300ms ease-in-out;
@@ -85,7 +85,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	position: relative;
 	float: left;
 	width: 200px;
-	height: 300px;
+	height: 285px;
 	padding: 30px 15px 15px 25px;
 	box-sizing: border-box;
 }
@@ -208,7 +208,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	font-size: 12px;
 	font-weight: 400;
 	border-radius: 1px;
-	border: 1px solid #777;
+	background: #BBB;
+	border-radius: 2px;
 }
 
 .button2:hover {
@@ -323,7 +324,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	float: left;
 	width: 100%;
 	height: 100%;
-	border: 1px solid #777;
+	border: 1px solid #AAA;
 	padding: 0 5px;
 	line-height: 25px;
 	cursor: pointer;
@@ -338,7 +339,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	display: none;
 	position: relative;
 	float: left;
-	width: 220px;
+	width: 218px;
 	height: 100%;
 	border-bottom: 1px solid #AAA;
 	border-left: 1px solid #AAA;
@@ -386,8 +387,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	width: 200px;
 	height: 261px;
 	display: none;
-	border: 1px solid #666;
-	border-right: 1px solid #666;
+	border: 1px solid #AAA;
+	border-right: 1px solid #999;
 	padding: 25px;
 	z-index: 103;
 	background: rgba(255, 255, 255, 0.9);
@@ -465,7 +466,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 }
 
 .jointProfile .title {
-	background: #DDD;
+	background: #BBB;
 }
 
 .title b {
@@ -584,7 +585,7 @@ textarea:focus {
 }
 
 li.param:hover {
-	background: #EEE;
+	background: #DDD;
 	cursor: pointer;
 }
 
@@ -745,5 +746,5 @@ input {
 }
 
 .menuStyle {
-	background: rgba(255, 255, 255, 0.9);
+	background: rgba(255, 255, 255, 0.95);
 }
