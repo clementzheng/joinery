@@ -174,8 +174,12 @@ function initForms() {
 			var idStr = jointProfileList[j].profile.split(' ');
 			var id = 'joint_'+idStr[idStr.length-1];
 			for (i in jointProfileList[j].param) {
-				$('#'+id+' input[name="'+i+'"]').val(jointProfileList[jointProfileList.length-1].param[i]);
-				$('#'+id+' input[name="'+i+'"]').attr("step", 0.1);
+				$('#'+id+' input[name="'+i+'"]').val(jointProfileList[j].param[i]);
+				if (paramInteger.indexOf(i)<0) {
+					$('#'+id+' input[name="'+i+'"]').attr("step", 0.1);
+				} else {
+					$('#'+id+' input[name="'+i+'"]').attr("step", 1);
+				}
 			}
 		}
 		drawGrid();
@@ -191,11 +195,17 @@ function initForms() {
 			var id = 'joint_'+idStr[idStr.length-1];
 			for (i in jointProfileList[j].param) {
 				if (paramInteger.indexOf(i)<0 && paramAngle.indexOf(i)<0) {
-					$('#'+id+' input[name="'+i+'"]').val(jointProfileList[jointProfileList.length-1].param[i]/inchToMM);
+					$('#'+id+' input[name="'+i+'"]').val(jointProfileList[j].param[i]/inchToMM);
 				} else {
-					$('#'+id+' input[name="'+i+'"]').val(jointProfileList[jointProfileList.length-1].param[i]);
+					$('#'+id+' input[name="'+i+'"]').val(jointProfileList[j].param[i]);
 				}
-				$('#'+id+' input[name="'+i+'"]').attr("step", 0.0625);
+				if (paramInteger.indexOf(i)<0 && paramAngle.indexOf(i)<0) {
+					$('#'+id+' input[name="'+i+'"]').attr("step", 0.0625);
+				} else if (paramAngle.indexOf(i)<0) {
+					$('#'+id+' input[name="'+i+'"]').attr("step", 1);
+				} else {
+					$('#'+id+' input[name="'+i+'"]').attr("step", 0.1);
+				}
 			}
 		}
 		drawGrid();
