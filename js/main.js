@@ -581,7 +581,7 @@ function removeShape() {
 	}
 }
 
-var projectBounds = {'minX':0, 'maxX':0, 'minY':0, 'maxY':0};
+var projectBounds = {'minX':0, 'maxX':0, 'minY':0, 'maxY':0, 'x':0, 'y':0};
 function calProjectBounds() {
 	if (shape.length > 0) {
 		var corners = [];
@@ -600,6 +600,8 @@ function calProjectBounds() {
 		});
 		projectBounds.minY = corners[0].y;
 		projectBounds.maxY = corners[corners.length-1].y;
+		projectBounds.y = (projectBounds.maxY+projectBounds.minY)/2;
+		projectBounds.x = (projectBounds.maxX+projectBounds.minX)/2;
 	}
 }
 

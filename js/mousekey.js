@@ -132,6 +132,8 @@ document.onwheel = function(e) {
 			paperScale = paperScale * scaleFactor;
 			paper.view.zoom = paperScale;
 			drawGrid();
+			paper.project._needsUpdate = true;
+    		paper.project.view.update();
 		}
 		zoomThen = Date.now();
 	}
@@ -195,6 +197,9 @@ document.onkeyup = function(e) {
 				setMessage('<b>Exporting SVG Please wait</b>', '#F80');
 				exportProject();
 			} */
+			if (key==48) {
+				zoomToFit();
+			}
 		}
 		
 		if (key==17) {
@@ -220,6 +225,33 @@ document.onkeyup = function(e) {
 			}
 		}
 	}
+}
+
+function zoomToFit() {
+	calProjectBounds();
+	var projectW = projectBounds.maxX-projectBounds.minX;
+	var projectH = projectBounds.maxY-projectBounds.minY;
+	var tV = new Point(paper.view.center.x-projectBounds.x, paper.view.center.y-projectBounds.y);
+	cursorIcon.position = cursorIcon.position.add(tV);
+	jointLines.position = jointLines.position.add(tV);
+	tempLines.position = tempLines.position.add(tV);
+	flipLines.position = flipLines.position.add(tV);
+	for (i in shape) {
+		shape[i].position = shape[i].position.add(tV);
+	}
+	var aspectProj = projectW/projectH;
+	var aspectView = (window.innerWidth-400)/window.innerHeight;
+	if (aspectProj < aspectView) {
+		var scaleFactor = (projectH*paperScale)/(0.8*window.innerHeight);
+		paperScale = paperScale / scaleFactor;
+		paper.view.zoom = paperScale;
+	} else {
+		var scaleFactor = (projectW*paperScale)/(0.8*(window.innerWidth-400));
+		paperScale = paperScale / scaleFactor;
+		paper.view.zoom = paperScale;
+	}
+	paper.project._needsUpdate = true;
+	paper.project.view.update();
 }
 
 var ctrlDown = false;
