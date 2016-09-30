@@ -328,6 +328,10 @@ var joints = [];
 var jointMake = [];
 function highlightShapePath() {
 	var bool = false;
+	if (pathSelected.shape != -1 && pathSelected.path != -1) {
+		shape[pathSelected.shape].children[pathSelected.path].strokeWidth = 0.5;
+		shape[pathSelected.shape].children[pathSelected.path].strokeColor = shapeColor[i][j];
+	}
 	for (i in shape) {
 		for (j in shape[i].children) {
 			if (shape[i].children[j].className=='Path') {
