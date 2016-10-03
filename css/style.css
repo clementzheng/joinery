@@ -61,7 +61,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	float: left;
 	width: 12px;
 	height: 100%;
-	border-left: 1px solid #AAA;
 }
 
 #leftMenu2 {
@@ -97,7 +96,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	float: left;
 	width: 12px;
 	height: 100%;
-	border-left: 1px solid #AAA;
 }
 
 .collapse {
@@ -111,7 +109,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 }
 
 .active .collapse {
-	background: rgba(180, 180, 180, 0.9);
+	background: rgba(255, 255, 255, 0.95);
 	color: #222;
 }
 
@@ -286,7 +284,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	float: left;
 	width: 12px;
 	height: 100%;
-	border-right: 1px solid #AAA;
 	border-radius: 0 0 0 0;
 }
 
@@ -295,7 +292,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	float: left;
 	width: 12px;
 	height: 100%;
-	border-right: 1px solid #AAA;
 	border-radius: 0 0 0 0;
 }
 
