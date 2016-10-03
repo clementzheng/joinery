@@ -109,7 +109,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 }
 
 .active .collapse {
-	background: rgba(255, 255, 255, 0.95);
+	background: rgba(255, 255, 255, 0.0);
 	color: #222;
 }
 
