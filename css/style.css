@@ -114,7 +114,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 }
 
 .collapse:hover {
-	background: rgba(120, 120, 120, 0.9);
+	background: rgba(30, 30, 30, 0.9);
 	color: #FFF;
 }
 
