@@ -330,7 +330,7 @@ function highlightShapePath() {
 	var bool = false;
 	if (pathSelected.shape != -1 && pathSelected.path != -1) {
 		shape[pathSelected.shape].children[pathSelected.path].strokeWidth = 0.5;
-		shape[pathSelected.shape].children[pathSelected.path].strokeColor = shapeColor[i][j];
+		shape[pathSelected.shape].children[pathSelected.path].strokeColor = shapeColor[pathSelected.shape][pathSelected.path];
 	}
 	for (i in shape) {
 		for (j in shape[i].children) {
