@@ -141,6 +141,11 @@ function processSVG(e) {
 				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
 				shape[shape.length-1].name = 'shape';
 				shapeColor.push({});
+				for (j in shape[shape.length-1].children) {
+					if (shape[shape.length-1].children[j].className=='Path') {
+						shapeColor[shapeColor.length-1][j] = shape[shape.length-1].children[j].strokeColor;
+					}
+				}
 				shape[shape.length-1].scale(inchToMM/72, shape[shape.length-1].position);
 				SVGScale.push(inchToMM/72);
 				calProjectBounds();
