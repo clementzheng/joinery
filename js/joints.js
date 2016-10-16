@@ -1246,8 +1246,13 @@ function generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, softBool
 			slitBS.push(chordBJointStart);
 			slitBE.push(chordBJointEnd);
 			for (var i=0; i<hookCount; i++) {
-				slitBS.push(slitBS[i].add(dirB.multiply(-param['insert width'])));
-				slitBE.push(slitBE[i].add(dirB.multiply(-param['insert width'])));
+				if (i==0) {
+					slitBS.push(slitBS[i].add(dirB.multiply(-param['hem offset'])));
+					slitBE.push(slitBE[i].add(dirB.multiply(-param['hem offset'])));
+				} else {
+					slitBS.push(slitBS[i].add(dirB.multiply(-param['insert width'])));
+					slitBE.push(slitBE[i].add(dirB.multiply(-param['insert width'])));
+				}
 			}
 		}
 		
