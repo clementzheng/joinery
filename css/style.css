@@ -114,7 +114,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 }
 
 .collapse:hover {
-	background: rgba(30, 30, 30, 0.9);
+	background: rgba(50, 50, 50, 0.9);
 	color: #FFF;
 }
 
@@ -216,7 +216,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 }
 
 .button2:hover {
-	background: #777;
+	background: #555;
 	color: white;
 	cursor: pointer;
 }
@@ -459,7 +459,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	position: relative;
 	float: left;
 	width: 100%;
-	background: #DDD;
+	background: #EEE;
 	font-weight: 700;
 	font-size: 13px;
 	margin-bottom: 5px;
@@ -482,7 +482,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 
 .title:hover {
 	cursor: pointer;
-	background: #AAA !important;
+	background: #888 !important;
 }
 
 .title b:hover {
