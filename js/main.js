@@ -32,8 +32,8 @@ function init() {
 	initialized = true;
 }
 
-var minorLineCol = "#E0E0E0";
-var majorLineCol = "#F0F0F0";
+var minorLineCol = "#E8E8E8";
+var majorLineCol = "#DADADA";
 
 function drawGrid() {
 	ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);

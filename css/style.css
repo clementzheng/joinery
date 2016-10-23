@@ -11,7 +11,7 @@ body, html {
 	-ms-user-select: none; /* IE10+ */
 	overflow-y: hidden;
 	letter-spacing: 1px;
-	background: #D7D7D7;
+	background: #F0F0F0;
 /*
 background: -moz-linear-gradient(top,  #e5e5e5 0%, #c6c6c6 100%);
 background: -webkit-linear-gradient(top,  #e5e5e5 0%,#c6c6c6 100%);
@@ -128,7 +128,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	position: relative;
 	float: left;
 	clear: both;
-	width: 100%;
+	width: 80%;
 }
 
 #actionMenu p {
@@ -147,8 +147,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 }
 
 #actionMenu li {
+	padding: 3px;
 	list-style: none;
-	margin-top: 8px;
+	margin-top: 3px;
+	margin-left: -3px;
 	text-decoration: none;
 	color: #000;
 	font-weight: 400;
@@ -157,6 +159,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 #actionMenu li:hover {
 	cursor: pointer;
 	background: #CCC;
+	border-radius: 2px;
 }
 
 #actionMenu li:active {
