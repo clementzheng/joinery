@@ -5,6 +5,10 @@ var moving = false;
 var tolerance = 4;
 var insideMenu = false;
 
+window.onbeforeunload = function() {
+    return "Have you saved your work?";
+};
+
 document.onmousemove = function(e){
 	if (initialized) {
 		mousePosition = new Point(e.pageX, e.pageY - $(window).scrollTop());
