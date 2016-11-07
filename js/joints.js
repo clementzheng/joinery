@@ -14,8 +14,8 @@ var loopInsert = {
 	'profile':'',
 	'notes': 'notes',
 	'param': {
-		'material thickness (M)': 0,
-		'material thickness (F)': 0,
+		'material thickness (M)': 0.5,
+		'material thickness (F)': 0.5,
 		'hem offset': 8,
 		'insert width': 8,
 		'hook width': 4,
@@ -32,8 +32,8 @@ var loopInsertH = {
 	'profile':'',
 	'notes': 'notes',
 	'param': {
-		'material thickness (M)': 0,
-		'material thickness (F)': 0,
+		'material thickness (M)': 0.5,
+		'material thickness (F)': 0.5,
 		'hem offset': 8,
 		'insert width': 8,
 		'hook width': 4,
@@ -50,8 +50,8 @@ var loopInsertSurface = {
 	'profile':'',
 	'notes': 'notes',
 	'param': {
-		'material thickness (M)': 0,
-		'material thickness (F)': 0,
+		'material thickness (M)': 0.5,
+		'material thickness (F)': 0.5,
 		'hem offset': 8,
 		'insert width': 8,
 		'hook width': 4,
@@ -107,8 +107,8 @@ var tabInsertJoint = {
 	'profile':'',
 	'notes': 'notes',
 	'param': {
-		'material thickness (M)': 1.5,
-		'material thickness (F)': 1.5,
+		'material thickness (M)': 1.0,
+		'material thickness (F)': 1.0,
 		'insert width': 10,
 		'insert height': 8,
 		'flap height': 8,
@@ -116,7 +116,7 @@ var tabInsertJoint = {
 		'joint spacing': 30,
 		'offset start': 15,
 		'offset end': 15,
-		'grip': 0.8
+		'grip': 0.7
 	}
 };
 
@@ -125,8 +125,8 @@ var interlockingJoint = {
 	'profile':'',
 	'notes': 'notes',
 	'param': {
-		'material thickness (M)': 1.5,
-		'material thickness (F)': 1.5,
+		'material thickness (M)': 1.0,
+		'material thickness (F)': 1.0,
 		'interlocking width': 20,
 		'interlocking height': 8,
 		'offset start': 0,
