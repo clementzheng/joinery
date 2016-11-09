@@ -127,11 +127,13 @@ var interlockingJoint = {
 	'param': {
 		'material thickness (M)': 1.0,
 		'material thickness (F)': 1.0,
-		'interlocking width': 20,
+		'interlocking width': 15,
 		'interlocking height': 8,
+		'flap angle': 85,
 		'offset start': 0,
 		'offset end': 0,
-		'grip': 2
+		'grip': 2,
+		'tolerance': 0.1
 	}
 };
 
@@ -712,45 +714,47 @@ function generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param) {
 		
 		if (i%2==0) {
 			var pt1 = edgeSegmentA[i].firstSegment.point;
-			var pt2 = pt1.add(tanA.multiply(-param['grip']/10));
+			var pt2 = pt1.add(tanA.multiply(-param['tolerance']));
 			var pt3 = pt2.add(dirA.multiply(param['material thickness (F)']));
-			var pt4 = pt3.add(tanA.multiply(param['grip']/10*11));
-			var pt5 = pt1.add(dirA.multiply(param['interlocking height']+param['material thickness (F)']));
+			var pt4 = pt3.add(tanA.multiply(param['grip']+param['tolerance']));
+			var pt5 = pt4.add(dirA.multiply(param['interlocking height'])).add(tanA.multiply(-param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
 			var pt10 = edgeSegmentA[i].lastSegment.point;
-			var pt9 = pt10.add(tanA.multiply(param['grip']/10));
+			var pt9 = pt10.add(tanA.multiply(param['tolerance']));
 			var pt8 = pt9.add(dirA.multiply(param['material thickness (F)']));
-			var pt7 = pt8.add(tanA.multiply(-param['grip']/10*11));
-			var pt6 = pt10.add(dirA.multiply(param['interlocking height']+param['material thickness (F)']));
+			var pt7 = pt8.add(tanA.multiply(-param['grip']-param['tolerance']));
+			var pt6 = pt7.add(dirA.multiply(param['interlocking height'])).add(tanA.multiply(param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
 			var topFillet = param['interlocking width']>param['interlocking height'] ? param['interlocking height']*0.6 : param['interlocking width']*0.6;
-			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? param['interlocking height']*0.3 : param['grip']*0.7;
+			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? param['interlocking height']*0.3*(param['flap angle']/91%1) : param['grip']*0.7*(param['flap angle']/91%1);
+			var innerFillet = param['tolerance'] <= param['material thickness (F)'] ? param['tolerance']/3 : param['material thickness (F)']/3;
 			if (i==0) {
-				returnA.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6, pt10], [param['material thickness (F)']/4, param['material thickness (F)']/4, cornerFillet, topFillet, topFillet]));
+				returnA.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6, pt10], [innerFillet, innerFillet, cornerFillet, topFillet, topFillet]));
 				returnAFold.push(edgeSegmentA[i]);
 				returnB.push(edgeSegmentB[i]);
 			} else {
-				returnA.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6, pt7, pt8, pt9, pt10], [param['material thickness (F)']/4, param['material thickness (F)']/4, cornerFillet, topFillet, topFillet, cornerFillet, param['material thickness (F)']/4, param['material thickness (F)']/4]));
+				returnA.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6, pt7, pt8, pt9, pt10], [innerFillet, innerFillet, cornerFillet, topFillet, topFillet, cornerFillet, innerFillet, innerFillet]));
 				returnAFold.push(edgeSegmentA[i]);
 				returnB.push(edgeSegmentB[i]);
 			}		
 		} else {
 			var pt1 = edgeSegmentB[i].firstSegment.point;
-			var pt2 = pt1.add(tanB.multiply(-param['grip']/10));
+			var pt2 = pt1.add(tanB.multiply(-param['tolerance']));
 			var pt3 = pt2.add(dirB.multiply(param['material thickness (M)']));
-			var pt4 = pt3.add(tanB.multiply(param['grip']/10*11));
-			var pt5 = pt1.add(dirB.multiply(param['interlocking height']+param['material thickness (M)']));
+			var pt4 = pt3.add(tanB.multiply(param['grip']+param['tolerance']));
+			var pt5 = pt4.add(dirB.multiply(param['interlocking height'])).add(tanB.multiply(-param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
 			var pt10 = edgeSegmentB[i].lastSegment.point;
-			var pt9 = pt10.add(tanB.multiply(param['grip']/10));
+			var pt9 = pt10.add(tanB.multiply(param['tolerance']));
 			var pt8 = pt9.add(dirB.multiply(param['material thickness (M)']));
-			var pt7 = pt8.add(tanB.multiply(-param['grip']/10*11));
-			var pt6 = pt10.add(dirB.multiply(param['interlocking height']+param['material thickness (M)']));
+			var pt7 = pt8.add(tanB.multiply(-param['grip']-param['tolerance']));
+			var pt6 = pt7.add(dirB.multiply(param['interlocking height'])).add(tanB.multiply(param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
 			var topFillet = param['interlocking width']>param['interlocking height'] ? param['interlocking height']*0.6 : param['interlocking width']*0.6;
 			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? param['interlocking height']*0.3 : param['grip']*0.7;
+			var innerFillet = param['tolerance'] <= param['material thickness (F)'] ? param['tolerance']/3 : param['material thickness (F)']/3;
 			if (i==(edgeSegmentA.length-1)) {
-				returnB.push(generateFilletPath([pt1, pt5, pt6, pt7, pt8, pt9, pt10], [topFillet, topFillet, cornerFillet, param['material thickness (M)']/4, param['material thickness (M)']/4]));
+				returnB.push(generateFilletPath([pt1, pt5, pt6, pt7, pt8, pt9, pt10], [topFillet, topFillet, cornerFillet, innerFillet, innerFillet]));
 				returnBFold.push(edgeSegmentB[i]);
 				returnA.push(edgeSegmentA[i]);	
 			} else {
-				returnB.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6, pt7, pt8, pt9, pt10], [param['material thickness (M)']/4, param['material thickness (M)']/4, cornerFillet, topFillet, topFillet, cornerFillet, param['material thickness (M)']/4, param['material thickness (M)']/4]));
+				returnB.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6, pt7, pt8, pt9, pt10], [innerFillet, innerFillet, cornerFillet, topFillet, topFillet, cornerFillet, innerFillet, innerFillet]));
 				returnBFold.push(edgeSegmentB[i]);
 				returnA.push(edgeSegmentA[i]);
 			}
