@@ -723,11 +723,12 @@ function generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			var pt8 = pt9.add(dirA.multiply(param['material thickness (F)']));
 			var pt7 = pt8.add(tanA.multiply(-param['grip']-param['tolerance']));
 			var pt6 = pt7.add(dirA.multiply(param['interlocking height'])).add(tanA.multiply(param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
+			var pt6a = pt10.add(dirA.multiply(param['interlocking height']+param['material thickness (F)'])).add(tanA.multiply(param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
 			var topFillet = param['interlocking width']>param['interlocking height'] ? param['interlocking height']*0.6 : param['interlocking width']*0.6;
 			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? param['interlocking height']*0.3*(param['flap angle']/91%1) : param['grip']*0.7*(param['flap angle']/91%1);
 			var innerFillet = param['tolerance'] <= param['material thickness (F)'] ? param['tolerance']/3 : param['material thickness (F)']/3;
 			if (i==0) {
-				returnA.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6, pt10], [innerFillet, innerFillet, cornerFillet, topFillet, topFillet]));
+				returnA.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6a, pt10], [innerFillet, innerFillet, cornerFillet, topFillet, topFillet]));
 				returnAFold.push(edgeSegmentA[i]);
 				returnB.push(edgeSegmentB[i]);
 			} else {
@@ -741,6 +742,7 @@ function generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			var pt3 = pt2.add(dirB.multiply(param['material thickness (M)']));
 			var pt4 = pt3.add(tanB.multiply(param['grip']+param['tolerance']));
 			var pt5 = pt4.add(dirB.multiply(param['interlocking height'])).add(tanB.multiply(-param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
+			var pt5a = pt1.add(dirB.multiply(param['interlocking height']+param['material thickness (M)'])).add(tanB.multiply(-param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
 			var pt10 = edgeSegmentB[i].lastSegment.point;
 			var pt9 = pt10.add(tanB.multiply(param['tolerance']));
 			var pt8 = pt9.add(dirB.multiply(param['material thickness (M)']));
@@ -748,9 +750,9 @@ function generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			var pt6 = pt7.add(dirB.multiply(param['interlocking height'])).add(tanB.multiply(param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
 			var topFillet = param['interlocking width']>param['interlocking height'] ? param['interlocking height']*0.6 : param['interlocking width']*0.6;
 			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? param['interlocking height']*0.3 : param['grip']*0.7;
-			var innerFillet = param['tolerance'] <= param['material thickness (F)'] ? param['tolerance']/3 : param['material thickness (F)']/3;
+			var innerFillet = param['tolerance'] <= param['material thickness (M)'] ? param['tolerance']/3 : param['material thickness (M)']/3;
 			if (i==(edgeSegmentA.length-1)) {
-				returnB.push(generateFilletPath([pt1, pt5, pt6, pt7, pt8, pt9, pt10], [topFillet, topFillet, cornerFillet, innerFillet, innerFillet]));
+				returnB.push(generateFilletPath([pt1, pt5a, pt6, pt7, pt8, pt9, pt10], [topFillet, topFillet, cornerFillet, innerFillet, innerFillet]));
 				returnBFold.push(edgeSegmentB[i]);
 				returnA.push(edgeSegmentA[i]);	
 			} else {
