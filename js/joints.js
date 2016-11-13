@@ -144,7 +144,9 @@ var flapJoint = {
 	'param': {
 		'height (M)': 10,
 		'height (F)': 10,
-		'flap angle': 60
+		'flap angle': 60,
+		'hole diameter': 0,
+		'hole spacing': 20
 	}
 };
 
@@ -640,6 +642,17 @@ function generateFlapJoint(index, shapeA, pathA, shapeB, pathB, param) {
 		var pt3 = pt4.add(normA.multiply(param['height (M)'])).add(tanA.multiply(-param['height (M)']/Math.tan(param['flap angle']/180*Math.PI)));
 		returnA.push(generateFilletPath([pt1, pt2, pt3, pt4], [param['height (M)']*0.75, param['height (M)']*0.75]));
 		returnAFold.push(new Path.Line(pathAStart, pathAEnd));
+		if (param['hole diameter'] > 0) {
+			var len = pathAStart.getDistance(pathAEnd);
+			var holeCount = Math.floor(len/param['hole spacing']);
+			var gapLen = len/holeCount;
+			for (var i=0; i<holeCount; i++) {
+				var ptA = (pathAStart.add(tanA.multiply(gapLen/2+i*gapLen))).add(normA.multiply(param['height (M)']/2));
+				var ptB = (pathBStart.add(tanB.multiply(gapLen/2+i*gapLen))).add(normB.multiply(-param['height (M)']/2));
+				returnA.push(new Path.Circle(ptA, param['hole diameter']/2));
+				returnB.push(new Path.Circle(ptB, param['hole diameter']/2));
+			}
+		}
 	} else {
 		returnA.push(new Path.Line(pathAStart, pathAEnd));
 	}
@@ -650,6 +663,17 @@ function generateFlapJoint(index, shapeA, pathA, shapeB, pathB, param) {
 		var pt3 = pt4.add(normB.multiply(param['height (F)'])).add(tanB.multiply(-param['height (F)']/Math.tan(param['flap angle']/180*Math.PI)));
 		returnB.push(generateFilletPath([pt1, pt2, pt3, pt4], [param['height (F)']*0.75, param['height (F)']*0.75]));
 		returnBFold.push(new Path.Line(pathBStart, pathBEnd));
+		if (param['hole diameter'] > 0) {
+			var len = pathBStart.getDistance(pathBEnd);
+			var holeCount = Math.floor(len/param['hole spacing']);
+			var gapLen = len/holeCount;
+			for (var i=0; i<holeCount; i++) {
+				var ptA = (pathAStart.add(tanA.multiply(gapLen/2+i*gapLen))).add(normA.multiply(-param['height (F)']/2));
+				var ptB = (pathBStart.add(tanB.multiply(gapLen/2+i*gapLen))).add(normB.multiply(param['height (F)']/2));
+				returnA.push(new Path.Circle(ptA, param['hole diameter']/2));
+				returnB.push(new Path.Circle(ptB, param['hole diameter']/2));
+			}
+		}
 	} else {
 		returnB.push(new Path.Line(pathBStart, pathBEnd));	
 	}
