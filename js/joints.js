@@ -640,7 +640,8 @@ function generateFlapJoint(index, shapeA, pathA, shapeB, pathB, param) {
 		var pt2 = pt1.add(normA.multiply(param['height (M)'])).add(tanA.multiply(param['height (M)']/Math.tan(param['flap angle']/180*Math.PI)));
 		var pt4 = pathAEnd;
 		var pt3 = pt4.add(normA.multiply(param['height (M)'])).add(tanA.multiply(-param['height (M)']/Math.tan(param['flap angle']/180*Math.PI)));
-		returnA.push(generateFilletPath([pt1, pt2, pt3, pt4], [param['height (M)']*0.75, param['height (M)']*0.75]));
+		var fil = calFillet(param['height (M)']*0.75, param['flap angle']);
+		returnA.push(generateFilletPath([pt1, pt2, pt3, pt4], [fil, fil]));
 		returnAFold.push(new Path.Line(pathAStart, pathAEnd));
 		if (param['hole diameter'] > 0) {
 			var len = pathAStart.getDistance(pathAEnd);
@@ -661,7 +662,8 @@ function generateFlapJoint(index, shapeA, pathA, shapeB, pathB, param) {
 		var pt2 = pt1.add(normB.multiply(param['height (F)'])).add(tanB.multiply(param['height (F)']/Math.tan(param['flap angle']/180*Math.PI)));
 		var pt4 = pathBEnd;
 		var pt3 = pt4.add(normB.multiply(param['height (F)'])).add(tanB.multiply(-param['height (F)']/Math.tan(param['flap angle']/180*Math.PI)));
-		returnB.push(generateFilletPath([pt1, pt2, pt3, pt4], [param['height (F)']*0.75, param['height (F)']*0.75]));
+		var fil = calFillet(param['height (F)']*0.75, param['flap angle']);
+		returnB.push(generateFilletPath([pt1, pt2, pt3, pt4], [fil, fil]));
 		returnBFold.push(new Path.Line(pathBStart, pathBEnd));
 		if (param['hole diameter'] > 0) {
 			var len = pathBStart.getDistance(pathBEnd);
@@ -679,6 +681,18 @@ function generateFlapJoint(index, shapeA, pathA, shapeB, pathB, param) {
 	}
 
 	return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
+}
+
+function calFillet(rightAngleHeight, angle) {
+	if (angle > 90) {
+		var val = rightAngleHeight/(1+Math.sin((angle-90)/180*Math.PI));
+		return val;
+	} else if (angle < 90) {
+		var val = rightAngleHeight/(1-Math.sin((90-angle)/180*Math.PI));
+		return val;
+	} else {
+		return rightAngleHeight;
+	}
 }
 
 function generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param) {
@@ -748,8 +762,8 @@ function generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			var pt7 = pt8.add(tanA.multiply(-param['grip']-param['tolerance']));
 			var pt6 = pt7.add(dirA.multiply(param['interlocking height'])).add(tanA.multiply(param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
 			var pt6a = pt10.add(dirA.multiply(param['interlocking height']+param['material thickness (F)'])).add(tanA.multiply(param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
-			var topFillet = param['interlocking width']>param['interlocking height'] ? param['interlocking height']*0.6 : param['interlocking width']*0.6;
-			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? param['interlocking height']*0.3*(param['flap angle']/91%1) : param['grip']*0.7*(param['flap angle']/91%1);
+			var topFillet = param['interlocking width']>param['interlocking height'] ? calFillet(param['interlocking height']*0.5, param['flap angle']) : calFillet(param['interlocking width']*0.5, param['flap angle']);
+			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? calFillet(param['interlocking height']*0.3, 180-param['flap angle']) : calFillet(param['grip']*0.5, 180-param['flap angle']);
 			var innerFillet = Math.abs(param['tolerance']) <= param['material thickness (F)'] ? Math.abs(param['tolerance'])/3 : param['material thickness (F)']/3;
 			if (i==0) {
 				returnA.push(generateFilletPath([pt1, pt2, pt3, pt4, pt5, pt6a, pt10], [innerFillet, innerFillet, cornerFillet, topFillet, topFillet]));
@@ -772,8 +786,8 @@ function generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			var pt8 = pt9.add(dirB.multiply(param['material thickness (M)']));
 			var pt7 = pt8.add(tanB.multiply(-param['grip']-param['tolerance']));
 			var pt6 = pt7.add(dirB.multiply(param['interlocking height'])).add(tanB.multiply(param['interlocking height']/Math.tan(param['flap angle']/180*Math.PI)));
-			var topFillet = param['interlocking width']>param['interlocking height'] ? param['interlocking height']*0.6 : param['interlocking width']*0.6;
-			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? param['interlocking height']*0.3 : param['grip']*0.7;
+			var topFillet = param['interlocking width']>param['interlocking height'] ? calFillet(param['interlocking height']*0.5, param['flap angle']) : calFillet(param['interlocking width']*0.5, param['flap angle']);
+			var cornerFillet = param['grip']*2 >= param['interlocking height'] ? calFillet(param['interlocking height']*0.3, 180-param['flap angle']) : calFillet(param['grip']*0.5, 180-param['flap angle']);
 			var innerFillet = Math.abs(param['tolerance']) <= param['material thickness (F)'] ? Math.abs(param['tolerance'])/3 : param['material thickness (F)']/3;
 			if (i==(edgeSegmentA.length-1)) {
 				returnB.push(generateFilletPath([pt1, pt5a, pt6, pt7, pt8, pt9, pt10], [topFillet, topFillet, cornerFillet, innerFillet, innerFillet]));
@@ -900,7 +914,8 @@ function generateTabInsertJoint(index, shapeA, pathA, shapeB, pathB, param) {
 		var flapEnd = shape[shapeB].children[pathB].lastSegment.point;
 		var flapStartTip = flapStart.add(normB.multiply(param['flap height'])).add(dirB.multiply(param['flap height']/Math.tan(param['flap angle']/180*Math.PI)));
 		var flapEndTip = flapEnd.add(normB.multiply(param['flap height'])).add(dirB.multiply(-param['flap height']/Math.tan(param['flap angle']/180*Math.PI)));
-		returnB.push(generateFilletPath([flapStart, flapStartTip, flapEndTip, flapEnd], [param['flap height'], param['flap height']]));
+		var fil = calFillet(param['flap height']*0.8, param['flap angle']);
+		returnB.push(generateFilletPath([flapStart, flapStartTip, flapEndTip, flapEnd], [fil, fil]));
 		lineA.remove();
 		lineB.remove();
 		return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
