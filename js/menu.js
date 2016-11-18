@@ -177,6 +177,11 @@ function initForms() {
 				$('#'+id+' input[name="'+i+'"]').val(jointProfileList[j].param[i]);
 				if (paramInteger.indexOf(i)<0) {
 					$('#'+id+' input[name="'+i+'"]').attr("step", 0.1);
+					if (paramAngle.indexOf(i)>=0) {
+						$('#'+id+' input[name="'+i+'"]').parent().find('span').html("deg");
+					} else {
+						$('#'+id+' input[name="'+i+'"]').parent().find('span').html("mm");
+					}
 				} else {
 					$('#'+id+' input[name="'+i+'"]').attr("step", 1);
 				}
@@ -201,10 +206,12 @@ function initForms() {
 				}
 				if (paramInteger.indexOf(i)<0 && paramAngle.indexOf(i)<0) {
 					$('#'+id+' input[name="'+i+'"]').attr("step", 0.0625);
+					$('#'+id+' input[name="'+i+'"]').parent().find('span').html("in");
 				} else if (paramAngle.indexOf(i)<0) {
 					$('#'+id+' input[name="'+i+'"]').attr("step", 1);
 				} else {
 					$('#'+id+' input[name="'+i+'"]').attr("step", 0.1);
+					$('#'+id+' input[name="'+i+'"]').parent().find('span').html("deg");
 				}
 			}
 		}
@@ -341,11 +348,13 @@ function createJointProfileMenu(i, ic, id) {
 	html = html+'</div>';
 	for (j in jointProfileList[i].param) {
 		if (paramInteger.indexOf(j) >= 0) {
-			html = html+'<li class="param"><label>'+j+'</label><input type="number" step="1" name="'+j+'"></li>';
+			html = html+'<li class="param"><label>'+j+'</label><span></span><input type="number" step="1" name="'+j+'"></li>';
+		} else if (paramAngle.indexOf(j) >= 0) {
+			html = html+'<li class="param"><label>'+j+'</label><span>deg</span><input type="number" step="0.1" name="'+j+'"></li>';
 		} else if (docUnits=='mm') {
-			html = html+'<li class="param"><label>'+j+'</label><input type="number" step="0.1" name="'+j+'"></li>';
+			html = html+'<li class="param"><label>'+j+'</label><span>mm</span><input type="number" step="0.1" name="'+j+'"></li>';
 		} else {
-			html = html+'<li class="param"><label>'+j+'</label><input type="number" step="0.0625" name="'+j+'"></li>';
+			html = html+'<li class="param"><label>'+j+'</label><span>in</span><input type="number" step="0.0625" name="'+j+'"></li>';
 		}
 	}
 	html = html+'<li class="saveProfile" id="save-'+id+'"><label>save profile</label></li>';

@@ -576,10 +576,21 @@ textarea:focus {
 .param input {
 	position: relative;
 	float: right; 
-	width: 75px;
+	width: 80px;
 	background: none;
 	border: 0px solid;
 	border-bottom: 1px solid #AAA;
+	padding-right: 10px;
+}
+
+.param span {
+	position: relative;
+	float: right;
+	width: 20px;
+	font-size: 10px;
+	margin-top: 3px;
+	margin-left: -20px;
+	color: #888;
 }
 
 .param input:focus {
