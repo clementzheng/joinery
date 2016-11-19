@@ -1,4 +1,5 @@
 var insideDropdown = false;
+var insideContextMenu = false;
 
 function initForms() {
 	$('#loadSVG').change(function() {
@@ -104,7 +105,12 @@ function initForms() {
 	$( '#leftMenu' ).mouseleave(function() {
 		insideMenu = false;
 	});
-	
+	$( '#leftMenu2' ).mouseenter(function() {
+		insideMenu = true;
+	});
+	$( '#leftMenu2' ).mouseleave(function() {
+		insideMenu = false;
+	});
 	$( '#rightMenu' ).mouseenter(function() {
 		insideMenu = true;
 	});
@@ -117,6 +123,44 @@ function initForms() {
 	});
 	$( '#rightMenu2' ).mouseleave(function() {
 		insideMenu = false;
+	});
+	$( '#contextMenu' ).mouseenter(function() {
+		insideContextMenu = true;
+	});
+	$( '#contextMenu' ).mouseleave(function() {
+		insideContextMenu = false;
+	});
+
+	$('#contextMenu #contextSet').on('click', function() {
+		var remMode = mode;
+		mode = 'set';
+		shapePathClick();
+		mode = remMode;
+		$('#contextMenu.active').toggleClass('active');
+	});
+
+	$('#contextMenu #contextFlip').on('click', function() {
+		var remMode = mode;
+		mode = 'flip';
+		shapePathClick();
+		mode = remMode;
+		$('#contextMenu.active').toggleClass('active');
+	});
+
+	$('#contextMenu #contextRev').on('click', function() {
+		var remMode = mode;
+		mode = 'reverse';
+		shapePathClick();
+		mode = remMode;
+		$('#contextMenu.active').toggleClass('active');
+	});
+
+	$('#contextMenu #contextSwap').on('click', function() {
+		var remMode = mode;
+		mode = 'swap';
+		shapePathClick();
+		mode = remMode;
+		$('#contextMenu.active').toggleClass('active');
 	});
 	
 	var selectList = '';
@@ -654,6 +698,10 @@ function refreshJointList() {
 				generateJointLines();
 				displayJointLines();
 			}
+			generateJointLines();
+			displayJointLines();
+			generateEdgeNormals();
+			displayFlipLines();
 			refreshJointList();
 		});
 		$(this).find('.title').on('mouseenter', function() {

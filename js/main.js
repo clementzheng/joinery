@@ -333,43 +333,45 @@ var joints = [];
 var jointMake = [];
 function highlightShapePath() {
 	var bool = false;
-	if (pathSelected.shape != -1 && pathSelected.path != -1) {
-		shape[pathSelected.shape].children[pathSelected.path].strokeWidth = 0.5;
-		shape[pathSelected.shape].children[pathSelected.path].strokeColor = shapeColor[pathSelected.shape][pathSelected.path];
-	}
-	for (i in shape) {
-		for (j in shape[i].children) {
-			if (shape[i].children[j].className=='Path') {
-				var pt = shape[i].children[j].getNearestLocation(cursorPt);
-				if (pt) {
-					var d = pt.getDistance(cursorPt);
-					if (d < tolerance) {
-						if (!bool) {
-							shape[i].children[j].strokeWidth = 1.5;
-							shape[i].children[j].strokeColor = '#0AF';
-							pathSelected.shape = i;
-							pathSelected.path = j;
-							bool = true;
+	if (!$('#contextMenu').hasClass('active')) {
+		if (pathSelected.shape != -1 && pathSelected.path != -1) {
+			shape[pathSelected.shape].children[pathSelected.path].strokeWidth = 0.5;
+			shape[pathSelected.shape].children[pathSelected.path].strokeColor = shapeColor[pathSelected.shape][pathSelected.path];
+		}
+		for (i in shape) {
+			for (j in shape[i].children) {
+				if (shape[i].children[j].className=='Path') {
+					var pt = shape[i].children[j].getNearestLocation(cursorPt);
+					if (pt) {
+						var d = pt.getDistance(cursorPt);
+						if (d < tolerance) {
+							if (!bool) {
+								shape[i].children[j].strokeWidth = 1.5;
+								shape[i].children[j].strokeColor = '#0AF';
+								pathSelected.shape = i;
+								pathSelected.path = j;
+								bool = true;
+							} else {
+								shape[i].children[j].strokeWidth = 0.5;
+								shape[i].children[j].strokeColor = shapeColor[i][j];
+							}
 						} else {
 							shape[i].children[j].strokeWidth = 0.5;
 							shape[i].children[j].strokeColor = shapeColor[i][j];
 						}
-					} else {
-						shape[i].children[j].strokeWidth = 0.5;
-						shape[i].children[j].strokeColor = shapeColor[i][j];
-					}
-					if (bool) {
-						break;
+						if (bool) {
+							break;
+						}
 					}
 				}
 			}
+			if (bool) {
+				break;
+			}
 		}
-		if (bool) {
-			break;
+		if (!bool) {
+			pathSelected = {'shape':-1, 'path':-1};
 		}
-	}
-	if (!bool) {
-		pathSelected = {'shape':-1, 'path':-1};
 	}
 }
 
