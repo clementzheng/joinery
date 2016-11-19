@@ -21,6 +21,7 @@ document.onmousemove = function(e){
 		} else {
 			cursorIcon.strokeColor = '#000';
 		}
+		highlightShapePath();
 		switch(mode) {
 			case 'arrange':
 				highlightShapeBounds();
@@ -40,16 +41,16 @@ document.onmousemove = function(e){
 				}
 				break;
 			case 'set':
-				highlightShapePath();
+				//highlightShapePath();
 				break;
 			case 'reverse':
-				highlightShapePath();
+				//highlightShapePath();
 				break;
 			case 'flip':
-				highlightShapePath();
+				//highlightShapePath();
 				break;
 			case 'swap':
-				highlightShapePath();
+				//highlightShapePath();
 				break;
 			case 'pan':
 				if (isMouseDown) {
@@ -67,28 +68,51 @@ document.onmousemove = function(e){
 	}
 }
 
+$(document).bind("contextmenu", function (event) {
+    if (initialized && !insideMenu) {
+    	event.preventDefault();
+    	$('#contextMenu.active').toggleClass('active');
+    	if (pathSelected.shape != -1 && pathSelected.path != -1) {
+    		$('#contextMenu').toggleClass('active');
+    		$('#contextMenu').css({'top':mousePosition.y+'px', 'left':mousePosition.x+5+'px'});
+    	}
+	}
+});
+
 document.onclick = function(e) {
 	if ($('#jointTypeDiv .dropdown .optionsDiv .dropdownOption.show').length > 0 && !insideDropdown) {
 		$('#jointTypeDiv .dropdown .optionsDiv .dropdownOption').toggleClass('show');
 	}
-	if (initialized && !insideMenu) {
-		switch(mode) {
-			case 'remove':
-				removeShape();
-				break;
-			case 'set':
-				shapePathClick();
-				break;
-			case 'reverse':
-				shapePathClick();
-				break;
-			case 'flip':
-				shapePathClick();
-				break;
-			case 'swap':
-				shapePathClick();
-				break;
-		}
+	if (initialized && !insideMenu && !insideContextMenu && !$('#contextMenu').hasClass('active')) {
+		switch (e.which) {
+	        case 1:
+			    switch(mode) {
+					case 'remove':
+						removeShape();
+						break;
+					case 'set':
+						shapePathClick();
+						break;
+					case 'reverse':
+						shapePathClick();
+						break;
+					case 'flip':
+						shapePathClick();
+						break;
+					case 'swap':
+						shapePathClick();
+						break;
+				}
+	            break;
+	        case 2:
+	            console.log('Middle Mouse button pressed.');
+	            break;
+	        default:
+	            console.log('You have a strange Mouse!');
+	    }
+	}
+	if (!insideContextMenu) {
+		$('#contextMenu.active').toggleClass('active');
 	}
 }
 

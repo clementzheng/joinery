@@ -762,3 +762,32 @@ input {
 .menuStyle {
 	background: rgba(255, 255, 255, 0.95);
 }
+
+#contextMenu {
+	position: fixed;
+	top: 50vh;
+	left: 50vw;
+	background: rgba(255, 255, 255, 0.8);
+	border-radius: 2px;
+	box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
+	display: none;
+}
+
+#contextMenu.active {
+	display: block;
+}
+
+#contextMenu li {
+	list-style: none;
+	padding: 5px 10px 6px 10px;
+}
+
+#contextMenu li:hover {
+	background: #CCC;
+	cursor: pointer;
+}
+
+#contextMenu li:active {
+	background: #BBB;
+	cursor: pointer;
+}
