@@ -82,6 +82,16 @@ var SVGString = [];
 var SVGScale = [];
 var SVGprocessed = false;
 
+function checkSVGCount() {
+	if (shape.length > 0) {
+		$('#exportSVGDiv.inactive').toggleClass('inactive');
+		$('#updateSVGDiv.inactive').toggleClass('inactive');
+	} else {
+		$('#exportSVGDiv:not(.inactive)').toggleClass('inactive');
+		$('#updateSVGDiv:not(.inactive)').toggleClass('inactive');
+	}
+}
+
 function processSVG(e) {
     var file = e.target.result,
         results;
@@ -131,6 +141,7 @@ function processSVG(e) {
 				}
 				calProjectBounds();
 				drawGrid();
+				checkSVGCount();
 			}
 		} else {
 			setMessage('<b>SVG units not found</b>. Using default conversion to millimeters', '#F80');
@@ -156,6 +167,133 @@ function processSVG(e) {
     }
 	activateDim(dimBool);
 }
+
+
+var fileSelector = $('<input type="file">');
+var shapeToReplace = -1;
+
+function updateSVG() {
+	if (shape.length == 1) {
+		shapeToReplace = 0;
+		fileSelector.click();
+	} else if (shape.length > 1) {
+		rememberMode = mode;
+		mode = 'update';
+		$('#updateSVGDiv:not(.active)').toggleClass('active');
+		setMessage('<b>select SVG to update</b>', '#444');
+	}
+}
+
+function updateSVGShape(e) {
+	var pathCount = 0;
+	for (j in shape[shapeToReplace].children) {
+		if (shape[shapeToReplace].children[j].className=='Path' && !isNaN(j)) {
+			pathCount++;
+		}
+	}
+	var comparePathCount = 0;
+	var file = e.target.result,
+        results;
+    if (file && file.length) {
+    	var units = '';
+		var w, h;
+		var splitString = file.split(' ');
+		for (i in splitString) {
+			if (splitString[i].indexOf('=')==5 && splitString[i].indexOf('w')==0) {
+				var splitVal = splitString[i].split('=');
+				units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
+				w = parseFloat(splitVal[1].split(units)[0].split('"')[1]);
+			}
+			if (splitString[i].indexOf('=')==6 && splitString[i].indexOf('h')==0) {
+				var splitVal = splitString[i].split('=');
+				units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
+				h = parseFloat(splitVal[1].split(units)[0].split('"')[1]);
+			}
+			if (w && h) {
+				break;
+			}
+		}
+		if (units=='mm' || units=='in' || units=='px') {
+			if (!SVGprocessed) {
+				SVGString.push(file);
+				shape.push(paper.project.importSVG(file));
+				SVGprocessed = true;
+				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
+				shape[shape.length-1].name = 'shape';
+				shapeColor.push({});
+				for (j in shape[shape.length-1].children) {
+					if (shape[shape.length-1].children[j].className=='Path') {
+						comparePathCount++;
+						shapeColor[shapeColor.length-1][j] = shape[shape.length-1].children[j].strokeColor;
+					}
+				}
+				if (units=='mm') {
+					SVGScale.push(1);
+				}
+				if (units=='in') {
+					shape[shape.length-1].scale(inchToMM, shape[shape.length-1].position);
+					SVGScale.push(inchToMM);
+				}
+				if (units=='px') {
+					shape[shape.length-1].scale(inchToMM/72, shape[shape.length-1].position);
+					SVGScale.push(inchToMM/72);
+					setMessage('SVG units detected as <b>pixels</b>. Using default conversion to millimeters', '#F80');	
+				}
+				calProjectBounds();
+				drawGrid();
+				checkSVGCount();
+			}
+		} else {
+			setMessage('<b>SVG units not found</b>. Using default conversion to millimeters', '#F80');
+			if (!SVGprocessed) {
+				SVGString.push(file);
+				shape.push(paper.project.importSVG(file));
+				SVGprocessed = true;
+				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
+				shape[shape.length-1].name = 'shape';
+				shapeColor.push({});
+				for (j in shape[shape.length-1].children) {
+					if (shape[shape.length-1].children[j].className=='Path') {
+						comparePathCount++;
+						shapeColor[shapeColor.length-1][j] = shape[shape.length-1].children[j].strokeColor;
+					}
+				}
+				shape[shape.length-1].scale(inchToMM/72, shape[shape.length-1].position);
+				SVGScale.push(inchToMM/72);
+				calProjectBounds();
+				drawGrid();
+			}
+		}
+		if (pathCount==comparePathCount) {
+			for (j in joints) {
+				for (k in joints[j]) {
+					if (joints[j][k].shape==shapeToReplace) {
+						joints[j][k].shape = shape.length-1;
+						initJoint(shape.length-1, joints[j][k].path);
+					}
+				}
+			}
+			for (j in joints) {
+				generateJoint(j);
+			}
+			generateJointLines();
+	    	displayJointLines();
+	    	generateEdgeNormals();
+	    	displayFlipLines();
+			shapeSelected = shapeToReplace;
+			removeShape();
+			shapeSelected = -1;
+		} else {
+			setMessage('<b>Different number of paths detected</b>. Unable to update', '#F80');
+			shapeSelected = shape.length-1;
+			removeShape();
+			shapeSelected = -1;
+		}
+    	fileSelector.val('');
+    }
+}
+
+
 
 function processProject(e) {
     var file = e.target.result,
@@ -240,7 +378,9 @@ function processProject(e) {
 		jointLines.removeChildren();
 		refreshShapeDisplay();
     }
+
     drawGrid();
+    checkSVGCount();
 
     if (mode=='set' || mode=='reverse') {
     	generateJointLines();
@@ -287,7 +427,7 @@ function processJointProfile(e) {
 }
 
 var shapeSelected = -1;
-var mode = 'arrange';
+var mode = 'set';
 function highlightShapeBounds() {
 	var bool = false;
 	if (insideMenu) {
@@ -298,6 +438,11 @@ function highlightShapeBounds() {
 	for (i in shape) {
 		if (shape[i].strokeBounds.contains(cursorPt)) {
 			switch (mode) {
+				case 'update':
+					shape[i].bounds.selected = true;
+					shapeSelected = parseInt(i);
+					bool = true;
+					break;
 				case 'arrange':
 					if (!moving) {
 						shape[i].bounds.selected = true;
@@ -633,6 +778,7 @@ function removeShape() {
 		}
 
 		refreshJointList();
+		checkSVGCount();
 	}
 }
 

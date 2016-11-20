@@ -33,13 +33,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	top: 12px;
 	left: -200px;
 	width: 212px;
-	height: 270px;
+	height: 290px;
 	-webkit-transition: all 300ms ease-in-out;
 	-moz-transition: all 300ms ease-in-out;
 	-o-transition: all 300ms ease-in-out;
 	transition: all 300ms ease-in-out;
 	border-radius: 0 0 0 0;
-	border-bottom: 1px solid #999;
+	//border-bottom: 1px solid #999;
 	box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
@@ -65,7 +65,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 
 #leftMenu2 {
 	position: absolute;
-	top: 282px;
+	top: 306px;
 	left: -200px;
 	width: 212px;
 	height: 285px;
@@ -74,7 +74,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 	-o-transition: all 300ms ease-in-out;
 	transition: all 300ms ease-in-out;
 	border-radius: 0 0 0 0;
-	border-top: 1px solid #999;
+	//border-top: 1px solid #999;
 	box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
@@ -223,6 +223,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', end
 
 .button2:active {
 	background: #999;
+}
+
+.button2.inactive {
+	background: #EEE;
+	color: #CCC;
+}
+
+.button2.active {
+	background: #999;
+}
+
+.button2.inactive:hover {
+	cursor: default;
 }
 
 #topMessage {

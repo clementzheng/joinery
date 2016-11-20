@@ -23,6 +23,9 @@ document.onmousemove = function(e){
 		}
 		highlightShapePath();
 		switch(mode) {
+			case 'update':
+				highlightShapeBounds();
+				break;
 			case 'arrange':
 				highlightShapeBounds();
 				if (shapeSelected > -1 && isMouseDown) {
@@ -94,6 +97,14 @@ document.onclick = function(e) {
 		switch (e.which) {
 	        case 1:
 			    switch(mode) {
+			    	case 'update':
+			    		if (shapeSelected != -1) {
+			    			shapeToReplace = shapeSelected;
+			    			fileSelector.click();
+			    		}
+			    		mode = rememberMode;
+			    		$('#updateSVGDiv.active').toggleClass('active');
+			    		break;
 					case 'remove':
 						removeShape();
 						break;
