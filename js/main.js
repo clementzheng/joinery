@@ -274,6 +274,12 @@ function updateSVGShape(e) {
 				}
 			}
 			for (j in joints) {
+				if (joints[j]['revA']==-1) {
+					shape[joints[j][0].shape].children[joints[j][0].path].reverse();
+				}
+				if (joints[j]['revB']==-1) {
+					shape[joints[j][1].shape].children[joints[j][1].path].reverse();
+				}
 				generateJoint(j);
 			}
 			generateJointLines();
