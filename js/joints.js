@@ -223,115 +223,94 @@ function generateJoint(index) {
 			break;
 		}
 	}
-		
-	switch (jType) {
-		case 'loop insert (overlap)':
-			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, true, false, Math.floor(param['hook count']));
-			shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
-			shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
-			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 
-			var g = new Group();
-			g.name = 'folds';
-			shape[shapeB].children[pathB+'_joint'].addChild(g);
-			shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
-			shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
-			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+	var delta = shape[shapeA].children[pathA].length / shape[shapeB].children[pathB].length;
+	
+	if (delta > 1.01 || delta < 0.99) {
+		setMessage('<b>Cannot join</b>: paths have significantly different lengths', '#F80');
+	} else {
+		switch (jType) {
+			case 'loop insert (overlap)':
+				var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, true, false, Math.floor(param['hook count']));
+				shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
+				shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
+				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 
-			shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
-			shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
-			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			break;
-			
-		case 'loop insert':
-			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, false, false, Math.floor(param['hook count']));
-			shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
-			shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
-			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-			shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
-			shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
-			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			break;
+				var g = new Group();
+				g.name = 'folds';
+				shape[shapeB].children[pathB+'_joint'].addChild(g);
+				shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
+				shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
+				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
 
-		case 'loop insert (surface)':
-			var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, false, true, Math.floor(param['hook count']));
-			if (childPath) {
+				shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
+				shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
+				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				break;
+				
+			case 'loop insert':
+				var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, false, false, Math.floor(param['hook count']));
 				shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
 				shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
 				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 				shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
 				shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
 				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			} else {
-				shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
-				shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			}
-			break;
-			
-		case 'finger joint (90deg)':
-			var childPath = generateFingerJoint(index, shapeA, pathA, shapeB, pathB, param);
-			if (childPath) {
-				shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
-				shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
-				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-				shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
-				shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
-				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			} else {
-				shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
-				shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			}
-			break;
+				break;
 
-		case 'finger joint (angle)':
-			var childPath = generateFingerJointA(index, shapeA, pathA, shapeB, pathB, param);
-			if (childPath) {
-				shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
-				shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
-				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-				shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
-				shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
-				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			} else {
-				shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
-				shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			}
-			break;
-			
-		case 'hem':
-			var childPath = generateHemJoint(index, shapeA, pathA, shapeB, pathB, param);
-			var g = new Group();
-			g.name = 'folds';
-			shape[shapeA].children[pathA+'_joint'].addChild(g);
-			shape[shapeA].children[pathA+'_joint'].children['folds'].addChildren(childPath.returnAFold);
-			shape[shapeA].children[pathA+'_joint'].children['folds'].strokeColor = '#AAA';
-			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+			case 'loop insert (surface)':
+				var childPath = generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, false, true, Math.floor(param['hook count']));
+				if (childPath) {
+					shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
+					shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+					shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
+					shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				} else {
+					shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
+					shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				}
+				break;
+				
+			case 'finger joint (90deg)':
+				var childPath = generateFingerJoint(index, shapeA, pathA, shapeB, pathB, param);
+				if (childPath) {
+					shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
+					shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+					shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
+					shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				} else {
+					shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
+					shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				}
+				break;
 
-			shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
-			shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
-			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-
-			var g2 = new Group();
-			g2.name = 'folds';
-			shape[shapeB].children[pathB+'_joint'].addChild(g2);
-			shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
-			shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
-			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-
-			shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
-			shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
-			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			break;
-			
-		case 'tab insert':
-			var childPath = generateTabInsertJoint(index, shapeA, pathA, shapeB, pathB, param);
-			if (childPath) {
+			case 'finger joint (angle)':
+				var childPath = generateFingerJointA(index, shapeA, pathA, shapeB, pathB, param);
+				if (childPath) {
+					shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
+					shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+					shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
+					shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				} else {
+					shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
+					shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				}
+				break;
+				
+			case 'hem':
+				var childPath = generateHemJoint(index, shapeA, pathA, shapeB, pathB, param);
 				var g = new Group();
 				g.name = 'folds';
 				shape[shapeA].children[pathA+'_joint'].addChild(g);
@@ -353,42 +332,42 @@ function generateJoint(index) {
 				shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
 				shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
 				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			} else {
-				shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
-				shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			}
-			break;
-			
-		case 'interlocking':
-			var childPath = generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param);
-			var g = new Group();
-			g.name = 'folds';
-			shape[shapeA].children[pathA+'_joint'].addChild(g);
-			shape[shapeA].children[pathA+'_joint'].children['folds'].addChildren(childPath.returnAFold);
-			shape[shapeA].children[pathA+'_joint'].children['folds'].strokeColor = '#AAA';
-			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+				break;
+				
+			case 'tab insert':
+				var childPath = generateTabInsertJoint(index, shapeA, pathA, shapeB, pathB, param);
+				if (childPath) {
+					var g = new Group();
+					g.name = 'folds';
+					shape[shapeA].children[pathA+'_joint'].addChild(g);
+					shape[shapeA].children[pathA+'_joint'].children['folds'].addChildren(childPath.returnAFold);
+					shape[shapeA].children[pathA+'_joint'].children['folds'].strokeColor = '#AAA';
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 
-			shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
-			shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
-			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-			
-			var g2 = new Group();
-			g2.name = 'folds';
-			shape[shapeB].children[pathB+'_joint'].addChild(g2);
-			shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
-			shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
-			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+					shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
+					shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 
-			shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
-			shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
-			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			break;
+					var g2 = new Group();
+					g2.name = 'folds';
+					shape[shapeB].children[pathB+'_joint'].addChild(g2);
+					shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
+					shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
 
-		case 'flap':
-			var childPath = generateFlapJoint(index, shapeA, pathA, shapeB, pathB, param);
-			if (childPath) {
+					shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
+					shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				} else {
+					shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
+					shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				}
+				break;
+				
+			case 'interlocking':
+				var childPath = generateInterlockingJoint(index, shapeA, pathA, shapeB, pathB, param);
 				var g = new Group();
 				g.name = 'folds';
 				shape[shapeA].children[pathA+'_joint'].addChild(g);
@@ -399,7 +378,7 @@ function generateJoint(index) {
 				shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
 				shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
 				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-
+				
 				var g2 = new Group();
 				g2.name = 'folds';
 				shape[shapeB].children[pathB+'_joint'].addChild(g2);
@@ -410,20 +389,47 @@ function generateJoint(index) {
 				shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
 				shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
 				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			} else {
+				break;
+
+			case 'flap':
+				var childPath = generateFlapJoint(index, shapeA, pathA, shapeB, pathB, param);
+				if (childPath) {
+					var g = new Group();
+					g.name = 'folds';
+					shape[shapeA].children[pathA+'_joint'].addChild(g);
+					shape[shapeA].children[pathA+'_joint'].children['folds'].addChildren(childPath.returnAFold);
+					shape[shapeA].children[pathA+'_joint'].children['folds'].strokeColor = '#AAA';
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+
+					shape[shapeA].children[pathA+'_joint'].addChildren(childPath.returnA);
+					shape[shapeA].children[pathA+'_joint'].strokeColor = '#000';
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+
+					var g2 = new Group();
+					g2.name = 'folds';
+					shape[shapeB].children[pathB+'_joint'].addChild(g2);
+					shape[shapeB].children[pathB+'_joint'].children['folds'].addChildren(childPath.returnBFold);
+					shape[shapeB].children[pathB+'_joint'].children['folds'].strokeColor = '#AAA';
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+
+					shape[shapeB].children[pathB+'_joint'].addChildren(childPath.returnB);
+					shape[shapeB].children[pathB+'_joint'].strokeColor = '#000';
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				} else {
+					shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
+					shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
+					shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
+					shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
+				}
+				break;
+
+			default:
 				shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
 				shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
 				shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
 				shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			}
-			break;
-
-		default:
-			shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
-			shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-			shape[shapeA].children[pathA+'_joint'].strokeWidth = 1;
-			shape[shapeB].children[pathB+'_joint'].strokeWidth = 1;
-			break;
+				break;
+		}
 	}
 	
 	refreshShapeDisplay();

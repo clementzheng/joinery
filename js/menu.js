@@ -21,6 +21,25 @@ function initForms() {
 		} 
 	});
 
+	fileSelector.change(function() {
+		if (this.files.length) {
+			var file = this.files[0];
+			var reader = new FileReader();
+			var filename = file.name;
+			var ext = filename.split('.');
+			var name = ext[0];
+			if (ext[ext.length-1]=='svg' || ext[ext.length-1]=='SVG') {
+				reader.readAsText(file);
+				SVGprocessed = false;
+				$(reader).on('load', updateSVGShape);
+			} else {
+				setMessage('<b>Invalid SVG</b>', '#F80');
+			}
+		} else {
+
+		} 
+	});
+
 	$('#loadProject').change(function() {
 		if (this.files.length) {
 			var file = this.files[0];
