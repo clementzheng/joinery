@@ -71,10 +71,17 @@ document.onmousemove = function(e){
 $(document).bind("contextmenu", function (event) {
     if (initialized && !insideMenu) {
     	event.preventDefault();
-    	$('#contextMenu.active').toggleClass('active');
-    	if (pathSelected.shape != -1 && pathSelected.path != -1) {
+    	
+    	if (pathSelected.shape != -1 && pathSelected.path != -1 && !$('#contextMenu').hasClass('active')) {
     		$('#contextMenu').toggleClass('active');
     		$('#contextMenu').css({'top':mousePosition.y+'px', 'left':mousePosition.x+5+'px'});
+    	} else if ($('#contextMenu').hasClass('active')) {
+    		highlightShapePathContext();
+    		if (pathSelected.shape != -1 && pathSelected.path != -1) {
+    			$('#contextMenu').css({'top':mousePosition.y+'px', 'left':mousePosition.x+5+'px'});
+    		} else {
+    			$('#contextMenu').toggleClass('active');
+    		}
     	}
 	}
 });
