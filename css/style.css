@@ -767,10 +767,11 @@ input {
 	position: fixed;
 	top: 50vh;
 	left: 50vw;
-	background: rgba(255, 255, 255, 0.8);
-	border-radius: 2px;
-	box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
+	background: rgba(255, 255, 255, 0.95);
+	border-radius: 0 2px 2px 2px;
+	box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.2);
 	display: none;
+	padding: 2px 0;
 }
 
 #contextMenu.active {
@@ -779,7 +780,8 @@ input {
 
 #contextMenu li {
 	list-style: none;
-	padding: 5px 10px 6px 10px;
+	font-size: 11px;
+	padding: 3px 9px 4px 9px;
 }
 
 #contextMenu li:hover {
