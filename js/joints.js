@@ -939,37 +939,14 @@ function generateHemJoint(index, shapeA, pathA, shapeB, pathB, param) {
 	var edgeA = shape[shapeA].children[pathA+'_joint'].children[0];
 	var edgeB = shape[shapeB].children[pathB+'_joint'].children[0];
 
-	shape[shapeA].children[pathA+'_joint'].removeChildren();
-	shape[shapeB].children[pathB+'_joint'].removeChildren();
-	
-	shape[shapeA].children[pathA+'_joint'].addChild(shape[shapeA].children[pathA].clone());
-	shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-	var edgeA2 = shape[shapeA].children[pathA+'_joint'].children[0];
-	var edgeB2 = shape[shapeB].children[pathB+'_joint'].children[0];
-	shape[shapeA].children[pathA+'_joint'].removeChildren();
-	shape[shapeB].children[pathB+'_joint'].removeChildren();
-	var edgeA3 = new Path();
-	var edgeB3 = new Path();
-	var amount = Math.floor(edgeB2.length/10);
-	amount = amount<3 ? 3 : amount;
-	for (var i=0; i<amount+1; i++) {
-		var pt = edgeA2.getPointAt(i/amount*edgeA2.length);
-		var normal = edgeA2.getNormalAt(i/amount*edgeA2.length).multiply(joints[index]['dirM']);
-		var pt2 = pt.add(normal.multiply(param['hem offset']));
-		edgeA3.add(pt2);
-		pt = edgeB2.getPointAt(i/amount*edgeB2.length);
-		normal = edgeB2.getNormalAt(i/amount*edgeB2.length).multiply(joints[index]['dirF']);
-		pt2 = pt.add(normal.multiply(param['hem offset']));
-		edgeB3.add(pt2);
+	var pathOffsetA = offsetPath(edgeA, param['hem offset'], joints[index]['dirM']);
+	for (i in pathOffsetA) {
+		returnA.push(pathOffsetA[i]);
 	}
-	edgeA3.smooth();
-	edgeB3.smooth();
-	edgeA3.insert(0, edgeA2.firstSegment.point);
-	edgeA3.insert(edgeA3.segments.length, edgeA2.lastSegment.point);
-	edgeB3.insert(0, edgeB2.firstSegment.point);
-	edgeB3.insert(edgeB3.segments.length, edgeB2.lastSegment.point);
-	returnA.push(edgeA3);
-	returnB.push(edgeB3);
+	var pathOffsetB = offsetPath(edgeB, param['hem offset'], joints[index]['dirF']);
+	for (i in pathOffsetB) {
+		returnB.push(pathOffsetB[i]);
+	}
 	returnAFold.push(edgeA);
 	returnBFold.push(edgeB);
 	
@@ -984,8 +961,113 @@ function generateHemJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			returnB.push(new Path.Circle(ptB, param['hole diameter']));
 		}
 	}
+
+	shape[shapeA].children[pathA+'_joint'].removeChildren();
+	shape[shapeB].children[pathB+'_joint'].removeChildren();
 	
 	return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
+}
+
+function offsetPath(pathToOffset, offsetDist, offsetDir) {
+	var returnPath = [];
+	var splitAt = [];
+	for (var i=1; i<pathToOffset.segments.length-1; i++) {
+		var h1 = {'x': pathToOffset.segments[i].handleIn.x, 'y': pathToOffset.segments[i].handleIn.y};
+		var h2 = {'x': pathToOffset.segments[i].handleOut.x, 'y': pathToOffset.segments[i].handleOut.y};
+		var s1 = -h1.y * h2.x;
+		var s2 = h2.y * -h1.x;
+		if (s1*s2 < 0) {
+			splitAt.push(i);
+		} else if ((s1+0.001)/(s2+0.01) > 1.3 || (s1+0.001)/(s2+0.01) < 0.7) {
+			splitAt.push(i);
+		}
+	}
+	var paths = [];
+	var pathsOffset = [];
+	paths.push(new Path());
+	pathsOffset.push(new Path());
+	for (var i=0; i<splitAt.length; i++) {
+		paths.push(new Path());
+		pathsOffset.push(new Path());
+	}
+	var counter = 0;
+	for (var i=0; i<pathToOffset.segments.length; i++) {
+		paths[counter].add(pathToOffset.segments[i]);
+		if (splitAt.indexOf(i)>=0) {
+			counter++;
+			paths[counter].add(pathToOffset.segments[i]);
+		}
+	}
+	for (var i=0; i<paths.length; i++) {
+		var amount = Math.floor(paths[i].length/10);
+		amount = amount<3 ? 3 : amount;
+		for (var j=0; j<amount+1; j++) {
+			var pt = paths[i].getPointAt(j/amount*paths[i].length);
+			var normal = paths[i].getNormalAt(j/amount*paths[i].length).multiply(offsetDir);
+			var pt2 = pt.add(normal.multiply(offsetDist));
+			pathsOffset[i].add(pt2);
+		}
+		pathsOffset[i].smooth();
+	}
+	var intersections = [];
+	for (var i=0; i<paths.length-1; i++) {
+		var pts = pathsOffset[i].getIntersections(pathsOffset[i+1]);
+		if (pts.length>0) {
+			intersections.push(pts[0].point);
+		} else {
+			intersections.push("none");
+		}
+	}
+	for (var i=0; i<pathsOffset.length; i++) {
+		if (i==0 && intersections[i]!="none") {
+			var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i]));
+			splitPath.remove();
+		} else if (i>0 && i<pathsOffset.length-1) {
+			if (intersections[i-1]!="none") {
+				var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i-1]));
+				pathsOffset[i].remove();
+				pathsOffset[i] = splitPath.clone();
+				splitPath.remove();
+			}
+			if (intersections[i]!="none") {
+				var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i]));
+				splitPath.remove();
+			}
+		} else if (i==pathsOffset.length-1 && intersections[i-1]!="none") {
+			var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i-1]));
+			pathsOffset[i].remove();
+			pathsOffset[i] = splitPath.clone();
+			splitPath.remove();
+		}
+	}
+	for (var i=0; i<intersections.length; i++) {
+		if (intersections[i]=="none") {
+			var ptA = pathsOffset[i].lastSegment.point;
+			var tanA = pathsOffset[i].getTangentAt(pathsOffset[i].length);
+			var ptB = pathsOffset[i+1].firstSegment.point;
+			var tanB = pathsOffset[i+1].getTangentAt(0);
+			var pt = lineIntersection(ptA, ptA.add(tanA), ptB, ptB.add(tanB.multiply(-1)));
+			pathsOffset[i].quadraticCurveTo(new Point(pt.x, pt.y), new Point(ptB.x, ptB.y));
+		}
+	}
+	for (var i=1; i<pathsOffset.length; i++) {
+		var len = pathsOffset[0].segments.length;
+		pathsOffset[0].segments[len-1].handleOut = pathsOffset[i].segments[0].handleOut;
+		for (var j=1; j<pathsOffset[i].segments.length; j++) {
+			pathsOffset[0].add(pathsOffset[i].segments[j]);
+		}
+	}
+	pathsOffset[0].insert(0, pathToOffset.firstSegment.point);
+	pathsOffset[0].insert(pathsOffset[0].segments.length, pathToOffset.lastSegment.point);
+	var finalPath = pathsOffset[0].clone();
+	for (i in paths) {
+		paths[i].remove();
+	}
+	for (i in pathsOffset) {
+		pathsOffset[i].remove();
+	}
+	returnPath.push(finalPath);
+	return returnPath;
 }
 
 function generateFingerJoint(index, shapeA, pathA, shapeB, pathB, param) {
@@ -1132,33 +1214,20 @@ function generateLoopInsert(index, shapeA, pathA, shapeB, pathB, param, softBool
 	var jointCount = Math.floor(edgeAMid.length/jW);
 	var edgeSegmentA = dividePath(edgeAMid, jointCount);
 	var edgeSegmentB = dividePath(edgeBMid, jointCount);
-	shape[shapeA].children[pathA+'_joint'].removeChildren();
-	shape[shapeB].children[pathB+'_joint'].removeChildren();
-	
+	var edgeB2 = shape[shapeB].children[pathB].clone();
 	if (softBool && !surfBool) {
-		shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-		var edgeB2 = shape[shapeB].children[pathB+'_joint'].children[0];
-		shape[shapeB].children[pathB+'_joint'].removeChildren();
-		var edgeB3 = new Path();
-		var amount = Math.floor(edgeB2.length/10);
-		amount = amount<3 ? 3 : amount;
-		for (var i=0; i<amount+1; i++) {
-			var pt = edgeB2.getPointAt(i/amount*edgeB2.length);
-			var normal = edgeB2.getNormalAt(i/amount*edgeB2.length).multiply(joints[index]['dirF']);
-			var pt2 = pt.add(normal.multiply(param['hem offset']));
-			edgeB3.add(pt2);
+		var offsetPaths = offsetPath(edgeB2, param['hem offset'], joints[index]['dirF']);
+		for (i in offsetPaths) {
+			returnB.push(offsetPaths[i]);
 		}
-		edgeB3.smooth();
-		edgeB3.insert(0, edgeB2.firstSegment.point);
-		edgeB3.insert(edgeB3.segments.length, edgeB2.lastSegment.point);
-		returnB.push(edgeB3);
 		returnBFold.push(edgeB2);
+
 	} else if (!surfBool) {
-		shape[shapeB].children[pathB+'_joint'].addChild(shape[shapeB].children[pathB].clone());
-		var edgeB2 = shape[shapeB].children[pathB+'_joint'].children[0];
-		shape[shapeB].children[pathB+'_joint'].removeChildren();
 		returnB.push(edgeB2);
 	}
+	edgeB2.remove();
+	shape[shapeA].children[pathA+'_joint'].removeChildren();
+	shape[shapeB].children[pathB+'_joint'].removeChildren();
 	
 	var intersectPath;
 	
