@@ -637,7 +637,7 @@ function refreshJointList() {
 		$(this).find('.flipM').on('click', function() {
 			joints[id].dirM = joints[id].dirM*-1;
 			generateJoint(id);
-			if (mode=='flip') {
+			if (mode=='flip' || mode=='set' || mode=='rev' || mode=='swap') {
 				generateEdgeNormals();
 				displayFlipLines();			
 			}
@@ -645,10 +645,10 @@ function refreshJointList() {
 		$(this).find('.flipF').on('click', function() {
 			joints[id].dirF = joints[id].dirF*-1;
 			generateJoint(id);
-			if (mode=='flip') {
+			if (mode=='flip' || mode=='set' || mode=='rev' || mode=='swap') {
 				generateEdgeNormals();
 				displayFlipLines();			
-			}	
+			}
 		});
 		$(this).find('.revM').on('click', function() {
 			if (joints[id].m==0) {
@@ -658,17 +658,11 @@ function refreshJointList() {
 				shape[shapeB].children[pathB].reverse();
 				joints[id].revB = joints[id].revB*-1;
 			}
-			if (mode=='set' || mode=='reverse') {
+			if (mode=='flip' || mode=='set' || mode=='rev' || mode=='swap') {
 				generateJointLines();
 				displayJointLines();
 				generateEdgeNormals();
 				displayFlipLines();	
-			}
-			if (mode=='flip') {
-				generateJointLines();
-				displayJointLines();
-				generateEdgeNormals();
-				displayFlipLines();			
 			}
 			generateJoint(id);			
 		});
@@ -680,17 +674,11 @@ function refreshJointList() {
 				shape[shapeB].children[pathB].reverse();
 				joints[id].revB = joints[id].revB*-1;
 			}
-			if (mode=='set' || mode=='reverse') {
+			if (mode=='flip' || mode=='set' || mode=='rev' || mode=='swap') {
 				generateJointLines();
 				displayJointLines();
 				generateEdgeNormals();
 				displayFlipLines();
-			}
-			if (mode=='flip') {
-				generateJointLines();
-				displayJointLines();
-				generateEdgeNormals();
-				displayFlipLines();		
 			}
 			generateJoint(id);			
 		});
