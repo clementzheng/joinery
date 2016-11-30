@@ -968,106 +968,145 @@ function generateHemJoint(index, shapeA, pathA, shapeB, pathB, param) {
 	return {'returnA':returnA, 'returnB':returnB, 'returnAFold':returnAFold, 'returnBFold':returnBFold};
 }
 
+function lineCP(p2, p0, p1) {
+	var p10 = {'x':p0.x-p1.x, 'y':p0.y-p1.y};
+	var p12 = {'x':p2.x-p1.x, 'y':p2.y-p1.y};
+	var t = dotPdt(p12, p10)/dotPdt(p12, p12);
+	var CPx = p1.x + t*p12.x;
+	var CPy = p1.y + t*p12.y;
+	return {'x': CPx, 'y': CPy, 't': t};
+}
+function dotPdt(ptA, ptB) {
+	return ptA.x*ptB.x+ptA.y*ptB.y;
+}
+function dist2Pt(aX, aY, bX, bY) {
+	var d = Math.sqrt(Math.pow(aX-bX, 2)+Math.pow(aY-bY, 2));
+	return d;
+}
+
 function offsetPath(pathToOffset, offsetDist, offsetDir) {
 	var returnPath = [];
 	var splitAt = [];
 	for (var i=1; i<pathToOffset.segments.length-1; i++) {
 		var h1 = {'x': pathToOffset.segments[i].handleIn.x, 'y': pathToOffset.segments[i].handleIn.y};
 		var h2 = {'x': pathToOffset.segments[i].handleOut.x, 'y': pathToOffset.segments[i].handleOut.y};
-		var s1 = -h1.y * h2.x;
-		var s2 = h2.y * -h1.x;
-		if (s1*s2 < 0) {
+		var d1 = dist2Pt(h1.x, h1.y, 0, 0);
+		var d2 = dist2Pt(h2.x, h2.y, 0, 0);
+		if (d1==0 || d2==0) {
 			splitAt.push(i);
-		} else if ((s1+0.001)/(s2+0.01) > 1.3 || (s1+0.001)/(s2+0.01) < 0.7) {
-			splitAt.push(i);
+		} else {
+			var CP = lineCP(h2, {'x':0, 'y':0}, h1);
+			var d = dist2Pt(CP.x, CP.y, 0, 0);
+			if (d > 0.1) {
+				splitAt.push(i);
+			}
 		}
 	}
-	var paths = [];
-	var pathsOffset = [];
-	paths.push(new Path());
-	pathsOffset.push(new Path());
-	for (var i=0; i<splitAt.length; i++) {
+	if (splitAt.length > 0) {
+		var paths = [];
+		var pathsOffset = [];
 		paths.push(new Path());
 		pathsOffset.push(new Path());
-	}
-	var counter = 0;
-	for (var i=0; i<pathToOffset.segments.length; i++) {
-		paths[counter].add(pathToOffset.segments[i]);
-		if (splitAt.indexOf(i)>=0) {
-			counter++;
+		for (var i=0; i<splitAt.length; i++) {
+			paths.push(new Path());
+			pathsOffset.push(new Path());
+		}
+		var counter = 0;
+		for (var i=0; i<pathToOffset.segments.length; i++) {
 			paths[counter].add(pathToOffset.segments[i]);
+			if (splitAt.indexOf(i)>=0) {
+				counter++;
+				paths[counter].add(pathToOffset.segments[i]);
+			}
 		}
-	}
-	for (var i=0; i<paths.length; i++) {
-		var amount = Math.floor(paths[i].length/10);
-		amount = amount<3 ? 3 : amount;
-		for (var j=0; j<amount+1; j++) {
-			var pt = paths[i].getPointAt(j/amount*paths[i].length);
-			var normal = paths[i].getNormalAt(j/amount*paths[i].length).multiply(offsetDir);
-			var pt2 = pt.add(normal.multiply(offsetDist));
-			pathsOffset[i].add(pt2);
+		for (var i=0; i<paths.length; i++) {
+			var amount = Math.floor(paths[i].length/10);
+			amount = amount<3 ? 3 : amount;
+			for (var j=0; j<amount+1; j++) {
+				var pt = paths[i].getPointAt(j/amount*paths[i].length);
+				var normal = paths[i].getNormalAt(j/amount*paths[i].length).multiply(offsetDir);
+				var pt2 = pt.add(normal.multiply(offsetDist));
+				pathsOffset[i].add(pt2);
+			}
+			pathsOffset[i].smooth();
 		}
-		pathsOffset[i].smooth();
-	}
-	var intersections = [];
-	for (var i=0; i<paths.length-1; i++) {
-		var pts = pathsOffset[i].getIntersections(pathsOffset[i+1]);
-		if (pts.length>0) {
-			intersections.push(pts[0].point);
-		} else {
-			intersections.push("none");
+		var intersections = [];
+		for (var i=0; i<paths.length-1; i++) {
+			var pts = pathsOffset[i].getIntersections(pathsOffset[i+1]);
+			if (pts.length>0) {
+				intersections.push(pts[0].point);
+			} else {
+				intersections.push("none");
+			}
 		}
-	}
-	for (var i=0; i<pathsOffset.length; i++) {
-		if (i==0 && intersections[i]!="none") {
-			var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i]));
-			splitPath.remove();
-		} else if (i>0 && i<pathsOffset.length-1) {
-			if (intersections[i-1]!="none") {
+		for (var i=0; i<pathsOffset.length; i++) {
+			if (i==0 && intersections[i]!="none") {
+				var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i]));
+				splitPath.remove();
+			} else if (i>0 && i<pathsOffset.length-1) {
+				if (intersections[i-1]!="none") {
+					var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i-1]));
+					pathsOffset[i].remove();
+					pathsOffset[i] = splitPath.clone();
+					splitPath.remove();
+				}
+				if (intersections[i]!="none") {
+					var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i]));
+					splitPath.remove();
+				}
+			} else if (i==pathsOffset.length-1 && intersections[i-1]!="none") {
 				var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i-1]));
 				pathsOffset[i].remove();
 				pathsOffset[i] = splitPath.clone();
 				splitPath.remove();
 			}
-			if (intersections[i]!="none") {
-				var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i]));
-				splitPath.remove();
+		}
+		for (var i=0; i<intersections.length; i++) {
+			if (intersections[i]=="none") {
+				var ptA = pathsOffset[i].lastSegment.point;
+				var tanA = pathsOffset[i].getTangentAt(pathsOffset[i].length);
+				var ptB = pathsOffset[i+1].firstSegment.point;
+				var tanB = pathsOffset[i+1].getTangentAt(0);
+				var pt = lineIntersection(ptA, ptA.add(tanA), ptB, ptB.add(tanB.multiply(-1)));
+				pathsOffset[i].quadraticCurveTo(new Point(pt.x, pt.y), new Point(ptB.x, ptB.y));
 			}
-		} else if (i==pathsOffset.length-1 && intersections[i-1]!="none") {
-			var splitPath = pathsOffset[i].split(pathsOffset[i].getNearestLocation(intersections[i-1]));
+		}
+		for (var i=1; i<pathsOffset.length; i++) {
+			var len = pathsOffset[0].segments.length;
+			pathsOffset[0].segments[len-1].handleOut = pathsOffset[i].segments[0].handleOut;
+			for (var j=1; j<pathsOffset[i].segments.length; j++) {
+				pathsOffset[0].add(pathsOffset[i].segments[j]);
+			}
+		}
+		pathsOffset[0].insert(0, pathToOffset.firstSegment.point);
+		pathsOffset[0].insert(pathsOffset[0].segments.length, pathToOffset.lastSegment.point);
+		var finalPath = pathsOffset[0].clone();
+		for (i in paths) {
+			paths[i].remove();
+		}
+		for (i in pathsOffset) {
 			pathsOffset[i].remove();
-			pathsOffset[i] = splitPath.clone();
-			splitPath.remove();
 		}
-	}
-	for (var i=0; i<intersections.length; i++) {
-		if (intersections[i]=="none") {
-			var ptA = pathsOffset[i].lastSegment.point;
-			var tanA = pathsOffset[i].getTangentAt(pathsOffset[i].length);
-			var ptB = pathsOffset[i+1].firstSegment.point;
-			var tanB = pathsOffset[i+1].getTangentAt(0);
-			var pt = lineIntersection(ptA, ptA.add(tanA), ptB, ptB.add(tanB.multiply(-1)));
-			pathsOffset[i].quadraticCurveTo(new Point(pt.x, pt.y), new Point(ptB.x, ptB.y));
+		returnPath.push(finalPath);
+		return returnPath;
+	} else {
+		var pathsOffset = new Path();
+		var amount = Math.floor(pathToOffset.length/10);
+		amount = amount<3 ? 3 : amount;
+		for (var j=0; j<amount+1; j++) {
+			var pt = pathToOffset.getPointAt(j/amount*pathToOffset.length);
+			var normal = pathToOffset.getNormalAt(j/amount*pathToOffset.length).multiply(offsetDir);
+			var pt2 = pt.add(normal.multiply(offsetDist));
+			pathsOffset.add(pt2);
 		}
+		pathsOffset.smooth();
+		pathsOffset.insert(0, pathToOffset.firstSegment.point);
+		pathsOffset.insert(pathsOffset.segments.length, pathToOffset.lastSegment.point);
+		var finalPath = pathsOffset.clone();
+		pathsOffset.remove();
+		returnPath.push(finalPath);
+		return returnPath;
 	}
-	for (var i=1; i<pathsOffset.length; i++) {
-		var len = pathsOffset[0].segments.length;
-		pathsOffset[0].segments[len-1].handleOut = pathsOffset[i].segments[0].handleOut;
-		for (var j=1; j<pathsOffset[i].segments.length; j++) {
-			pathsOffset[0].add(pathsOffset[i].segments[j]);
-		}
-	}
-	pathsOffset[0].insert(0, pathToOffset.firstSegment.point);
-	pathsOffset[0].insert(pathsOffset[0].segments.length, pathToOffset.lastSegment.point);
-	var finalPath = pathsOffset[0].clone();
-	for (i in paths) {
-		paths[i].remove();
-	}
-	for (i in pathsOffset) {
-		pathsOffset[i].remove();
-	}
-	returnPath.push(finalPath);
-	return returnPath;
 }
 
 function generateFingerJoint(index, shapeA, pathA, shapeB, pathB, param) {
