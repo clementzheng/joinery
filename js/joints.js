@@ -957,8 +957,8 @@ function generateHemJoint(index, shapeA, pathA, shapeB, pathB, param) {
 		for (var i=0; i<holeCount; i++) {
 			var ptA = edgeA.getPointAt(i*gapA+gapA/2);
 			var ptB = edgeB.getPointAt(i*gapB+gapB/2);
-			returnA.push(new Path.Circle(ptA, param['hole diameter']));
-			returnB.push(new Path.Circle(ptB, param['hole diameter']));
+			returnA.push(new Path.Circle(ptA, param['hole diameter']/2));
+			returnB.push(new Path.Circle(ptB, param['hole diameter']/2));
 		}
 	}
 
