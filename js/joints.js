@@ -1034,7 +1034,16 @@ function offsetPath(pathToOffset, offsetDist, offsetDir) {
 		for (var i=0; i<paths.length-1; i++) {
 			var pts = pathsOffset[i].getIntersections(pathsOffset[i+1]);
 			if (pts.length>0) {
-				intersections.push(pts[0].point);
+				if (pts.length==1) {
+					var d = dist2Pt(pathsOffset[i].lastSegment.point.x, pathsOffset[i].lastSegment.point.y, pts[0].point.x, pts[0].point.y);
+					if (d==0) {
+						intersections.push("none");
+					} else {
+						intersections.push(pts[0].point);
+					}
+				} else {
+					intersections.push(pts[0].point);
+				}
 			} else {
 				intersections.push("none");
 			}
