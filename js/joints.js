@@ -1604,6 +1604,7 @@ function exportProject() {
 		}
 		var svgWidth = projectBounds.maxX;
 		var svgHeight = projectBounds.maxY;
+		console.log(project.exportSVG);
 		var svgContent = $(project.exportSVG()).html();
 		var svgString = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'+svgWidth+'mm" height="'+svgHeight+'mm" viewBox="'+0+' '+0+' '+svgWidth+' '+svgHeight+'">'+svgContent+'</svg>';
 		
