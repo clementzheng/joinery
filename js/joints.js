@@ -957,8 +957,8 @@ function generateHemJoint(index, shapeA, pathA, shapeB, pathB, param) {
 		for (var i=0; i<holeCount; i++) {
 			var ptA = edgeA.getPointAt(i*gapA+gapA/2);
 			var ptB = edgeB.getPointAt(i*gapB+gapB/2);
-			returnA.push(new Path.Circle(ptA, param['hole diameter']));
-			returnB.push(new Path.Circle(ptB, param['hole diameter']));
+			returnA.push(new Path.Circle(ptA, param['hole diameter']/2));
+			returnB.push(new Path.Circle(ptB, param['hole diameter']/2));
 		}
 	}
 
@@ -1604,6 +1604,7 @@ function exportProject() {
 		}
 		var svgWidth = projectBounds.maxX;
 		var svgHeight = projectBounds.maxY;
+		console.log(project.exportSVG);
 		var svgContent = $(project.exportSVG()).html();
 		var svgString = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'+svgWidth+'mm" height="'+svgHeight+'mm" viewBox="'+0+' '+0+' '+svgWidth+' '+svgHeight+'">'+svgContent+'</svg>';
 		
