@@ -10617,19 +10617,17 @@ var GradientStop = Base.extend({
 			this._owner._changed(65);
 	},
 
-	getRampPoint: function() {
-		return this._rampPoint;
+	getOffset: function() {
+		return this._offset;
 	},
 
-	setRampPoint: function(rampPoint) {
-		this._defaultRamp = rampPoint == null;
-		this._rampPoint = rampPoint || 0;
+	setOffset: function(offset) {
+		this._offset = offset;
 		this._changed();
 	},
 
-	getColor: function() {
-		return this._color;
-	},
+	getRampPoint: '#getOffset',
+	setRampPoint: '#setOffset',
 
 	setColor: function(color) {
 		this._color = Color.read(arguments);
@@ -13209,10 +13207,10 @@ new function() {
 		},
 
 		offset: function(item, value) {
-			var percentage = value.match(/(.*)%$/);
-			item.setRampPoint(percentage
-					? percentage[1] / 100
-					: parseFloat(value));
+			if (item.setOffset) {
+				var percent = value.match(/(.*)%$/);
+				item.setOffset(percent ? percent[1] / 100 : parseFloat(value));
+			}
 		},
 
 		viewBox: function(item, value, name, node, styles) {
