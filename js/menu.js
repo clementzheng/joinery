@@ -393,6 +393,7 @@ function emptyAll() {
 	tempLines.removeChildren();
 	flipLines.removeChildren();
 	highlight.removeChildren();
+	connectionLines.removeChildren();
 	for (i in shape) {
 		shape[i].bounds.selected = false;
 		shape[i].strokeWidth = 1;
@@ -712,14 +713,10 @@ function refreshJointList() {
 			refreshJointList();
 		});
 		$(this).find('.title').on('mouseenter', function() {
-			highlight.removeChildren();
-			highlight.addChild(shape[shapeA].children[pathA+'_joint'].clone());
-			highlight.addChild(shape[shapeB].children[pathB+'_joint'].clone());
-			highlight.strokeColor = '#0AF';
-			highlight.strokeWidth = 2;
+			highlightJointConnections(shapeA, pathA);
 		});
 		$(this).find('.title').on('mouseleave', function() {
-			highlight.removeChildren();
+			clearConnectionLines();
 		});
 	})
 }
