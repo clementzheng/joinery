@@ -5,6 +5,7 @@ var jointLines;
 var flipLines;
 var tempLines;
 var highlight;
+var connectionLines;
 var shapeColor = [];
 var ctx;
 
@@ -25,6 +26,7 @@ function init() {
 	tempLines = new Group();
 	flipLines = new Group();
 	highlight = new Group();
+	connectionLines = new Group();
 	var bgCanvas = document.getElementById('bgCanvas');
 	ctx = bgCanvas.getContext('2d');
 	paperScale = 1.0;
@@ -502,6 +504,9 @@ function highlightShapePath() {
 								pathSelected.shape = i;
 								pathSelected.path = j;
 								bool = true;
+								if (shape[i].children[j].name=='joint') {
+									highlightJointConnections(i, j);
+								}
 							} else {
 								shape[i].children[j].strokeWidth = 0.5;
 								shape[i].children[j].strokeColor = shapeColor[i][j];
@@ -522,8 +527,51 @@ function highlightShapePath() {
 		}
 		if (!bool) {
 			pathSelected = {'shape':-1, 'path':-1};
+			if (!insideMenu) {
+				clearConnectionLines();
+			}
 		}
 	}
+}
+
+function highlightJointConnections(i, j) {
+	connectionLines.removeChildren();
+	var highlightJointIndex = -1;
+	for (index in joints) {
+		if ((joints[index]['0'].shape==i && joints[index]['0'].path==j) || (joints[index]['1'].shape==i && joints[index]['1'].path==j)) {
+			highlightJointIndex = index;
+			break;
+		}
+	}
+	var counter = 0;
+	if (highlightJointIndex > -1) {
+		var startA = shape[joints[index]['0'].shape].children[joints[index]['0'].path].firstSegment.point;
+		var startB = shape[joints[index]['1'].shape].children[joints[index]['1'].path].firstSegment.point;
+		var endA = shape[joints[index]['0'].shape].children[joints[index]['0'].path].lastSegment.point;
+		var endB = shape[joints[index]['1'].shape].children[joints[index]['1'].path].lastSegment.point;
+		var path1 = new Path([startA, startB]);
+		var path2 = new Path([endA, endB]);
+		connectionLines.addChild(path1);
+		connectionLines.children[counter].strokeWidth = 1.0;
+		connectionLines.children[counter].strokeColor = '#666';
+		counter++;
+		connectionLines.addChild(path2);
+		connectionLines.children[counter].strokeWidth = 1.0;
+		connectionLines.children[counter].strokeColor = '#666';
+		counter++;
+		connectionLines.addChild(shape[joints[index]['0'].shape].children[joints[index]['0'].path+'_joint'].clone());
+		connectionLines.children[counter].strokeWidth = 2;
+		connectionLines.children[counter].strokeColor = '#0AF';
+		counter++;
+		connectionLines.addChild(shape[joints[index]['1'].shape].children[joints[index]['1'].path+'_joint'].clone());
+		connectionLines.children[counter].strokeWidth = 2;
+		connectionLines.children[counter].strokeColor = '#0AF';
+		counter++;
+	}
+}
+
+function clearConnectionLines() {
+	connectionLines.removeChildren();
 }
 
 function highlightShapePathContext() {
@@ -710,7 +758,7 @@ function displayJointLines() {
 			jointLines.children[i].strokeWidth = 1.5;
 		}
 		if (jointLines.children[i].name=='connection') {
-			jointLines.children[i].strokeColor = '#666';
+			jointLines.children[i].strokeColor = '#999';
 			jointLines.children[i].strokeWidth = 0.5;
 			jointLines.children[i].dashArray = [1, 1];
 		}
