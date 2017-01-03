@@ -553,11 +553,11 @@ function highlightJointConnections(i, j) {
 		var path2 = new Path([endA, endB]);
 		connectionLines.addChild(path1);
 		connectionLines.children[counter].strokeWidth = 1.0;
-		connectionLines.children[counter].strokeColor = '#666';
+		connectionLines.children[counter].strokeColor = '#F86';
 		counter++;
 		connectionLines.addChild(path2);
 		connectionLines.children[counter].strokeWidth = 1.0;
-		connectionLines.children[counter].strokeColor = '#666';
+		connectionLines.children[counter].strokeColor = '#F86';
 		counter++;
 		connectionLines.addChild(shape[joints[index]['0'].shape].children[joints[index]['0'].path+'_joint'].clone());
 		connectionLines.children[counter].strokeWidth = 2;
