@@ -894,7 +894,7 @@ function generateTabInsertJoint(index, shapeA, pathA, shapeB, pathB, param) {
 			var insertPt6 = insertPt7.add(dirA.multiply(param['grip']));
 			var insertPt5 = insertPt7.add(normA.multiply(param['insert height'])).add(dirA.multiply(-param['insert width']/16));
 			returnA.push(generateFilletPath([insertPt1, insertPt2, insertPt3, insertPt4, insertPt5, insertPt6, insertPt7, insertPt8], [0, param['grip']/3, param['insert width']/4, param['insert width']/4, param['grip']/3, 0]));
-			returnB.push(generateTabSlit(flapPt1, flapPt8, param['grip'], param['material thickness (M)']));
+			returnB.push(generateTabSlit(flapPt1, flapPt8, normB.multiply(-1), param['grip'], param['material thickness (M)']));
 			returnAFold.push(generateFilletPath([insertPt1, insertPt8], []));
 			returnBFold.push(generateFilletPath([flapFoldStart, flapPt1], []));
 			flapFoldStart = flapPt8;
@@ -1520,9 +1520,8 @@ function generateSlit(start, end, thickness) {
 	return slitPath;
 }
 
-function generateTabSlit(start, end, grip, thickness) {
+function generateTabSlit(start, end, normal, grip, thickness) {
 	var tangent = end.subtract(start).normalize();
-	var normal = new Point(tangent.y, -tangent.x);
 	var start1 = start.add(tangent.multiply(-grip));
 	var end1 = end.add(tangent.multiply(grip));
 	var start2 = start.add(normal.multiply(-thickness));
