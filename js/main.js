@@ -100,24 +100,19 @@ function processSVG(e) {
     if (file && file.length) {
 		var units = '';
 		var w, h;
-		var splitString = file.split(' ');
+
+		var separators = [' ', '\n'];
+		var splitString = file.split(new RegExp(separators.join('|'), 'g'));
+
 		for (i in splitString) {
 			if (splitString[i].indexOf('=')==5 && splitString[i].indexOf('w')==0) {
 				var splitVal = splitString[i].split('=');
-				if (splitString[i][splitString[i].length-1]=="\n") {
-					units = splitString[i][splitString[i].length-4]+splitString[i][splitString[i].length-3];
-				} else {
-					units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
-				}
+				units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
 				w = parseFloat(splitVal[1].split(units)[0].split('"')[1]);
 			}
 			if (splitString[i].indexOf('=')==6 && splitString[i].indexOf('h')==0) {
 				var splitVal = splitString[i].split('=');
-				if (splitString[i][splitString[i].length-1]=="\n") {
-					units = splitString[i][splitString[i].length-4]+splitString[i][splitString[i].length-3];
-				} else {
-					units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
-				}
+				units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
 				h = parseFloat(splitVal[1].split(units)[0].split('"')[1]);
 			}
 			if (w && h) {
@@ -202,6 +197,7 @@ function processSVG(e) {
 		$('#loadSVG').val('');
     }
 	activateDim(dimBool);
+	refreshShapeDisplay();
 }
 
 
@@ -233,7 +229,10 @@ function updateSVGShape(e) {
     if (file && file.length) {
     	var units = '';
 		var w, h;
-		var splitString = file.split(' ');
+
+		var separators = [' ', '\n'];
+		var splitString = file.split(new RegExp(separators.join('|'), 'g'));
+
 		for (i in splitString) {
 			if (splitString[i].indexOf('=')==5 && splitString[i].indexOf('w')==0) {
 				var splitVal = splitString[i].split('=');
@@ -570,7 +569,7 @@ function highlightShapePath() {
 						var d = pt.getDistance(cursorPt);
 						if (d < tolerance) {
 							if (!bool) {
-								shape[i].children[j].strokeWidth = 1.5;
+								shape[i].children[j].strokeWidth = 2.5;
 								shape[i].children[j].strokeColor = '#0AF';
 								pathSelected.shape = i;
 								pathSelected.path = j;
@@ -580,11 +579,19 @@ function highlightShapePath() {
 								}
 							} else {
 								shape[i].children[j].strokeWidth = 0.5;
-								shape[i].children[j].strokeColor = shapeColor[i][j];
+								if (shapeColor[i][j]) {
+									shape[i].children[j].strokeColor = shapeColor[i][j];
+								} else {
+									shape[i].children[j].strokeColor = "#000";
+								}
 							}
 						} else {
 							shape[i].children[j].strokeWidth = 0.5;
-							shape[i].children[j].strokeColor = shapeColor[i][j];
+							if (shapeColor[i][j]) {
+								shape[i].children[j].strokeColor = shapeColor[i][j];
+							} else {
+								shape[i].children[j].strokeColor = "#000";
+							}
 						}
 						if (bool) {
 							break;
@@ -649,7 +656,11 @@ function highlightShapePathContext() {
 	var bool = false;
 	if (pathSelected.shape != -1 && pathSelected.path != -1) {
 		shape[pathSelected.shape].children[pathSelected.path].strokeWidth = 0.5;
-		shape[pathSelected.shape].children[pathSelected.path].strokeColor = shapeColor[pathSelected.shape][pathSelected.path];
+		if (shapeColor[pathSelected.shape][pathSelected.path]) {
+			shape[pathSelected.shape].children[pathSelected.path].strokeColor = shapeColor[pathSelected.shape][pathSelected.path];
+		} else {
+			shape[pathSelected.shape].children[pathSelected.path].strokeColor = "#000";
+		}
 	}
 	for (i in shape) {
 		for (j in shape[i].children) {
@@ -659,18 +670,26 @@ function highlightShapePathContext() {
 					var d = pt.getDistance(cursorPt);
 					if (d < tolerance) {
 						if (!bool) {
-							shape[i].children[j].strokeWidth = 1.5;
+							shape[i].children[j].strokeWidth = 2.5;
 							shape[i].children[j].strokeColor = '#0AF';
 							pathSelected.shape = i;
 							pathSelected.path = j;
 							bool = true;
 						} else {
 							shape[i].children[j].strokeWidth = 0.5;
-							shape[i].children[j].strokeColor = shapeColor[i][j];
+							if (shapeColor[i][j]) {
+								shape[i].children[j].strokeColor = shapeColor[i][j];
+							} else {
+								shape[i].children[j].strokeColor = "#000";
+							}
 						}
 					} else {
 						shape[i].children[j].strokeWidth = 0.5;
-						shape[i].children[j].strokeColor = shapeColor[i][j];
+						if (shapeColor[i][j]) {
+							shape[i].children[j].strokeColor = shapeColor[i][j];
+						} else {
+							shape[i].children[j].strokeColor = "#000";
+						}
 					}
 					if (bool) {
 						break;
@@ -956,6 +975,11 @@ function refreshShapeDisplay() {
 		for (j in shape[i].children) {
 			shape[i].children[j].strokeWidth = 0.5;
 			shape[i].children[j].strokeCap = 'round';
+			if (shapeColor[i][j]) {
+				shape[i].children[j].strokeColor = shapeColor[i][j];
+			} else {
+				shape[i].children[j].strokeColor = '#000';
+			}
 			if (shape[i].children[j].className=='Path') {
 				shape[i].children[j].strokeColor = '#000';
 				if (shape[i].children[j].name=='joint') {
