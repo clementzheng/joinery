@@ -127,14 +127,20 @@ function processSVG(e) {
 		if (units=='mm' || units=='in' || units=='px') {
 			if (!SVGprocessed) {
 				SVGString.push(file);
-				if (paper.project.importSVG(file).children.length==1) {
-					if (paper.project.importSVG(file).children[0].className=="Group") {
-						shape.push(paper.project.importSVG(file).children[0]);
+
+				shape.push(paper.project.importSVG(file));
+				if (shape[shape.length-1].children.length==1) {
+					if (shape[shape.length-1].children[0].className=="Group") {
+						shape[shape.length-1].children[0].parent.insertChildren(shape[shape.length-1].children[0].index,  shape[shape.length-1].children[0].removeChildren());
+   						for (i in shape[shape.length-1].children) {
+   							if (shape[shape.length-1].children[i].className=="Group") {
+   								shape[shape.length-1].children[i].remove();
+   								break;
+   							}
+   						}
 					}
-				} else {
-					shape.push(paper.project.importSVG(file));
 				}
-				console.log(shape);
+
 				SVGprocessed = true;
 				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
 				shape[shape.length-1].name = 'shape';
@@ -164,8 +170,20 @@ function processSVG(e) {
 			setMessage('<b>SVG units not found</b>. Using default conversion to millimeters', '#F80');
 			if (!SVGprocessed) {
 				SVGString.push(file);
+
 				shape.push(paper.project.importSVG(file));
-				console.log(paper.project.importSVG(file));
+				if (shape[shape.length-1].children.length==1) {
+					if (shape[shape.length-1].children[0].className=="Group") {
+						shape[shape.length-1].children[0].parent.insertChildren(shape[shape.length-1].children[0].index,  shape[shape.length-1].children[0].removeChildren());
+   						for (i in shape[shape.length-1].children) {
+   							if (shape[shape.length-1].children[i].className=="Group") {
+   								shape[shape.length-1].children[i].remove();
+   								break;
+   							}
+   						}
+					}
+				}
+
 				SVGprocessed = true;
 				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
 				shape[shape.length-1].name = 'shape';
@@ -234,7 +252,20 @@ function updateSVGShape(e) {
 		if (units=='mm' || units=='in' || units=='px') {
 			if (!SVGprocessed) {
 				SVGString.push(file);
+
 				shape.push(paper.project.importSVG(file));
+				if (shape[shape.length-1].children.length==1) {
+					if (shape[shape.length-1].children[0].className=="Group") {
+						shape[shape.length-1].children[0].parent.insertChildren(shape[shape.length-1].children[0].index,  shape[shape.length-1].children[0].removeChildren());
+   						for (i in shape[shape.length-1].children) {
+   							if (shape[shape.length-1].children[i].className=="Group") {
+   								shape[shape.length-1].children[i].remove();
+   								break;
+   							}
+   						}
+					}
+				}
+
 				SVGprocessed = true;
 				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
 				shape[shape.length-1].name = 'shape';
@@ -265,7 +296,20 @@ function updateSVGShape(e) {
 			setMessage('<b>SVG units not found</b>. Using default conversion to millimeters', '#F80');
 			if (!SVGprocessed) {
 				SVGString.push(file);
+
 				shape.push(paper.project.importSVG(file));
+				if (shape[shape.length-1].children.length==1) {
+					if (shape[shape.length-1].children[0].className=="Group") {
+						shape[shape.length-1].children[0].parent.insertChildren(shape[shape.length-1].children[0].index,  shape[shape.length-1].children[0].removeChildren());
+   						for (i in shape[shape.length-1].children) {
+   							if (shape[shape.length-1].children[i].className=="Group") {
+   								shape[shape.length-1].children[i].remove();
+   								break;
+   							}
+   						}
+					}
+				}
+
 				SVGprocessed = true;
 				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
 				shape[shape.length-1].name = 'shape';
@@ -354,6 +398,17 @@ function processProject(e) {
 			SVGString.push(JSONfile.SVGString[j]);
 			SVGScale.push(JSONfile.SVGScale[j]);
 			shape.push(paper.project.importSVG(JSONfile.SVGString[j]));
+			if (shape[shape.length-1].children.length==1) {
+				if (shape[shape.length-1].children[0].className=="Group") {
+					shape[shape.length-1].children[0].parent.insertChildren(shape[shape.length-1].children[0].index,  shape[shape.length-1].children[0].removeChildren());
+						for (i in shape[shape.length-1].children) {
+							if (shape[shape.length-1].children[i].className=="Group") {
+								shape[shape.length-1].children[i].remove();
+								break;
+							}
+						}
+				}
+			}
 			shape[shape.length-1].position = new Point(JSONfile.SVGPos[j][1], JSONfile.SVGPos[j][2]);
 			shape[shape.length-1].scale(SVGScale[SVGScale.length-1], shape[shape.length-1].position);
 			shape[shape.length-1].name = 'shape';
