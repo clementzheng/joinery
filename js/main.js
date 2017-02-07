@@ -104,12 +104,20 @@ function processSVG(e) {
 		for (i in splitString) {
 			if (splitString[i].indexOf('=')==5 && splitString[i].indexOf('w')==0) {
 				var splitVal = splitString[i].split('=');
-				units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
+				if (splitString[i][splitString[i].length-1]=="\n") {
+					units = splitString[i][splitString[i].length-4]+splitString[i][splitString[i].length-3];
+				} else {
+					units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
+				}
 				w = parseFloat(splitVal[1].split(units)[0].split('"')[1]);
 			}
 			if (splitString[i].indexOf('=')==6 && splitString[i].indexOf('h')==0) {
 				var splitVal = splitString[i].split('=');
-				units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
+				if (splitString[i][splitString[i].length-1]=="\n") {
+					units = splitString[i][splitString[i].length-4]+splitString[i][splitString[i].length-3];
+				} else {
+					units = splitString[i][splitString[i].length-3]+splitString[i][splitString[i].length-2];
+				}
 				h = parseFloat(splitVal[1].split(units)[0].split('"')[1]);
 			}
 			if (w && h) {
@@ -119,7 +127,14 @@ function processSVG(e) {
 		if (units=='mm' || units=='in' || units=='px') {
 			if (!SVGprocessed) {
 				SVGString.push(file);
-				shape.push(paper.project.importSVG(file));
+				if (paper.project.importSVG(file).children.length==1) {
+					if (paper.project.importSVG(file).children[0].className=="Group") {
+						shape.push(paper.project.importSVG(file).children[0]);
+					}
+				} else {
+					shape.push(paper.project.importSVG(file));
+				}
+				console.log(shape);
 				SVGprocessed = true;
 				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
 				shape[shape.length-1].name = 'shape';
@@ -150,6 +165,7 @@ function processSVG(e) {
 			if (!SVGprocessed) {
 				SVGString.push(file);
 				shape.push(paper.project.importSVG(file));
+				console.log(paper.project.importSVG(file));
 				SVGprocessed = true;
 				shape[shape.length-1].position = new Point(window.innerWidth/2, window.innerHeight/2);
 				shape[shape.length-1].name = 'shape';
