@@ -1586,7 +1586,7 @@ function exportProject() {
 		calProjectBounds();
 		for (i in shape) {
 			for (j in shape[i].children) {
-				shape[i].children[j].strokeWidth = 0.001;
+				//shape[i].children[j].strokeWidth = 0.001;
 				if (shape[i].children[j].className=='Path') {
 					if (shape[i].children[j].name=='joint') {
 						shape[i].children[j].strokeColor = '#F00';
