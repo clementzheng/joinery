@@ -1586,9 +1586,9 @@ function exportProject() {
 		calProjectBounds();
 		for (i in shape) {
 			for (j in shape[i].children) {
-				//shape[i].children[j].strokeWidth = 0.001;
 				if (shape[i].children[j].className=='Path') {
 					if (shape[i].children[j].name=='joint') {
+						shape[i].children[j].strokeWidth = 1.0;
 						shape[i].children[j].strokeColor = '#F00';
 					} else {
 						shape[i].children[j].strokeColor = shapeColor[i][j];
@@ -1596,16 +1596,17 @@ function exportProject() {
 				} else if (shape[i].children[j].className=='Group') {
 					var shapeName = shape[i].children[j].name;
 					if (typeof(shapeName)==='undefined') {
-						shape[i].children[j].strokeColor = '#F0F';
+						//shape[i].children[j].strokeColor = '#F0F';
 					} else {
 						var shapeNameStr = shapeName.split('_');
 						if (shapeNameStr[shapeNameStr.length-1] == 'joint') {
+							shape[i].children[j].strokeWidth = 1.0;
 							shape[i].children[j].strokeColor = '#00F';
 							if (shape[i].children[j].children['folds']) {
 								shape[i].children[j].children['folds'].strokeColor = '#0FF';
 							}
 						} else {
-							shape[i].children[j].strokeColor = '#F0F';
+							//shape[i].children[j].strokeColor = '#F0F';
 						}
 					}
 				}
