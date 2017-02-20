@@ -192,6 +192,7 @@ function processSVG(e) {
 				SVGScale.push(inchToMM/72);
 				calProjectBounds();
 				drawGrid();
+				checkSVGCount();
 			}
 		}
 		$('#loadSVG').val('');
