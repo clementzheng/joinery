@@ -2,7 +2,7 @@ var cursorPt;
 var pcursorPt;
 var mousePosition;
 var moving = false;
-var tolerance = 4;
+var tolerance = 3;
 var insideMenu = false;
 
 window.onbeforeunload = function() {
