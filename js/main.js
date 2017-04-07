@@ -568,7 +568,7 @@ function highlightShapePath() {
 					var pt = shape[i].children[j].getNearestLocation(cursorPt);
 					if (pt) {
 						var d = pt.getDistance(cursorPt);
-						if (d < tolerance) {
+						if (d < tolerance/paperScale) {
 							if (!bool) {
 								shape[i].children[j].strokeWidth = 2.5;
 								shape[i].children[j].strokeColor = '#0AF';
@@ -669,7 +669,7 @@ function highlightShapePathContext() {
 				var pt = shape[i].children[j].getNearestLocation(cursorPt);
 				if (pt) {
 					var d = pt.getDistance(cursorPt);
-					if (d < tolerance) {
+					if (d < tolerance/paperScale) {
 						if (!bool) {
 							shape[i].children[j].strokeWidth = 2.5;
 							shape[i].children[j].strokeColor = '#0AF';
