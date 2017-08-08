@@ -1522,11 +1522,11 @@ function generateSlit(start, end, thickness) {
 
 function generateTabSlit(start, end, normal, grip, thickness) {
 	var tangent = end.subtract(start).normalize();
-	var start1 = start.add(tangent.multiply(-grip));
-	var end1 = end.add(tangent.multiply(grip));
+	var start1 = start.add(tangent.multiply(-grip*0.7));
+	var end1 = end.add(tangent.multiply(grip*0.7));
 	var start2 = start.add(normal.multiply(-thickness));
 	var end2 = end.add(normal.multiply(-thickness));
-	return generateFilletPath([start1, start, start2, end2, end, end1], [thickness*0.1, thickness*0.8, thickness*0.8, thickness*0.1]);
+	return generateFilletPath([start1, start, start2, end2, end, end1], [thickness*0.0, thickness*0.8, thickness*0.8, thickness*0.0]);
 }
 
 function angleVec(BA, CD) { //Angle between BA and CD
